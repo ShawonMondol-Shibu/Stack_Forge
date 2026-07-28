@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import * as z from "zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,8 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,18 +35,19 @@ export default function Page() {
 
   const googleLogin = async () => {
     await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashbord'
-    })
+      provider: "google",
+      callbackURL: "/dashbord",
+    });
   };
   const githubLogin = async () => {
     await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashbord'
-    })
+      provider: "google",
+      callbackURL: "/dashbord",
+    });
   };
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     const { error } = await authClient.signUp.email(
       {
         email: data.email,
@@ -59,6 +62,7 @@ export default function Page() {
           });
         },
         onError: (err) => {
+          setIsLoading(false);
           toast.add({
             type: "error",
             title: "Somthing wrong",
@@ -71,7 +75,7 @@ export default function Page() {
     if (error) {
       toast.add({
         type: "error",
-        title: "Something wents wrong.",
+        title: "Failed to Sign Up",
         description: error.message,
       });
     }
@@ -197,8 +201,9 @@ export default function Page() {
             )}
           />
 
-          <Button type="submit" className={"w-"}>
-            Sign Up to Stackforge
+          <Button type="submit" disabled={isLoading} className={""}>
+            {isLoading ? "Loading.....": "Sign Up to Stackforge"}
+            
           </Button>
 
           <p className="text-center">

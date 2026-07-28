@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/toast";
@@ -12,16 +11,25 @@ import React, { useState } from "react";
 import * as z from "zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import GlassButton from "@/components/GlassButton";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Please enter you name" }),
   email: z.email(),
   password: z.string().min(6),
 });
 
 export default function Page() {
-
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogle, setIsGoogle] = useState(false);
+  const [isGithub, setIsGithub] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,16 +39,42 @@ export default function Page() {
   });
 
   const googleLogin = async () => {
-    await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashbord'
-    })
+    setIsGoogle(true);
+    await authClient.signIn.social(
+      {
+        provider: "google",
+        callbackURL: "/dashbord",
+      },
+      {
+        onError: (err) => {
+          setIsGoogle(false);
+          toast.add({
+            type: "error",
+            title: "Somthing wrong",
+            description: err.error.message,
+          });
+        },
+      },
+    );
   };
   const githubLogin = async () => {
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/dashbord'
-    })
+    setIsGithub(true);
+    await authClient.signIn.social(
+      {
+        provider: "github",
+        callbackURL: "/dashbord",
+      },
+      {
+        onError: (err) => {
+          setIsGithub(false);
+          toast.add({
+            type: "error",
+            title: "Somthing wrong",
+            description: err.error.message,
+          });
+        },
+      },
+    );
   };
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -52,13 +86,13 @@ export default function Page() {
       },
       {
         onSuccess: () => {
-          setIsLoading(false)
           toast.add({
             type: "success",
             title: "User Login",
           });
         },
         onError: (err) => {
+          setIsLoading(false);
           toast.add({
             type: "error",
             title: "Somthing wrong",
@@ -71,7 +105,7 @@ export default function Page() {
     if (error) {
       toast.add({
         type: "error",
-        title: "Something wents wrong.",
+        title: "Failed to Login.",
         description: error.message,
       });
     }
@@ -84,7 +118,7 @@ export default function Page() {
 
       <div className="space-y-6">
         <div className="grid grid-cols-1 gap-4">
-          <Button variant={"outline"} onClick={googleLogin}>
+          <Button variant={"outline"} disabled={isGoogle} onClick={googleLogin}>
             <Image
               src={
                 "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/google.svg"
@@ -94,9 +128,10 @@ export default function Page() {
               height={64}
               className="size-5"
             />
-            Sign Up with Google
+
+            {isGoogle ? "Loading....." : "Sign Up with Google"}
           </Button>
-          <Button variant={"outline"} onClick={githubLogin}>
+          <Button variant={"outline"} disabled={isGithub} onClick={githubLogin}>
             <Image
               src={
                 "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg"
@@ -106,7 +141,7 @@ export default function Page() {
               height={64}
               className="size-5"
             />
-            Sign Up with Github
+            {isGithub ? "Loading....." : "Sign Up with Github"}
           </Button>
         </div>
 
@@ -117,7 +152,6 @@ export default function Page() {
         </div>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid space-y-6">
-          
           <Controller
             name="email"
             control={form.control}
@@ -143,25 +177,32 @@ export default function Page() {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                <Input
-                  {...field}
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  placeholder="Enter your password"
-                  autoComplete="off"
-                  type="password"
-                />
+                <InputGroup>
+                  <InputGroupAddon>
+                    <InputGroupButton>
+                      <Eye />
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                  <InputGroupInput
+                    {...field}
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Enter your password"
+                    autoComplete="off"
+                    type="password"
+                  />
+                </InputGroup>
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}
               </Field>
             )}
           />
-          
 
-          <Button type="submit" className={"w-"}>
-            Sign In to Stackforge
-          </Button>
+
+          <GlassButton variant="bold" size="md"  disabled={isLoading} className={""}>
+            {isLoading ? "Loading....." : "Sign In to Stackforge"}
+          </GlassButton>
 
           <p className="text-center">
             Don&apos;t have an account?{" "}
