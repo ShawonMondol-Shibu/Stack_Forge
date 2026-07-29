@@ -10,13 +10,7 @@ import {
 import Image from "next/image";
 import { profileType } from "@/lib/types/profile-type";
 import { Button } from "./ui/button";
-import {
-  BadgeCheck,
-  Check,
-  Plus,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
 
 export default function ProfileCard({ profile }: { profile: profileType }) {
   const [isFollow, setIsFollow] = useState(false);
@@ -27,16 +21,17 @@ export default function ProfileCard({ profile }: { profile: profileType }) {
     <div>
       <Card className={"w-72 pt-0"}>
         <CardHeader className={"p-2 pb-0 "}>
-            <div>
-
-          <Image
-            src={avatarUrl || randomImage}
-            alt={fullName}
-            width={500}
-            height={500}
-            className={"rounded-4xl w-full h-full aspect-square  object-cover"}
-          />
-            </div>
+          <div>
+            <Image
+              src={avatarUrl || randomImage}
+              alt={fullName}
+              width={500}
+              height={500}
+              className={
+                "rounded-4xl w-full h-full aspect-square  object-cover"
+              }
+            />
+          </div>
         </CardHeader>
         <CardContent className="space-y-1 pt-0">
           <CardTitle className="flex items-center gap-1.5 text-xl font-bold tracking-tight">

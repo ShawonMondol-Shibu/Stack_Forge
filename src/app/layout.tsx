@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
+import Navbar from "@/components/Navbar";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -39,8 +40,9 @@ export default function RootLayout({
         roboto.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-gray-200">
         <TanStackProvider>
+          <Navbar/>
           {children}
         <Toaster />
           </TanStackProvider>

@@ -200,9 +200,9 @@ export default function Page() {
           />
 
 
-          <GlassButton variant="bold" size="md"  disabled={isLoading} className={""}>
+          <Button variant="default"   disabled={isLoading} className={""}>
             {isLoading ? "Loading....." : "Sign In to Stackforge"}
-          </GlassButton>
+          </Button>
 
           <p className="text-center">
             Don&apos;t have an account?{" "}
