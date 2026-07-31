@@ -1,9 +1,8 @@
 export const apiUrl = "http://localhost:6969/";
-export const apiService = {
-  allProfiles: async (endpoint: string, method: string) => {
-    const res = await fetch(`${apiUrl}${endpoint}`, {
-      method: `${method}`,
-    });
-    return res.json();
-  },
+
+export const apiService = async (endpoint?: string, method?: string) => {
+  const res = await fetch(`${apiUrl}${endpoint?endpoint:""}`, {
+    method: `${method ? method : "GET"}`,
+  });
+  return res.json();
 };
