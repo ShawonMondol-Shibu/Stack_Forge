@@ -3,6 +3,7 @@ import ProfilePage from './ProfilePage';
 import ProfileSkills from '@/app/(website)/profile/ProfileSkills';
 import ProfileEducations from './ProfileEducations';
 import ProfileExperience from './ProfileExperience';
+import ProfileProjects from './ProfileProjects';
 
 export default function Page() {
   return (
@@ -13,6 +14,7 @@ export default function Page() {
         <ProfileSkills/>
         <ProfileEducations/>
         <ProfileExperience/>
+        <ProfileProjects/>
       </div>
     </main>
   )
