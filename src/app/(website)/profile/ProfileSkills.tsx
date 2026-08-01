@@ -11,6 +11,7 @@ import {
   ItemContent,
   ItemGroup,
   ItemHeader,
+  ItemTitle,
 } from "@/components/ui/item";
 import { SiNestjs, SiNextdotjs } from "react-icons/si";
 import {
@@ -30,14 +31,9 @@ export default function ProfileSkills() {
           {
             Array.from({length:10}).map((_,i)=>(
           <Item key={i} variant={"outline"} className="hover:shadow-lg transition-all duration-300 ease-in" >
-            <ItemHeader>
-              <SiNextdotjs size={50} />
-            </ItemHeader>
             <ItemContent>
-              <Progress value={50}>
-                <ProgressLabel>NextJS</ProgressLabel>
-                <ProgressValue />
-              </Progress>
+              <SiNextdotjs size={50} />
+              <ItemTitle>NextJS</ItemTitle>
             </ItemContent>
           </Item>
 

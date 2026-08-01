@@ -35,7 +35,9 @@ export default function ProfilePage() {
             <Image
               src={userData.coverUrl}
               alt="Cover"
-              fill={true}
+              width={800}
+              height={600}
+              loading="eager"
               className="w-full h-full object-cover"
             />
           )}
@@ -86,7 +88,7 @@ export default function ProfilePage() {
           />
 
           {/* Bio Section with Empty State Handling */}
-          <div className="pt-4 border-t border-border/50">
+          <article className="pt-4 border-t border-border/50">
             <h2 className="text-sm font-medium text-foreground mb-2">About</h2>
             {userData.bio ? (
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -97,7 +99,7 @@ export default function ProfilePage() {
                 No bio provided yet. Click "Edit Profile" to add one.
               </p>
             )}
-          </div>
+          </article>
         </CardContent>
       </Card>
     </>
