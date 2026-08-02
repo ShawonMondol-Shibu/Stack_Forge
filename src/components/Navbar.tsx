@@ -12,7 +12,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const navLinks = [
-  { name: "Home", url: "/" },
   { name: "Profiles", url: "#" },
   { name: "About", url: "#" },
   { name: "Contact", url: "#" },
