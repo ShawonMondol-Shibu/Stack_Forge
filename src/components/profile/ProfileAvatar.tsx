@@ -33,7 +33,7 @@ export const AvatarHeader = ({ fullName, avatarUrl, availability }: AvatarHeader
           title={`Status: ${availability}`}
         />
       </div>
-      <Badge variant={isAvailable ? "default" : "secondary"} className="capitalize">
+      <Badge variant={isAvailable ? "secondary" : "destructive"} className="capitalize">
         {availability === "open" ? "Available for Work" : availability}
       </Badge>
     </div>

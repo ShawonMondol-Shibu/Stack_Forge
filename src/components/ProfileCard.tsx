@@ -8,18 +8,23 @@ import {
   CardTitle,
 } from "./ui/card";
 import Image from "next/image";
-import { profileType } from "@/lib/types/profile-type";
+import { UserProfile } from "@/lib/types/profile-type";
 import { Button } from "./ui/button";
 import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
+import Link from "next/link";
 
-export default function ProfileCard({ profile }: { profile: profileType }) {
+export default function ProfileCard({ profile }: { profile: UserProfile }) {
   const [isFollow, setIsFollow] = useState(false);
   const { fullName, headline, avatarUrl } = profile;
   const randomImage =
     "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80";
   return (
-    <div>
-      <Card className={"w-72 pt-0"}>
+    <Link href={`/devs/${profile.userId}`}>
+      <Card
+        className={
+          "w-72 pt-0 shadow-none border-none hover:shadow-lg transition-all duration-300 ease-in"
+        }
+      >
         <CardHeader className={"p-2 pb-0 "}>
           <div>
             <Image
@@ -78,6 +83,6 @@ export default function ProfileCard({ profile }: { profile: profileType }) {
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </Link>
   );
 }

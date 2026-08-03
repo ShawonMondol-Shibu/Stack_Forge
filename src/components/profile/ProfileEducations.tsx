@@ -20,7 +20,7 @@ export default function ProfileEducations() {
       </CardHeader>
       <CardContent className={"px-8"}>
         <ItemGroup className="flex flex-row flex-wrap gap-4 justify-start">
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 2 }).map((_, i) => (
             <Item key={i} variant={"muted"} className="flex-1 hover:shadow-lg transition-all duration-300 ease-in">
               <ItemHeader className={"justify-start"}>
                 <ItemMedia>

@@ -19,7 +19,7 @@ export default function ProfileExperience() {
       </CardHeader>
       <CardContent>
         <ItemGroup>
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 1 }).map((_, i) => (
             <Item key={i} variant={"outline"}>
               <ItemHeader>
                 <div className={"flex items-center gap-2"}>

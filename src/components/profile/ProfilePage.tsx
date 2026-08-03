@@ -1,3 +1,4 @@
+"use client"
 /* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,6 +27,10 @@ const userData: UserProfile = {
 };
 
 export default function ProfilePage() {
+
+  const handleShare = ()=> {
+return navigator.clipboard.writeText(window.location.href)
+  }
   return (
     <>
       <Card className="overflow-hidden border-border/60 shadow-sm pt-0">
@@ -66,13 +71,15 @@ export default function ProfilePage() {
 
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
                 <Share2 className="h-4 w-4" />
                 Share
               </Button>
               <Button
+              variant="outline"
                 size="sm"
-                className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"
+                
+                className="gap-2 hover:bg-primary hover:shadow-lg hover:text-white"
               >
                 <Edit3 className="h-4 w-4" />
                 Edit Profile

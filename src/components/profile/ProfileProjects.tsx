@@ -5,6 +5,7 @@ import {
   ItemDescription,
   ItemFooter,
   ItemGroup,
+  ItemSeparator,
   ItemTitle,
 } from "@/components/ui/item";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -20,7 +21,7 @@ export default function ProfileProjects() {
       </CardHeader>
       <CardContent>
         <ItemGroup className="grid grid-cols-4 gap-4 items-center justify-start ">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <Item
               key={i}
               variant={"outline"}
@@ -28,13 +29,14 @@ export default function ProfileProjects() {
             >
               {/* <ItemHeader className={"bg-secondary"}> */}
               <Image
-                src="next.svg"
+                src="/next.svg"
                 alt="NextJS"
                 width={128}
                 height={128}
                 className="w-full aspect-square rounded-lg"
               />
               {/* </ItemHeader> */}
+
               <ItemContent>
                 <ItemTitle>NextJS</ItemTitle>
                 <ItemDescription>
@@ -45,6 +47,7 @@ export default function ProfileProjects() {
                   debitis minus nobis.{" "}
                 </ItemDescription>
               </ItemContent>
+              <ItemSeparator />
               <ItemFooter>
                 {/* <ItemActions> */}
 
