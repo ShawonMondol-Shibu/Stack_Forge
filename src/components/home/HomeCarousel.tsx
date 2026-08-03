@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Autoplay from "embla-carousel-autoplay"
+import * as React from "react";
+import Autoplay from "embla-carousel-autoplay";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 
@@ -21,8 +25,8 @@ export function HomeCarousel() {
         delay: 2000,
         stopOnInteraction: true,
       }),
-    []
-  )
+    [],
+  );
 
   return (
     <Carousel
@@ -36,15 +40,21 @@ export function HomeCarousel() {
           <CarouselItem key={index}>
             <div className="p-1">
               <Card>
-                    
+                <Image
+                  src={`https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80`}
+                  alt={"Carousel Image"}
+                  width={400}
+                  height={400}
+                  className="rounded-md"
+                />
+
                 <CardContent className="flex flex-col items-center justify-center gap-4">
-
-                 <Image src={`https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80`} alt={"Carousel Image"} width={400} height={400} className="rounded-md" />
-                 <div>
-
-                <Badge variant="secondary">Fullstack Developer</Badge>
-                 <CardTitle className={"text-2xl"}>Shawon Mondol Shibu {index + 1}</CardTitle>
-                 </div>
+                  <div>
+                    <Badge variant="secondary">Fullstack Developer</Badge>
+                    <CardTitle className={"text-2xl"}>
+                      Shawon Mondol Shibu {index + 1}
+                    </CardTitle>
+                  </div>
                 </CardContent>
                 {/* <CardFooter>
 
@@ -58,5 +68,5 @@ export function HomeCarousel() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-  )
+  );
 }

@@ -22,7 +22,7 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
     <Link href={`/devs/${profile.userId}`}>
       <Card
         className={
-          "w-72 pt-0 shadow-none border-none hover:shadow-lg transition-all duration-300 ease-in"
+          "w-72 pt-0 shadow-none border-none hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in"
         }
       >
         <CardHeader className={"p-2 pb-0 "}>
@@ -77,7 +77,7 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
               </>
             ) : (
               <>
-                Follow <Plus />
+                Connect <Plus />
               </>
             )}
           </Button>
