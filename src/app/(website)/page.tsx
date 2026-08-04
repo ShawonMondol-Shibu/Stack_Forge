@@ -1,8 +1,9 @@
 import FeaturedDevelopers from "@/components/home/FeaturedDevelopers";
 import Header from "@/components/home/Header";
 import TrandingProjects from "@/components/home/TrandingProjects";
-import Newsletter from "@/components/Newsletter";
+import Newsletter from "@/components/home/Newsletter";
 import React from "react";
+import SuccessStories from "@/components/home/SuccessStories";
 
 export default function Page() {
   
@@ -15,6 +16,7 @@ export default function Page() {
       <Header/>
       <FeaturedDevelopers/>
       <TrandingProjects/>
+      <SuccessStories/>
       <Newsletter/>
 
     </main>

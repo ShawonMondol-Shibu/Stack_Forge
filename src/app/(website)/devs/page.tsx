@@ -11,8 +11,8 @@ export default function Home() {
   });
 
   return (
-    <div className="h-dvh">
-      <div className="flex items-center gap-6">
+    <div className="h-dvh py-10 mt-10">
+      <div className="flex items-center gap-6 justify-start">
 
       {profiles?.data.map((profile:UserProfile,i:number) => (
         <ProfileCard key={i} profile={profile} />

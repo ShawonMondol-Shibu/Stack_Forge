@@ -39,7 +39,7 @@ export function HomeCarousel() {
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
-              <Card>
+              <Card className="shadow-sm">
                 <Image
                   src={`https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80`}
                   alt={"Carousel Image"}
@@ -49,16 +49,13 @@ export function HomeCarousel() {
                 />
 
                 <CardContent className="flex flex-col items-center justify-center gap-4">
-                  <div>
-                    <Badge variant="secondary">Fullstack Developer</Badge>
+                  <div className="space-y-1">
+                    <Badge variant="secondary" >Fullstack Developer</Badge>
                     <CardTitle className={"text-2xl"}>
                       Shawon Mondol Shibu {index + 1}
                     </CardTitle>
                   </div>
                 </CardContent>
-                {/* <CardFooter>
-
-                </CardFooter> */}
               </Card>
             </div>
           </CarouselItem>

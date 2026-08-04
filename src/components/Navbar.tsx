@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <nav
       className={
-        "w-full max-w-4xl mx-auto sticky top-5 flex gap-6 items-center justify-between p-1 bg-white/80 backdrop-blur-sm border rounded-full z-30"
+        "w-full max-w-4xl mx-auto sticky top-5 flex gap-6 items-center justify-between p-1 bg-white/80 backdrop-blur-sm  rounded-full shadow-black/5 shadow-xl z-30"
       }
     >
       <Link href={"/"} className={""}>

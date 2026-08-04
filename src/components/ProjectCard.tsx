@@ -12,11 +12,11 @@ export default function ProjectCard() {
             >
               {/* <ItemHeader className={"bg-secondary"}> */}
               <Image
-                src="/next.svg"
+                src="https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
                 alt="NextJS"
                 width={128}
                 height={128}
-                className="w-full aspect-square rounded-lg"
+                className="w-full aspect-square object-cover rounded-lg"
               />
               {/* </ItemHeader> */}
 

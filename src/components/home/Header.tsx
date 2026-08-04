@@ -24,7 +24,7 @@ export default function Header() {
             <p>Portfolio. Projects. Community. Create a beautiful developer profile, showcase projects, connect with developers worldwide, and grow your career.</p>
             <div>
               <Button variant={"default"} className={"bg-primary"} size={"lg"}>Get Started</Button>
-              <Button variant={"outline"} size={'lg'} className={" ml-4"}>Explore Developers</Button>
+              <Button variant={"outline"} size={'lg'} className={" ml-4 border-primary"}>Explore Developers</Button>
             </div>
 
             <div className={"w-md flex gap-4 items-center justify-between mt-4 pt-12 border-t-2 border-primary/20"}>

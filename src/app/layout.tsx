@@ -40,7 +40,7 @@ export default function RootLayout({
         roboto.variable,
       )}
     >
-      <body className="min-h-full flex flex-col bg-gray-200">
+      <body className="min-h-full flex flex-col bg-stone-100">
         <TanStackProvider>
           <Toaster />
           {children}
