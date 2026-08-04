@@ -1,7 +1,9 @@
+"use client";
 import React from 'react'
 import { HomeCarousel } from './HomeCarousel';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { motion } from "motion/react"
 
 export default function Header() {
     const count = [
@@ -22,10 +24,11 @@ export default function Header() {
             <p className={"text-7xl uppercase font-semibold"}>Top <span className={"text-primary"}>Developers</span></p>
             <p className={"text-4xl"}>in Stack forge</p>
             <p>Portfolio. Projects. Community. Create a beautiful developer profile, showcase projects, connect with developers worldwide, and grow your career.</p>
-            <div>
+            <motion.div initial={{scale:0}} animate={{scale:1}}>
+              
               <Button variant={"default"} className={"bg-primary"} size={"lg"}>Get Started</Button>
               <Button variant={"outline"} size={'lg'} className={" ml-4 border-primary"}>Explore Developers</Button>
-            </div>
+            </motion.div>
 
             <div className={"w-md flex gap-4 items-center justify-between mt-4 pt-12 border-t-2 border-primary/20"}>
               {

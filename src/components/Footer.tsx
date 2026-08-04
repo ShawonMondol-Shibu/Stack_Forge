@@ -11,7 +11,7 @@ export default function Footer() {
     {url: "#", lable: "Privacy"},
   ]
   return (
-    <footer className={"w-full max-w-7xl mx-auto space-y-4 py-10 text-gray-500 text-sm"}>
+    <footer className={"w-full max-w-4xl mx-auto space-y-4 py-10 text-gray-500 text-sm"}>
       <div className={"flex items-center justify-between"}>
         <Image src={"/logo.svg"} alt={"logo_image"} width={60} height={40}/>
 
