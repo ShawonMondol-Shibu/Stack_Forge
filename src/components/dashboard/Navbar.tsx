@@ -10,19 +10,24 @@ import { Menu } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 
 export default function Navbar() {
   const navLinks = [
     { url: "#", label: "Dashboard" },
+    { url: "#", label: "Profile" },
     { url: "#", label: "Portfolio" },
     { url: "#", label: "Projects" },
+    { url: "#", label: "GitHub" },
     { url: "#", label: "Tasks" },
-    { url: "#", label: "Profile" },
-    { url: "#", label: "Users" },
+    { url: "#", label: "Notes" },
+    { url: "#", label: "Calender" },
+    { url: "#", label: "Social Feed" },
+    { url: "#", label: "Messages" },
+    { url: "#", label: "Notifications" },
+    { url: "#", label: "Settings" },
   ];
   return (
-    <nav className={"p-8 flex items-center justify-between"}>
+    <nav className={"p-1 flex items-center justify-between sticky top-5 px-6"}>
       <motion.div>
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -37,7 +42,10 @@ export default function Navbar() {
           <DropdownMenuContent>
             {navLinks.map((nav, i) => (
               <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                <DropdownMenuItem className={'hover:bg-primary! hover:text-white!'} render={<Link href={nav.url} />} >
+                <DropdownMenuItem
+                  className={"hover:bg-primary! hover:text-white!"}
+                  render={<Link href={nav.url} />}
+                >
                   {nav.label}
                 </DropdownMenuItem>
               </motion.div>
@@ -67,16 +75,10 @@ export default function Navbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem>
-                Shawon Mondol Shibu
-              </DropdownMenuItem>
+              <DropdownMenuItem>Shawon Mondol Shibu</DropdownMenuItem>
             </motion.div>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem>
-                <Button variant={"destructive"} className={"w-full"}>
-                    Logout
-                </Button>
-              </DropdownMenuItem>
+              <DropdownMenuItem variant="destructive">Logout</DropdownMenuItem>
             </motion.div>
           </DropdownMenuContent>
         </DropdownMenu>
