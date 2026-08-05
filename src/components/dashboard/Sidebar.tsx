@@ -10,25 +10,26 @@ import { Menu } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import MotionDiv from "../MotionDiv";
 
-export default function Navbar() {
+export default function Sidebar() {
   const navLinks = [
-    { url: "#", label: "Dashboard" },
-    { url: "#", label: "Profile" },
-    { url: "#", label: "Portfolio" },
-    { url: "#", label: "Projects" },
-    { url: "#", label: "GitHub" },
-    { url: "#", label: "Tasks" },
-    { url: "#", label: "Notes" },
-    { url: "#", label: "Calender" },
+    { url: "/dashboard", label: "Dashboard" },
+    { url: "/dashboard/profile", label: "Profile" },
+    { url: "/dashboard/portfolio", label: "Portfolio" },
+    { url: "/dashboard/projects", label: "Projects" },
+    { url: "/dashboard/github", label: "GitHub" },
+    { url: "/dashboard/tasks", label: "Tasks" },
+    { url: "/dashboard/notes", label: "Notes" },
+    { url: "/dashboard/calender", label: "Calender" },
     { url: "#", label: "Social Feed" },
-    { url: "#", label: "Messages" },
-    { url: "#", label: "Notifications" },
-    { url: "#", label: "Settings" },
+    { url: "/dashboard/messages", label: "Messages" },
+    { url: "/dashboard/notifications", label: "Notifications" },
+    { url: "/dashboard/settings", label: "Settings" },
   ];
   return (
-    <nav className={"p-1 flex items-center justify-between sticky top-5 px-6"}>
-      <motion.div>
+    <aside className={"p-1 flex items-center justify-between sticky top-5 px-6"}>
+      <div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <motion.div
@@ -52,7 +53,7 @@ export default function Navbar() {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-      </motion.div>
+      </div>
 
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
         <DropdownMenu>
@@ -83,6 +84,6 @@ export default function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </motion.div>
-    </nav>
+    </aside>
   );
 }

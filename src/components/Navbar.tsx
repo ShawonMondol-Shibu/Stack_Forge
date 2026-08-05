@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import MotionDiv from "./MotionDiv";
 
 const navLinks = [
   { name: "Developers", url: "/devs" },
@@ -39,7 +40,7 @@ export default function Navbar() {
           className={"ml-2"}
         />
       </Link>
-      <div className={"flex gap-4 items-center uppercase"}>
+      <MotionDiv className={"flex gap-4 items-center uppercase"}>
         {navLinks.map((nav) => (
           <Link
             key={nav.name}
@@ -59,7 +60,7 @@ export default function Navbar() {
             </InputGroupAddon>
           </InputGroup>
         </div>
-      </div>
+      </MotionDiv>
 
       {false ? (
         <Button size={"lg"}>Login</Button>

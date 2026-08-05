@@ -1,11 +1,13 @@
-import Navbar from "@/components/dashboard/Navbar";
+import Navbar from "@/components/dashboard/Sidebar";
 import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-8">
+    <main>
       <Navbar />
+      <section className="p-8">
       {children}
-    </div>
+      </section>
+    </main>
   );
 }
