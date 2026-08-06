@@ -14,7 +14,7 @@ type ItemActionType = {
 export default function QuickActionItem({ data }: { data: ItemActionType }) {
   return (
     <MotionDiv>
-      <Item variant={"outline"} className="w-60 bg-white">
+      <Item variant={"outline"} size={"xs"} className="w-60 bg-white ">
         <ItemMedia className={`bg-${data.color}/20 p-3 rounded-md`}>
           {data?.icon && <data.icon className={cn(`text-${data.color}`)} />}
         </ItemMedia>

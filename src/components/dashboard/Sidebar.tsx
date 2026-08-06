@@ -6,29 +6,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Menu } from "lucide-react";
+import { Bell, BriefcaseBusiness, CalendarRange, ClipboardList, FolderOpen, LayoutDashboard, Menu, MessagesSquare, Newspaper, NotebookPen, SlidersVertical, User } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import MotionDiv from "../MotionDiv";
+import { GitHubIcon } from "../ui/icons";
 
 export default function Sidebar() {
   const navLinks = [
-    { url: "/dashboard", label: "Dashboard" },
-    { url: "/dashboard/profile", label: "Profile" },
-    { url: "/dashboard/portfolio", label: "Portfolio" },
-    { url: "/dashboard/projects", label: "Projects" },
-    { url: "/dashboard/github", label: "GitHub" },
-    { url: "/dashboard/tasks", label: "Tasks" },
-    { url: "/dashboard/notes", label: "Notes" },
-    { url: "/dashboard/calender", label: "Calender" },
-    { url: "#", label: "Social Feed" },
-    { url: "/dashboard/messages", label: "Messages" },
-    { url: "/dashboard/notifications", label: "Notifications" },
-    { url: "/dashboard/settings", label: "Settings" },
+    { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { url: "/dashboard/profile", label: "Profile", icon: User },
+    { url: "/dashboard/portfolio", label: "Portfolio", icon: BriefcaseBusiness },
+    { url: "/dashboard/projects", label: "Projects", icon: FolderOpen },
+    { url: "/dashboard/github", label: "GitHub", icon: GitHubIcon },
+    { url: "/dashboard/tasks", label: "Tasks", icon: ClipboardList },
+    { url: "/dashboard/notes", label: "Notes", icon: NotebookPen },
+    { url: "/dashboard/calender", label: "Calender", icon: CalendarRange },
+    { url: "#", label: "Social Feed", icon: Newspaper },
+    { url: "/dashboard/messages", label: "Messages", icon: MessagesSquare },
+    { url: "/dashboard/notifications", label: "Notifications", icon: Bell },
+    { url: "/dashboard/settings", label: "Settings", icon: SlidersVertical },
   ];
   return (
-    <aside className={"p-1 flex items-center justify-between sticky top-5 px-6"}>
+    <aside
+      className={"p-1 flex items-center justify-between sticky top-5 px-6"}
+    >
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -47,6 +49,7 @@ export default function Sidebar() {
                   className={"hover:bg-primary! hover:text-white!"}
                   render={<Link href={nav.url} />}
                 >
+                  {nav.icon && <nav.icon size={50} className="hover:text-white"/>}
                   {nav.label}
                 </DropdownMenuItem>
               </motion.div>
