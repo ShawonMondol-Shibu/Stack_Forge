@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectCard from "../ProjectCard";
+import ProjectCard from "../Shared/ProjectCard";
 import { ItemGroup } from "../ui/item";
 
 export default function TrandingProjects() {

@@ -6,10 +6,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import Image from "next/image";
 import { UserProfile } from "@/lib/types/profile-type";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import MotionDiv from "./MotionDiv";
@@ -24,7 +24,7 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
       <MotionDiv>
         <Card
           className={
-            "w-72 pt-0 shadow-none border-none hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in"
+            "w-72 pt-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
           }
         >
           <CardHeader className={"p-2 pb-0 "}>

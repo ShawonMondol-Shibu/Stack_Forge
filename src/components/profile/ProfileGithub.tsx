@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GitHubCalendar } from "react-github-calendar";
 import React from "react";
-import PinedRepositorys from "@/components/PinedRepositorys";
+import PinedRepositorys from "../Shared/PinedRepositorys";
 
 export default function ProfileGithub() {
   return (

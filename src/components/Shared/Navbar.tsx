@@ -1,21 +1,21 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Image from "next/image";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "./ui/input-group";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+} from "../ui/input-group";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 import MotionDiv from "./MotionDiv";
 
 const navLinks = [

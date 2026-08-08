@@ -8,7 +8,7 @@ export default function SuccessStories() {
     <section className="py-10 mt-20 space-y-10">
       <h1 className={"text-4xl font-bold text-center"}>Success Stories</h1>
 
-      <div className={'grid grid-cols-3 items-center justify-center gap-4'}>
+      <div className={"grid grid-cols-3 items-center justify-center gap-4"}>
         {Array.from({ length: 3 }).map((_, i) => (
           <Card key={i} className="shadow-black/5 shadow-2xl">
             <CardContent>
@@ -19,7 +19,12 @@ export default function SuccessStories() {
             </CardContent>
             <CardFooter className="gap-4">
               <Avatar size={"lg"}>
-                <AvatarImage src={"https://randomimageurl.com/assets/images/local/20260103_0522_Pristine%20Image%20Quality_simple_compose_01ke20ajtseghamyvp4pxxzqw1_compressed_q80.jpeg"} alt={"user_image"} />
+                <AvatarImage
+                  src={
+                    "https://randomimageurl.com/assets/images/local/20260103_0522_Pristine%20Image%20Quality_simple_compose_01ke20ajtseghamyvp4pxxzqw1_compressed_q80.jpeg"
+                  }
+                  alt={"user_image"}
+                />
                 <AvatarFallback>user</AvatarFallback>
               </Avatar>
               <div>

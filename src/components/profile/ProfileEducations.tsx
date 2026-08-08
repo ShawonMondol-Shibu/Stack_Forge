@@ -21,12 +21,18 @@ export default function ProfileEducations() {
       <CardContent className={"px-8"}>
         <ItemGroup className="flex flex-row flex-wrap gap-4 justify-start">
           {Array.from({ length: 2 }).map((_, i) => (
-            <Item key={i} variant={"muted"} className="flex-1 hover:shadow-lg transition-all duration-300 ease-in">
+            <Item
+              key={i}
+              variant={"muted"}
+              className="flex-1 hover:shadow-lg transition-all duration-300 ease-in"
+            >
               <ItemHeader className={"justify-start"}>
                 <ItemMedia>
                   <GraduationCap />
                 </ItemMedia>
-                <ItemTitle className="text-base">Kishoreganj Polytechnic Instute</ItemTitle>
+                <ItemTitle className="text-base">
+                  Kishoreganj Polytechnic Instute
+                </ItemTitle>
               </ItemHeader>
               <ItemContent className="pl-8">
                 <ItemDescription>
@@ -47,7 +53,6 @@ export default function ProfileEducations() {
               </ItemContent>
             </Item>
           ))}
-
         </ItemGroup>
       </CardContent>
     </Card>

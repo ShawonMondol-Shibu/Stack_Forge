@@ -3,11 +3,7 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 
-import {
-  Card,
-  CardContent,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -50,7 +46,7 @@ export function HomeCarousel() {
 
                 <CardContent className="flex flex-col items-center justify-center gap-4">
                   <div className="space-y-1">
-                    <Badge variant="secondary" >Fullstack Developer</Badge>
+                    <Badge variant="secondary">Fullstack Developer</Badge>
                     <CardTitle className={"text-2xl"}>
                       Shawon Mondol Shibu {index + 1}
                     </CardTitle>

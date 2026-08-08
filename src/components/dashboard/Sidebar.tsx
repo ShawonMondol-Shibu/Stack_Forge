@@ -6,7 +6,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Bell, BriefcaseBusiness, CalendarRange, ClipboardList, FolderOpen, LayoutDashboard, Menu, MessagesSquare, Newspaper, NotebookPen, SlidersVertical, User } from "lucide-react";
+import {
+  Bell,
+  BriefcaseBusiness,
+  CalendarRange,
+  ClipboardList,
+  FolderOpen,
+  LayoutDashboard,
+  Menu,
+  MessagesSquare,
+  Newspaper,
+  NotebookPen,
+  SlidersVertical,
+  User,
+} from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -16,7 +29,11 @@ export default function Sidebar() {
   const navLinks = [
     { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { url: "/dashboard/profile", label: "Profile", icon: User },
-    { url: "/dashboard/portfolio", label: "Portfolio", icon: BriefcaseBusiness },
+    {
+      url: "/dashboard/portfolio",
+      label: "Portfolio",
+      icon: BriefcaseBusiness,
+    },
     { url: "/dashboard/projects", label: "Projects", icon: FolderOpen },
     { url: "/dashboard/github", label: "GitHub", icon: GitHubIcon },
     { url: "/dashboard/tasks", label: "Tasks", icon: ClipboardList },
@@ -29,11 +46,11 @@ export default function Sidebar() {
   ];
   return (
     <aside
-      className={"p-1 flex items-center justify-between sticky top-5 px-6"}
+      className={"p-1 flex items-center justify-between sticky top-5 px-6 bg-transparent "}
     >
       <div>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger className={"z-50"}>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -49,7 +66,9 @@ export default function Sidebar() {
                   className={"hover:bg-primary! hover:text-white!"}
                   render={<Link href={nav.url} />}
                 >
-                  {nav.icon && <nav.icon size={50} className="hover:text-white"/>}
+                  {nav.icon && (
+                    <nav.icon size={50} className="hover:text-white" />
+                  )}
                   {nav.label}
                 </DropdownMenuItem>
               </motion.div>
@@ -58,7 +77,7 @@ export default function Sidebar() {
         </DropdownMenu>
       </div>
 
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="z-50">
         <DropdownMenu>
           <DropdownMenuTrigger>
             <motion.div

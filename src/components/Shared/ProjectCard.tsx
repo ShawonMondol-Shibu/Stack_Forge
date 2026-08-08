@@ -6,9 +6,9 @@ import {
   ItemDescription,
   ItemSeparator,
   ItemFooter,
-} from "./ui/item";
-import { ButtonGroup } from "./ui/button-group";
-import { Button } from "./ui/button";
+} from "../ui/item";
+import { ButtonGroup } from "../ui/button-group";
+import { Button } from "../ui/button";
 import Image from "next/image";
 import MotionDiv from "./MotionDiv";
 

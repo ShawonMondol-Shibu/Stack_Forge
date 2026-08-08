@@ -1,8 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import {
-  ItemGroup,
-} from "@/components/ui/item";
-import ProjectCard from "../ProjectCard";
+import { ItemGroup } from "@/components/ui/item";
+import ProjectCard from "../Shared/ProjectCard";
 
 export default function ProfileProjects() {
   return (
@@ -13,7 +11,7 @@ export default function ProfileProjects() {
       <CardContent>
         <ItemGroup className="grid grid-cols-4 gap-4 items-center justify-start ">
           {Array.from({ length: 4 }).map((_, i) => (
-           <ProjectCard key={i}/>
+            <ProjectCard key={i} />
           ))}
         </ItemGroup>
       </CardContent>

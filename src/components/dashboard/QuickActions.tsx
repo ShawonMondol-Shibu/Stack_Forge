@@ -1,5 +1,4 @@
 import React from "react";
-import QuickActionCard from "../QuickActionItem";
 import { ItemGroup } from "../ui/item";
 import {
   CalendarDays,
@@ -8,6 +7,7 @@ import {
   NotebookPen,
   PencilLine,
 } from "lucide-react";
+import QuickActionItem from "../Shared/QuickActionItem";
 
 export default function QuickActions() {
   const actionData = [
@@ -47,7 +47,7 @@ export default function QuickActions() {
       <h1 className="text-xl font-bold">Quick Actions</h1>
       <ItemGroup className={"grid grid-cols-5 items-center justify-center gap-4"}>
         {actionData.map((data, i) => (
-          <QuickActionCard key={i} data={data} />
+          <QuickActionItem key={i} data={data} />
         ))}
       </ItemGroup>
     </section>
