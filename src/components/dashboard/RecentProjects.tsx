@@ -8,13 +8,20 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "../ui/item";
-import { FolderOpen } from "lucide-react";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "../ui/item";
+import { FolderOpen, Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 export default function RecentProjects() {
   return (
-    <Card size={"sm"} className={"w-xs bg-transparent shadow-lg "}>
+    <Card size={"sm"} className={"w-xs "}>
       <CardHeader>
         <CardTitle>Recent Projects</CardTitle>
         <CardAction>
@@ -28,17 +35,36 @@ export default function RecentProjects() {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <ItemGroup>
-          <Item variant={"outline"} size={"xs"}>
+        <ItemGroup className="gap-0.5!">
+            {
+                Array.from({length:3}).map((_,i)=>(
+                    <div key={i} className="border-b">
+                <Item variant={"default"} size={"xs"} className="p-0 pb-1">
+
             <ItemMedia>
               <FolderOpen />
             </ItemMedia>
             <ItemContent>
-              <ItemTitle>Stack Forge</ItemTitle>
-              <ItemDescription>Developer Platform</ItemDescription>
-<Badge variant={"outline"} className="p-1 text-xs!">Next.JS</Badge>
+              <ItemTitle className="text-xs">Stack Forge</ItemTitle>
+              <ItemDescription className="text-xs">
+                Developer Platform
+              </ItemDescription>
+              <Badge variant={"outline"} className="p-1 text-muted-foreground">
+                {" "}
+                <small>Next.js</small>
+              </Badge>
+              <div className="text-xs text-muted-foreground flex items-center justify-between">
+                <span>Updated 2h ago</span>
+                <span className="flex items-center gap-1 ">
+                  <Star size={10} /> 232
+                </span>
+              </div>
             </ItemContent>
           </Item>
+            </div>
+
+                ))
+            }
         </ItemGroup>
       </CardContent>
     </Card>

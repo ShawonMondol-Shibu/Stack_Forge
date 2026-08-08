@@ -17,12 +17,12 @@ export default function TodaysTask() {
       <CardHeader>
         <CardTitle>Today&apos;s Tasks</CardTitle>
         <CardAction>
-          <Button variant={"ghost"} size={"xs"}>
+          <Button variant={"ghost"} size={"xs"} className={"text-primary"}>
             + Add Task
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent className={"grid grid-cols-3"}>
+      <CardContent className={"grid grid-cols-3 "}>
         <Todo />
         <InProgress />
         <Done />

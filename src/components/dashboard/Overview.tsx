@@ -20,9 +20,9 @@ export default function Overview() {
     { name: "Completed Tasks", total: 120, icon: SquareCheckBig },
   ];
   return (
-    <section className={"space-y-4"}>
+    <section className={"space-y-1"}>
       <h1 className={"text-xl font-bold"}>Overview</h1>
-      <ItemGroup className="grid grid-cols-6">
+      <ItemGroup className="grid grid-cols-6 gap-4!">
         {overViewData.map((data, i) => (
           <OverviewItem key={i} data={data} />
         ))}

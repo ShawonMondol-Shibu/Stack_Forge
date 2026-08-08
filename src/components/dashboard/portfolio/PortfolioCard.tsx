@@ -24,14 +24,14 @@ export default function PortfolioCard() {
     { value: 832, label: "Followers" },
   ];
   return (
-    <Card size="sm" className={"w-xs shadow-black/5 shadow-2xl"}>
+    <Card size="sm" className={"w-xs bg-white"}>
       <Image
         src={"/brain.jpg"}
         alt={"cover_photo"}
         width={300}
         height={200}
         loading="eager"
-        className="w-full h-30 object-cover rounded-2xl"
+        className="w-full h-26 object-cover rounded-2xl p-1"
       />
       <CardContent className="relative">
         <Avatar className={"w-20 h-20 absolute -top-16 mx-auto border-2"}>
@@ -63,12 +63,12 @@ export default function PortfolioCard() {
         </div>
       </CardContent>
       <CardFooter>
-        <CardAction>
+        <CardAction className="w-full">
           <Link href={`#`}>
             <Button
-              variant={"outline"}
-              size={"xs"}
-              className={" hover:scale-105"}
+              variant={"default"}
+              size={"sm"}
+              className={"w-full hover:scale-105"}
             >
               View Portfolio <SquareArrowOutUpRight />
             </Button>

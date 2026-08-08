@@ -9,7 +9,9 @@ export default function Done() {
     <div className="space-y-2 pl-2">
       <h3 className="text-sm font-semibold">Todo 3</h3>
       <ItemGroup>
-        <Item variant={"default"} size={"xs"} className="p-2">
+        {
+          Array.from({length: 5}).map((_,i)=>(
+        <Item key={i} variant={"default"} size={"xs"} className="p-2 bg-white shadow-black/5 shadow-lg">
           <ItemContent>
             <ItemTitle className="font-normal">
               Setup Project
@@ -25,6 +27,9 @@ export default function Done() {
             </div>
           </ItemContent>
         </Item>
+
+          ))
+        }
       </ItemGroup>
     </div>
   );

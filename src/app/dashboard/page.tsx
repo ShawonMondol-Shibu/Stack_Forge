@@ -1,3 +1,5 @@
+import ContinueWorking from "@/components/dashboard/ContinueWorking";
+import Feed from "@/components/dashboard/Feed";
 import GithubActivitiy from "@/components/dashboard/github/GithubActivitiy";
 import Greetings from "@/components/dashboard/Greetings";
 import Overview from "@/components/dashboard/Overview";
@@ -12,7 +14,7 @@ import React from "react";
 export default function Page() {
   return (
     <main className="space-y-6 ">
-      <div className={"flex items-start gap-6 justify-between"}>
+      <div className={"flex items-start gap-6 justify-center"}>
         <div className="space-y-4">
           <Greetings/>
           <QuickActions />
@@ -29,9 +31,11 @@ export default function Page() {
       </div>
 
 
-      <div className="flex  items-start gap-4">
+      <div className="flex flex-wrap items-start justify-start gap-4">
         <RecentNotes/>
         <RecentProjects/>
+        <ContinueWorking/>
+        <Feed/>
       </div>
     </main>
   );

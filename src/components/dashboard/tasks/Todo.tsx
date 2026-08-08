@@ -1,5 +1,7 @@
+"use client"
 import { Badge } from "@/components/ui/badge";
 import { Item, ItemContent, ItemGroup, ItemTitle } from "@/components/ui/item";
+import { motion } from "motion/react"
 import React from "react";
 
 export default function Todo() {
@@ -8,7 +10,10 @@ export default function Todo() {
       <h3 className="text-sm font-semibold">Todo 3</h3>
       <ItemGroup className="gap-0.5!">
         {Array.from({ length: 5 }).map((_, i) => (
-          <Item key={i} variant={"outline"} size={"xs"} className="p-2">
+        <motion.div key={i} initial={{translateX:100+i, opacity: 0}} 
+        
+        animate={{translateX: 0, opacity:1}}>
+          <Item key={i} variant={"outline"} size={"xs"} className="p-2 bg-white shadow-black/5 shadow-lg">
             <ItemContent>
               <ItemTitle className="font-normal">
                 Fix API rate limit issue
@@ -21,6 +26,8 @@ export default function Todo() {
               </div>
             </ItemContent>
           </Item>
+          </motion.div>
+
         ))}
       </ItemGroup>
     </div>

@@ -7,7 +7,7 @@ export default function InProgress() {
   <div className="space-y-2 border-r-2 px-2">
       <h3 className="text-sm font-semibold">In Progress</h3>
       <ItemGroup>
-        <Item variant={"muted"} size={"xs"} className={"p-2"}>
+        <Item variant={"outline"} size={"xs"} className={"p-2 bg-white shadow-black/5 shadow-lg"}>
           <ItemContent>
             <ItemTitle className="font-normal">Build Dashboard UI</ItemTitle>
             <div className="flex items-center justify-between text-xs">
