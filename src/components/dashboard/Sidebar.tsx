@@ -50,7 +50,9 @@ export default function Sidebar() {
   const pathName = usePathname();
   return (
     <aside
-      className={"p-1 flex items-center justify-between sticky top-5 px-6 bg-transparent z-50"}
+      className={
+        "p-1 flex items-center justify-between sticky top-5 px-6 bg-transparent z-50"
+      }
     >
       <div>
         <DropdownMenu>
@@ -58,7 +60,9 @@ export default function Sidebar() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className={"p-4 border-2 rounded-full bg-background/20 backdrop-blur-xs shadow-xl"}
+              className={
+                "p-4 border-2 rounded-full bg-background/20 backdrop-blur-xs shadow-xl"
+              }
             >
               <Menu className="text-primary" />
             </motion.div>
@@ -67,11 +71,21 @@ export default function Sidebar() {
             {navLinks.map((nav, i) => (
               <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }}>
                 <DropdownMenuItem
-                  className={cn(pathName==nav.url&& "bg-primary text-accent" ,"hover:bg-primary! hover:text-accent!")}
+                  className={cn(
+                    pathName == nav.url &&
+                      "bg-primary text-accent shadow-primary/50 shadow-xl",
+                    "group hover:bg-primary! hover:text-accent!",
+                  )}
                   render={<Link href={nav.url} />}
                 >
                   {nav.icon && (
-                    <nav.icon size={50} className="hover:text-accent" />
+                    <nav.icon
+                      size={50}
+                      className={cn(
+                        pathName == nav.url && "text-white!",
+                        "text-primary drop-shadow-primary/50 drop-shadow-lg group-hover:text-accent",
+                      )}
+                    />
                   )}
                   {nav.label}
                 </DropdownMenuItem>
@@ -81,7 +95,11 @@ export default function Sidebar() {
         </DropdownMenu>
       </div>
 
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="z-50">
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        className="z-50"
+      >
         <DropdownMenu>
           <DropdownMenuTrigger>
             <motion.div

@@ -15,7 +15,7 @@ export default function TodaysTask() {
   return (
     <Card size={"sm"} className={"w-full"}>
       <CardHeader>
-        <CardTitle>Today&apos;s Tasks</CardTitle>
+        <CardTitle className="text-xl">Today&apos;s Tasks</CardTitle>
         <CardAction>
           <Button variant={"ghost"} size={"xs"} className={"text-primary"}>
             + Add Task

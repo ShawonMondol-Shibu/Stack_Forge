@@ -23,7 +23,7 @@ export default function RecentProjects() {
   return (
     <Card size={"sm"} className={"w-xs "}>
       <CardHeader>
-        <CardTitle>Recent Projects</CardTitle>
+        <CardTitle className="text-xl">Recent Projects</CardTitle>
         <CardAction>
           <Button
             variant={"link"}

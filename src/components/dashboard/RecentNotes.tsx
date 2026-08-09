@@ -13,7 +13,7 @@ export default function RecentNotes() {
   return (
     <Card size={"sm"} className={"min-w-72"}>
       <CardHeader>
-        <CardTitle>Recent Notes</CardTitle>
+        <CardTitle className="text-xl">Recent Notes</CardTitle>
         <CardAction>
           <Button variant={"ghost"} size={"xs"} className={"text-primary"}>
             {" "}

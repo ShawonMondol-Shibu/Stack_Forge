@@ -37,7 +37,7 @@ export default function Navbar() {
           alt={"logo_image"}
           width={60}
           height={40}
-          className={"ml-2"}
+          className={"ml-2 drop-shadow-primary/50 drop-shadow-lg"}
         />
       </Link>
       <MotionDiv className={"flex gap-4 items-center uppercase"}>

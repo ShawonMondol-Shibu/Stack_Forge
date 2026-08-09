@@ -17,7 +17,7 @@ export default function GithubActivitiy() {
   return (
     <Card size={"sm"} className={"w-full"}>
       <CardHeader>
-        <CardTitle className={"font-bold"}>GitHub Activity</CardTitle>
+        <CardTitle className={"text-xl"}>GitHub Activity</CardTitle>
       </CardHeader>
       <CardContent className={"space-y-4"}>
         <section>

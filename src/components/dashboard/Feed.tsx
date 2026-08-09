@@ -5,7 +5,7 @@ export default function Feed() {
   return (
     <Card size={"sm"} className={"w-xs"}>
         <CardHeader>
-            <CardTitle>
+            <CardTitle className={"text-xl"}>
                 Feed
             </CardTitle>
         </CardHeader>
