@@ -11,7 +11,7 @@ import { NotebookPen } from "lucide-react";
 
 export default function RecentNotes() {
   return (
-    <Card size={"sm"} className={"min-w-72"}>
+    <Card size={"sm"} className={"min-w-72 gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Recent Notes</CardTitle>
         <CardAction>

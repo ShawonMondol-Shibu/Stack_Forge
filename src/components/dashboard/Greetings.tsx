@@ -22,7 +22,7 @@ export default function Greetings() {
     { day: "Saturday", desktop: 186, mobile: 80 },
 ]
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-start justify-between">
       <div>
         <h1 className={"text-2xl font-bold"}>Good Evening, Shibu 👋</h1>
 
@@ -32,14 +32,14 @@ export default function Greetings() {
         </div>
       </div>
 
-      <Card size={"sm"} className={"w-md"}>
+      <Card size={"sm"} className={"w-md p-0"}>
         <CardContent className="flex flex-wrap items-center justify-between gap-6">
           <div className={"flex flex-col items-center justify-center"}>
             <CardTitle className={"text-xl"}>🔥21</CardTitle>
             <CardDescription>Day Streak</CardDescription>
           </div>
 
-          <ChartContainer config={chartConfig} className="h-20 w-xs">
+          <ChartContainer config={chartConfig} className="h-26 w-xs">
   <AreaChart accessibilityLayer data={chartData}>
     {/* <CartesianGrid vertical={false} /> */}
     <XAxis

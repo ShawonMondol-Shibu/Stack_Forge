@@ -7,11 +7,11 @@ export default function InProgress() {
   <div className="space-y-2 border-r-2 px-2">
       <h3 className="text-sm font-semibold">In Progress</h3>
       <ItemGroup>
-        <Item variant={"outline"} size={"xs"} className={"p-2 bg-white shadow-black/5 shadow-lg"}>
+        <Item variant={"outline"} size={"xs"} className={"p-2 bg-background shadow-background/5 shadow-lg"}>
           <ItemContent>
             <ItemTitle className="font-normal">Build Dashboard UI</ItemTitle>
             <div className="flex items-center justify-between text-xs">
-              <Badge variant={"destructive"}>High</Badge>
+              <Badge variant={"destructive"} className={"px-1"}> <small>High</small> </Badge>
               {/* <span className="text-red-500">May 28</span> */}
             </div>
           </ItemContent>

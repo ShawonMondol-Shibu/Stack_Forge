@@ -24,7 +24,7 @@ export default function PortfolioCard() {
     { value: 832, label: "Followers" },
   ];
   return (
-    <Card size="sm" className={"w-xs bg-white"}>
+    <Card size="sm" className={"w-xs bg-background"}>
       <Image
         src={"/brain.jpg"}
         alt={"cover_photo"}

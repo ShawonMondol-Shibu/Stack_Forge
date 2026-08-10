@@ -23,7 +23,7 @@ export default function Header() {
           <Badge
             variant="default"
             className={
-              "bg-primary/20 text-gray-700 text-xs border-muted-secondary font-cursive"
+              "bg-primary/20 text-muted-foreground text-xs border-muted-secondary font-cursive"
             }
           >
             {" "}

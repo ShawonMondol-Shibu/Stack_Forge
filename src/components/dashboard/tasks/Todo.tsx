@@ -13,14 +13,17 @@ export default function Todo() {
         <motion.div key={i} initial={{translateX:100+i, opacity: 0}} 
         
         animate={{translateX: 0, opacity:1}}>
-          <Item key={i} variant={"outline"} size={"xs"} className="p-2 bg-white shadow-black/5 shadow-lg">
+          <Item key={i} variant={"outline"} size={"xs"} className="p-2 bg-background shadow-background/5 shadow-lg">
             <ItemContent>
               <ItemTitle className="font-normal">
                 Fix API rate limit issue
               </ItemTitle>
               <div className="flex items-center justify-between text-xs">
-                <Badge variant={"destructive"} className="text-xs!">
+                <Badge variant={"destructive"} className="px-1">
+                  <small>
+
                   High
+                  </small>
                 </Badge>
                 <span className="text-red-500">May 28</span>
               </div>

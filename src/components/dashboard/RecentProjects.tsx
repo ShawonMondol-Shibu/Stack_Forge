@@ -21,7 +21,7 @@ import { Badge } from "../ui/badge";
 
 export default function RecentProjects() {
   return (
-    <Card size={"sm"} className={"w-xs "}>
+    <Card size={"sm"} className={"w-xs gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Recent Projects</CardTitle>
         <CardAction>
@@ -36,35 +36,34 @@ export default function RecentProjects() {
       </CardHeader>
       <CardContent>
         <ItemGroup className="gap-0.5!">
-            {
-                Array.from({length:3}).map((_,i)=>(
-                    <div key={i} className="border-b">
-                <Item variant={"default"} size={"xs"} className="p-0 pb-1">
-
-            <ItemMedia>
-              <FolderOpen />
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle className="text-xs">Stack Forge</ItemTitle>
-              <ItemDescription className="text-xs">
-                Developer Platform
-              </ItemDescription>
-              <Badge variant={"outline"} className="p-1 text-muted-foreground">
-                {" "}
-                <small>Next.js</small>
-              </Badge>
-              <div className="text-xs text-muted-foreground flex items-center justify-between">
-                <span>Updated 2h ago</span>
-                <span className="flex items-center gap-1 ">
-                  <Star size={10} /> 232
-                </span>
-              </div>
-            </ItemContent>
-          </Item>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="border-b">
+              <Item variant={"default"} size={"xs"} className="p-0 pb-1">
+                <ItemMedia>
+                  <FolderOpen />
+                </ItemMedia>
+                <ItemContent>
+                  <ItemTitle className="text-xs">Stack Forge</ItemTitle>
+                  <ItemDescription className="text-xs">
+                    Developer Platform
+                  </ItemDescription>
+                  <Badge
+                    variant={"outline"}
+                    className="p-1 text-muted-foreground"
+                  >
+                    {" "}
+                    <small>Next.js</small>
+                  </Badge>
+                  <div className="text-xs text-muted-foreground flex items-center justify-between">
+                    <span>Updated 2h ago</span>
+                    <span className="flex items-center gap-1 ">
+                      <Star size={10} /> 232
+                    </span>
+                  </div>
+                </ItemContent>
+              </Item>
             </div>
-
-                ))
-            }
+          ))}
         </ItemGroup>
       </CardContent>
     </Card>

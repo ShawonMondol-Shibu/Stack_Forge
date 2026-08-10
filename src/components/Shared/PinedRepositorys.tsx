@@ -7,9 +7,9 @@ import {
   ItemGroup,
   ItemHeader,
   ItemTitle,
-} from "./ui/item";
-import { CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
+} from "../ui/item";
+import { CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
 import Link from "next/link";
 import MotionDiv from "./MotionDiv";
 
@@ -22,7 +22,7 @@ export default function PinedRepositorys() {
         {Array.from({ length: 4 }).map((_, index) => (
           <Link key={index} href={"#"}>
             <MotionDiv>
-              <Item variant={"outline"}>
+              <Item variant={"default"} className="bg-background">
                 <ItemHeader>
                   <ItemTitle className="line-clamp-1">
                     Stack Forge Lorem ipsum, dolor sit amet consectetur

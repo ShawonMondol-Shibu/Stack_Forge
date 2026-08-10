@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function SuccessStories() {
   return (
-    <section className="py-10 mt-20 space-y-10">
+    <section className="py-10 mt-10 space-y-10">
       <h1 className={"text-4xl font-bold text-center"}>Success Stories</h1>
 
       <div className={"grid grid-cols-3 items-center justify-center gap-4"}>

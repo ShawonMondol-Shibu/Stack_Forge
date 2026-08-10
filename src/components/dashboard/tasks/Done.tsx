@@ -9,27 +9,27 @@ export default function Done() {
     <div className="space-y-2 pl-2">
       <h3 className="text-sm font-semibold">Todo 3</h3>
       <ItemGroup>
-        {
-          Array.from({length: 5}).map((_,i)=>(
-        <Item key={i} variant={"default"} size={"xs"} className="p-2 bg-white shadow-black/5 shadow-lg">
-          <ItemContent>
-            <ItemTitle className="font-normal">
-              Setup Project
-            </ItemTitle>
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-muted-foreground">May 28</span>
-              <Button
-                variant={"secondary"}
-                size={"icon-xs"}
-                render={<CheckCircle  />}
-                className={"text-green-600 size-4 "}
-              />
-            </div>
-          </ItemContent>
-        </Item>
-
-          ))
-        }
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Item
+            key={i}
+            variant={"default"}
+            size={"xs"}
+            className="p-2 bg-background shadow-black/5 shadow-lg"
+          >
+            <ItemContent>
+              <ItemTitle className="font-normal">Setup Project</ItemTitle>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">May 28</span>
+                <Button
+                  variant={"secondary"}
+                  size={"icon-xs"}
+                  render={<CheckCircle />}
+                  className={"text-green-600 size-4 "}
+                />
+              </div>
+            </ItemContent>
+          </Item>
+        ))}
       </ItemGroup>
     </div>
   );

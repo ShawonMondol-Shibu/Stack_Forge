@@ -5,7 +5,7 @@ import { Progress, ProgressLabel } from "../ui/progress";
 
 export default function ContinueWorking() {
   return (
-    <Card size={"sm"} className={"w-xs"}>
+    <Card size={"sm"} className={"w-xs gap-2"}>
       <CardHeader>
         <CardTitle className="text-xl">Continue Working</CardTitle>
       </CardHeader>

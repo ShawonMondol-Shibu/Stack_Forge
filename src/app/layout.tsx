@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
@@ -42,8 +43,16 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <TanStackProvider>
+           <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+
           <Toaster />
           {children}
+          </ThemeProvider>
         </TanStackProvider>
       </body>
     </html>

@@ -11,7 +11,7 @@ export default function ProfileGithub() {
           <CardTitle>GitHub</CardTitle>
         </CardHeader>
         <CardContent className={'space-y-4'}>
-          <GitHubCalendar username="shawonmondol-shibu" />
+          <GitHubCalendar username="shawonmondol-shibu" colorScheme="light"/>
           <PinedRepositorys />
         </CardContent>
       </Card>

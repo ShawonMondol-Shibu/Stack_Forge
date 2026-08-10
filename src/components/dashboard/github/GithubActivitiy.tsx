@@ -15,7 +15,7 @@ import { GitHubCalendar } from "react-github-calendar";
 
 export default function GithubActivitiy() {
   return (
-    <Card size={"sm"} className={"w-full"}>
+    <Card size={"sm"} className={"w-full gap-1"}>
       <CardHeader>
         <CardTitle className={"text-xl"}>GitHub Activity</CardTitle>
       </CardHeader>
@@ -24,7 +24,7 @@ export default function GithubActivitiy() {
           <GitHubCalendar
             blockSize={8}
             username={"shawonmondol-shibu"}
-            colorScheme={"light"}
+            
             showTotalCount
             blockMargin={3}
           />

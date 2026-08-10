@@ -4,7 +4,7 @@ import { Card, CardContent } from "../ui/card";
 
 export default function Newsletter() {
   return (
-    <div className="w-full mt-20 py-10">
+    <div className="w-full mt-10 py-10">
       <Card className={"bg-primary/10 w-full py-10 shadow-none"}>
         <CardContent
           className={" flex flex-col gap-4 items-center justify-center"}

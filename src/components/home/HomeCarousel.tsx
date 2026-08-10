@@ -46,7 +46,7 @@ export function HomeCarousel() {
 
                 <CardContent className="flex flex-col items-center justify-center gap-4">
                   <div className="space-y-1">
-                    <Badge variant="secondary">Fullstack Developer</Badge>
+                    <Badge variant="outline">Fullstack Developer</Badge>
                     <CardTitle className={"text-2xl"}>
                       Shawon Mondol Shibu {index + 1}
                     </CardTitle>

@@ -13,7 +13,7 @@ import Done from "./Done";
 
 export default function TodaysTask() {
   return (
-    <Card size={"sm"} className={"w-full"}>
+    <Card size={"sm"} className={"w-full gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Today&apos;s Tasks</CardTitle>
         <CardAction>

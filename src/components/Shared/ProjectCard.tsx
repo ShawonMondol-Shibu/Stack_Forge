@@ -18,7 +18,7 @@ export default function ProjectCard() {
       {" "}
       <Item
         variant={"outline"}
-        className="bg-white hover:shadow-lg transition-all duration-300 ease-in"
+        className="bg-background hover:shadow-lg transition-all duration-300 ease-in"
       >
         {/* <ItemHeader className={"bg-secondary"}> */}
         <Image

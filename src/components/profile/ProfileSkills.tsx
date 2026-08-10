@@ -6,7 +6,7 @@ import { SiNextdotjs } from "react-icons/si";
 
 export default function ProfileSkills() {
   return (
-    <Card className=" bg-white">
+    <Card className=" bg-background">
       <CardHeader>
         <CardTitle className="text-xl">Skills:</CardTitle>
       </CardHeader>
