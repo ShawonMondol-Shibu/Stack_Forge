@@ -40,6 +40,7 @@ export default function RootLayout({
         "font-sans",
         roboto.variable,
       )}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         <TanStackProvider>

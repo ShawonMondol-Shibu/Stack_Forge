@@ -1,9 +1,9 @@
-import FeaturedDevelopers from "@/components/home/FeaturedDevelopers";
-import Header from "@/components/home/Header";
-import TrandingProjects from "@/components/home/TrandingProjects";
-import Newsletter from "@/components/home/Newsletter";
+import FeaturedDevelopers from "@/components/Shared/website/home/FeaturedDevelopers";
+import Header from "@/components/Shared/website/home/Header";
+import Newsletter from "@/components/Shared/website/home/Newsletter";
+import SuccessStories from "@/components/Shared/website/home/SuccessStories";
+import TrandingProjects from "@/components/Shared/website/home/TrandingProjects";
 import React from "react";
-import SuccessStories from "@/components/home/SuccessStories";
 
 export default function Page() {
   return (

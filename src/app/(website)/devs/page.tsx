@@ -1,5 +1,5 @@
 "use client";
-import ProfileCard from "@/components/Shared/ProfileCard";
+import ProfileCard from "@/components/Shared/website/ProfileCard";
 import { apiService } from "@/lib/api-routes/apis";
 import { UserProfile } from "@/lib/types/profile-type";
 import { useQuery } from "@tanstack/react-query";

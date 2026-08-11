@@ -1,10 +1,10 @@
+import ProfileEducations from "@/components/Shared/website/profile/ProfileEducations";
+import ProfileExperience from "@/components/Shared/website/profile/ProfileExperience";
+import ProfileGithub from "@/components/Shared/website/profile/ProfileGithub";
+import ProfilePage from "@/components/Shared/website/profile/ProfilePage";
+import ProfileProjects from "@/components/Shared/website/profile/ProfileProjects";
+import ProfileSkills from "@/components/Shared/website/profile/ProfileSkills";
 import React from "react";
-import ProfilePage from "../../../../components/profile/ProfilePage";
-import ProfileSkills from "../../../../components/profile/ProfileSkills";
-import ProfileEducations from "../../../../components/profile/ProfileEducations";
-import ProfileExperience from "../../../../components/profile/ProfileExperience";
-import ProfileProjects from "../../../../components/profile/ProfileProjects";
-import ProfileGithub from "../../../../components/profile/ProfileGithub";
 
 export default function Page() {
   return (
