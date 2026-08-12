@@ -19,7 +19,7 @@ import { SiNestjs } from "react-icons/si";
 
 export default function Skills() {
   return (
-    <Card className={"gap-0"}>
+    <Card className={"gap-0 min-h-64"}>
       <CardHeader>
         <CardTitle>Skills</CardTitle>
         <CardAction>

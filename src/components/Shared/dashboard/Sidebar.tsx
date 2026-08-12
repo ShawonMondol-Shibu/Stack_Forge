@@ -50,7 +50,7 @@ const navLinks = [
 export function SidebarLeft() {
   const pathName = usePathname();
   return (
-      <div className={"z-50 sticky top-0 left-0 w-fit float-left"}>
+      <div className={"z-50 fixed top-8 left-6 w-fit"}>
         <DropdownMenu>
           <DropdownMenuTrigger className={""}>
             <motion.div
@@ -100,7 +100,7 @@ export function SidebarRight() {
     <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        className="z-50 flex items-center gap-2 sticky top-0 float-right w-fit"
+        className="z-50 flex items-center gap-2 fixed top-8 right-5 w-fit"
       >
         <ModeToggle/>
         <DropdownMenu>

@@ -17,11 +17,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
-import { cn } from "@/lib/utils";
+import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Pencil, Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
 const userInfo = [
@@ -33,20 +32,19 @@ const userInfo = [
   { label: "Achievements", value: 16 },
 ];
 
-const subPages = [
-  { name: "About", url: "/dashboard/profile/about" },
-  { name: "Repository", url: "/dashboard/profile/#" },
-  { name: "Projects", url: "/dashboard/profile/#" },
-  { name: "Activity", url: "/dashboard/profile/#" },
-  { name: "Achievements", url: "/dashboard/profile/#" },
-  { name: "Notes", url: "/dashboard/profile/#" },
+const tabsList = [
+  { name: "About", value: "about" },
+  { name: "Repository", value: "repos" },
+  { name: "Projects", value: "projects" },
+  { name: "Activity", value: "activity" },
+  { name: "Achievements", value: "achievements" },
+  { name: "Notes", value: "notes" },
 ];
 
 export default function ProfileHeader() {
-  const pathName = usePathname();
 
   return (
-    <Card size={"sm"} className={"w-full max-w-4xl min-h-80 pt-0"}>
+    <Card size={"sm"} className={"w-full min-h-80 pt-0"}>
       <div className={"relative"}>
         <Image
           src={"/brain.jpg"}
@@ -94,7 +92,7 @@ export default function ProfileHeader() {
         <Item
           size={"sm"}
           variant={"outline"}
-          className="my-4 bg-background outline-primary"
+          className="mt-4 bg-background outline-primary"
         >
           <ItemContent className="grid grid-cols-6 items-center justify-center">
             {userInfo.map((info, i) => (
@@ -110,18 +108,13 @@ export default function ProfileHeader() {
         </Item>
       </CardContent>
       <CardFooter className="gap-6">
-        {subPages.map((subPage, i) => (
-          <Link
-            key={i}
-            href={subPage.url}
-            className={cn(
-              pathName == subPage.url && "border-b-2 text-primary",
-              "border-primary hover:border-b-2 hover:text-primary",
-            )}
-          >
-            {subPage.name}
-          </Link>
-        ))}
+        <TabsList variant={"line"}>
+          {tabsList.map((list, i) => (
+            <TabsTrigger key={i} value={list.value} >
+              {list.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
       </CardFooter>
     </Card>
   );

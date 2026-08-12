@@ -27,7 +27,7 @@ const aboutMeData = [
 
 export default function AboutMe() {
   return (
-    <Card size={"sm"} className={"w-full gap-0"}>
+    <Card size={"sm"} className={"w-full min-h-60 gap-0"}>
       <CardHeader>
         <CardTitle>About Me</CardTitle>
         <CardAction>
@@ -37,7 +37,7 @@ export default function AboutMe() {
         </CardAction>
       </CardHeader>
       <CardContent className={"space-y-4"}>
-        <CardDescription>
+        <CardDescription className="line-clamp-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores iure
           quis nesciunt blanditiis commodi quam similique alias facere,
           voluptatem quaerat praesentium dignissimos autem corrupti facilis amet
@@ -45,7 +45,7 @@ export default function AboutMe() {
         </CardDescription>
         <ItemGroup className={"grid grid-cols-2"}>
           {aboutMeData.map((aboutMe, i) => (
-            <Item key={i} variant={"outline"} size={"xs"} className={"w-full"}>
+            <Item key={i} variant={"outline"} size={"xs"} className={"w-full p-2"}>
               <ItemMedia>{<aboutMe.icon />}</ItemMedia>
               <ItemContent>
                 <ItemDescription className={"text-xs"}>
