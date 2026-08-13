@@ -31,7 +31,9 @@ export default function Page() {
         ))}
       </Tabs>
       <div className="col-span-2">
+ 
 
+ 
       <ProfileStats/>
       </div>
     </main>
