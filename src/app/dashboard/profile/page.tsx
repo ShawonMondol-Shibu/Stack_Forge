@@ -1,4 +1,3 @@
-import AboutMe from "@/components/Shared/dashboard/profile/about/AboutMe";
 import ProfileHeader from "@/components/Shared/dashboard/profile/ProfileHeader";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import React from "react";
@@ -9,6 +8,9 @@ import Activity from "./Activity";
 import Achievements from "./Achievements";
 import Notes from "./Notes";
 import ProfileStats from "@/components/Shared/dashboard/profile/ProfileStats";
+import ContributionActivity from "@/components/Shared/dashboard/profile/ContributionActivity";
+import ProfileCompletion from "@/components/Shared/dashboard/profile/ProfileCompletion";
+import QuickLinks from "@/components/Shared/dashboard/profile/QuickLinks";
 
 const tabsContent = [
   { page: <About />, value: "about" },
@@ -19,9 +21,15 @@ const tabsContent = [
   { page: <Notes />, value: "notes" },
 ];
 
+
 export default function Page() {
+
   return (
-    <main className={"w-full max-w-7xl mx-auto space-y-4 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start justify-between"}>
+    <main
+      className={
+        "w-full max-w-7xl mx-auto space-y-4 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start justify-between"
+      }
+    >
       <Tabs className={"gap-4 col-span-4 mx-auto"}>
         <ProfileHeader />
         {tabsContent.map((content, i) => (
@@ -30,11 +38,11 @@ export default function Page() {
           </TabsContent>
         ))}
       </Tabs>
-      <div className="col-span-2">
- 
-
- 
-      <ProfileStats/>
+      <div className="col-span-2 space-y-4">
+        <ProfileCompletion />
+        <ProfileStats />
+        <ContributionActivity />
+        <QuickLinks/>
       </div>
     </main>
   );

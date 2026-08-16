@@ -17,8 +17,9 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Eye } from "lucide-react";
+import { Eye, EyeClosed } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.email(),
@@ -29,6 +30,9 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogle, setIsGoogle] = useState(false);
   const [isGithub, setIsGithub] = useState(false);
+  const [show, setShow] = useState(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -89,6 +93,7 @@ export default function Page() {
             type: "success",
             title: "User Login",
           });
+          router.push("/");
         },
         onError: (err) => {
           setIsLoading(false);
@@ -177,9 +182,9 @@ export default function Page() {
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor={field.name}>Password</FieldLabel>
                 <InputGroup>
-                  <InputGroupAddon>
+                  <InputGroupAddon onClick={() => setShow((prev) => !prev)}>
                     <InputGroupButton>
-                      <Eye />
+                      {show ? <Eye /> : <EyeClosed />}
                     </InputGroupButton>
                   </InputGroupAddon>
                   <InputGroupInput
@@ -188,7 +193,7 @@ export default function Page() {
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter your password"
                     autoComplete="off"
-                    type="password"
+                    type={show ? "text" : "password"}
                   />
                 </InputGroup>
                 {fieldState.invalid && (
@@ -198,8 +203,12 @@ export default function Page() {
             )}
           />
 
-
-          <Button variant="default"   disabled={isLoading} className={""}>
+          <Button
+            variant="default"
+            type="submit"
+            disabled={isLoading}
+            className={""}
+          >
             {isLoading ? "Loading....." : "Sign In to Stackforge"}
           </Button>
 

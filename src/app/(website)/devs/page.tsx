@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Home() {
   const { data: profiles } = useQuery({
     queryKey: ["profiles"],
-    queryFn: ()=> apiService("profile"),
+    queryFn: ()=> apiService("profile/all"),
   });
 
   return (

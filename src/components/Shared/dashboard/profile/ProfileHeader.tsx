@@ -1,4 +1,3 @@
-"use client";
 import {
   Avatar,
   AvatarBadge,
@@ -18,6 +17,8 @@ import {
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { apiService } from "@/lib/api-routes/apis";
+import { useQuery } from "@tanstack/react-query";
 import { Pencil, Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +42,9 @@ const tabsList = [
   { name: "Notes", value: "notes" },
 ];
 
-export default function ProfileHeader() {
+export default async function ProfileHeader() {
+  
+
 
   return (
     <Card size={"sm"} className={"w-full min-h-80 pt-0"}>
@@ -55,7 +58,7 @@ export default function ProfileHeader() {
         />
         <div className={"absolute -bottom-14 left-5"}>
           <Avatar className={"size-30"}>
-            <AvatarImage />
+            <AvatarImage src={''} />
             <AvatarFallback>Profile Picture</AvatarFallback>
             <AvatarBadge className="bottom-3 right-4" />
           </Avatar>
