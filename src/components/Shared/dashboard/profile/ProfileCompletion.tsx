@@ -25,7 +25,7 @@ export default function ProfileCompletion() {
   const percentage = 40;
 
   return (
-    <Card className="gap-1">
+    <Card  className="gap-1 w-full">
       <CardHeader>
         <CardTitle>Profile Completion</CardTitle>
         <CardAction>

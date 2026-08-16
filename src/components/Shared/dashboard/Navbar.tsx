@@ -47,7 +47,7 @@ const navLinks = [
   { url: "/dashboard/settings", label: "Settings", icon: SlidersVertical },
 ];
 
-export function SidebarLeft() {
+export function NavbarLeft() {
   const pathName = usePathname();
   return (
       <div className={"z-50 fixed top-8 left-6 w-fit"}>
@@ -95,7 +95,7 @@ export function SidebarLeft() {
 
 
 
-export function SidebarRight() {
+export function NavbarRight() {
   return (
     <motion.div
         initial={{ scale: 0 }}

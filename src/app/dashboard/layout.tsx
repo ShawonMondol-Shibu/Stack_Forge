@@ -1,14 +1,14 @@
-import { SidebarLeft, SidebarRight } from "@/components/Shared/dashboard/Sidebar";
+import { NavbarLeft, NavbarRight } from "@/components/Shared/dashboard/Navbar";
 import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="p-8">
-      <SidebarLeft />
-      <SidebarRight/>
+    <div className="p-8">
+      <NavbarLeft />
+      <NavbarRight/>
       <section>
       {children}
       </section>
-    </main>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ import { GitHubCalendar } from "react-github-calendar";
 
 export default function ContributionActivity() {
   return (
-    <Card className={"gap-1"}>
+    <Card className={"gap-1 w-full"}>
       <CardHeader>
         <CardTitle>Contribution Activity</CardTitle>
       </CardHeader>

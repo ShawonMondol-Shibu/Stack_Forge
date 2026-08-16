@@ -13,7 +13,7 @@ export default function QuickLinks() {
     {label:"Email", url: "shawonmondolshibu@gmail.com", icon: Mail},
   ]
   return (
-    <Card className="gap-1">
+    <Card className="gap-1 w-full">
       <CardHeader>
         <CardTitle>Quick Links</CardTitle>
       </CardHeader>
@@ -24,7 +24,7 @@ export default function QuickLinks() {
           <div className={"flex items-center gap-2"}>
            { <link.icon size={14} /> }<span>{link.label}</span>
           </div>
-          <Button variant={"link"} size={"xs"} render={<Link href={link.url} />}>
+          <Button variant={"link"} size={"xs"} render={<Link href={`//${link.url}`} target="_blank"/>}>
             {link.url}<ArrowRightSquare size={12} />
           </Button>
         </div>

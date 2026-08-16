@@ -30,7 +30,7 @@ export default function Page() {
         "w-full max-w-7xl mx-auto space-y-4 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start justify-between"
       }
     >
-      <Tabs className={"gap-4 col-span-4 mx-auto"}>
+      <Tabs className={"gap-4 lg:col-span-4 mx-auto"}>
         <ProfileHeader />
         {tabsContent.map((content, i) => (
           <TabsContent key={i} value={content.value}>
@@ -38,7 +38,7 @@ export default function Page() {
           </TabsContent>
         ))}
       </Tabs>
-      <div className="col-span-2 space-y-4">
+      <div className="w-full lg:col-span-2 space-y-4">
         <ProfileCompletion />
         <ProfileStats />
         <ContributionActivity />
