@@ -13,6 +13,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import ProjectOverview from "@/components/Shared/dashboard/project/ProjectOverview";
+import TopTechnologies from "@/components/Shared/dashboard/project/TopTechnologies";
+import NewProject from "@/components/Shared/dashboard/project/NewProject";
 
 export default function Page() {
   const contentsData = [
@@ -64,9 +66,11 @@ export default function Page() {
         </Pagination>
       </Tabs>
 
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 space-y-6">
 
         <ProjectOverview/>
+        <TopTechnologies/>
+        <NewProject/>
       </div>
     </main>
   );

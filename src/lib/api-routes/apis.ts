@@ -1,18 +1,20 @@
-export const apiUrl =
-  process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:6969";
+export const apiUrl = (
+  process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:6969"
+).replace(/\/+$/, "");
 
 export const apiService = async (
-  endpoint?: string,
+  endpoint = "",
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
-  options?: RequestInit
+  options?: RequestInit,
 ) => {
-  const cleanEndpoint = endpoint ? endpoint.replace(/^\/+|\/+$/g, "") : "";
-  const url = `${apiUrl}/${cleanEndpoint}`;
+  const cleanEndpoint = endpoint.replace(/^\/+/, "");
+
+  const url = cleanEndpoint ? `${apiUrl}/${cleanEndpoint}` : apiUrl;
 
   const res = await fetch(url, {
-    method,
-    credentials: "include", // ব্রাউজার সেশন কুকি অটোমেটিক হেডারে পাঠাবে
     ...options,
+    method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
@@ -20,7 +22,25 @@ export const apiService = async (
   });
 
   if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
+    let message = `API error: ${res.status} ${res.statusText}`;
+
+    try {
+      const data = await res.json();
+
+      if (data?.message) {
+        message = Array.isArray(data.message)
+          ? data.message.join(", ")
+          : data.message;
+      }
+    } catch {
+      // Response wasn't JSON
+    }
+
+    throw new Error(message);
+  }
+
+  if (res.status === 204) {
+    return null;
   }
 
   return res.json();

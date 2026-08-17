@@ -1,15 +1,32 @@
-import ProjectCard from '@/components/Shared/dashboard/project/ProjectCard';
-import React from 'react'
+"use client";
+import ProjectCard from "@/components/Shared/dashboard/project/ProjectCard";
+import { apiService } from "@/lib/api-routes/apis";
+import { ProjectType } from "@/lib/types/project-type";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 
 export default function AllProjects() {
-  return (
-    <div className={"w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-center"}>
-      {
-        Array.from({length:9}).map((_,i)=>(
-          <ProjectCard key={i}/>
+  const { data, isError, isPending, error } = useQuery({
+    queryKey: ["all-projects"],
+    queryFn: () =>  apiService("projects"),
+    select: (res)=> res.data,
+  });
 
-        ))
-      }
+   if (isPending) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
+  console.log(data)
+  return (
+    <div
+      className={"w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-center"}
+    >
+      {data.map((project:ProjectType) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
     </div>
-  )
+  );
 }

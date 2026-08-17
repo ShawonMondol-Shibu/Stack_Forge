@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,9 +6,9 @@ import {
   FolderOpen,
   LayoutGrid,
   List,
-  Plus,
 } from "lucide-react";
 import React from "react";
+import AddProject from "./AddProject";
 
 export default function ProjectHeader() {
   const triggersData = [
@@ -39,11 +38,7 @@ export default function ProjectHeader() {
             </Button>
           </ButtonGroup>
 
-          <Button size={"sm"}>
-            <Plus />
-            New Project
-            {/* <ChevronDown /> */}
-          </Button>
+          <AddProject/>
         </div>
       </div>
 

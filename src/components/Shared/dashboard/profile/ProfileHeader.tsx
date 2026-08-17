@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   AvatarBadge,
@@ -42,9 +43,26 @@ const tabsList = [
   { name: "Notes", value: "notes" },
 ];
 
-export default async function ProfileHeader() {
-  
+export default function ProfileHeader() {
+  const {
+    data:profile,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: async () => apiService("/profile"),
+  });
 
+
+  if (isLoading) {
+    return <div>Loading profile...</div>;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+  console.log(profile)
 
   return (
     <Card size={"sm"} className={"w-full min-h-80 pt-0"}>
@@ -58,14 +76,14 @@ export default async function ProfileHeader() {
         />
         <div className={"absolute -bottom-14 left-5"}>
           <Avatar className={"size-30"}>
-            <AvatarImage src={''} />
-            <AvatarFallback>Profile Picture</AvatarFallback>
+            <AvatarImage src={""} />
+            <AvatarFallback>{'profile picture'}</AvatarFallback>
             <AvatarBadge className="bottom-3 right-4" />
           </Avatar>
         </div>
       </div>
       <CardHeader className="ml-36">
-        <CardTitle>Shawon Mondol Shibu</CardTitle>
+        <CardTitle>{'Full name'}</CardTitle>
         <CardAction>
           <ButtonGroup>
             <Button variant={"outline"} size={"sm"}>
@@ -85,10 +103,7 @@ export default async function ProfileHeader() {
             <Link href={"#"}>shawonmondolshibu.vercel.app</Link>
           </div>
           <CardDescription>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi eaque
-            impedit voluptatem odio accusantium odit tempora perferendis. Sequi,
-            dolor nemo! Dolores autem omnis laborum recusandae error delectus
-            numquam rem optio.
+            {/* {profile.data} */}
           </CardDescription>
         </div>
 
@@ -113,7 +128,7 @@ export default async function ProfileHeader() {
       <CardFooter className="gap-6">
         <TabsList variant={"line"}>
           {tabsList.map((list, i) => (
-            <TabsTrigger key={i} value={list.value} >
+            <TabsTrigger key={i} value={list.value}>
               {list.name}
             </TabsTrigger>
           ))}

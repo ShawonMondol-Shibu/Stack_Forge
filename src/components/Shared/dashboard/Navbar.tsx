@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
+import { FaGithub } from "react-icons/fa";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -37,7 +38,7 @@ const navLinks = [
     icon: BriefcaseBusiness,
   },
   { url: "/dashboard/projects", label: "Projects", icon: FolderOpen },
-  { url: "/dashboard/github", label: "GitHub", icon: GitHubIcon },
+  { url: "/dashboard/github", label: "GitHub", icon: FaGithub },
   { url: "/dashboard/tasks", label: "Tasks", icon: ClipboardList },
   { url: "/dashboard/notes", label: "Notes", icon: NotebookPen },
   { url: "/dashboard/calender", label: "Calender", icon: CalendarRange },

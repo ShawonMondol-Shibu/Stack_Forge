@@ -1,23 +1,24 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/components/ui/card';
+import { ProjectType } from '@/lib/types/project-type';
 import { Eye, Star } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react'
 import { GoRepoForked } from 'react-icons/go';
 
-export default function ProjectCard() {
+export default function ProjectCard({project}:{project:ProjectType}) {
   return (
     <Card className={"w-full pt-0"}>
         <div >
-            <Image src={"/brain.jpg"} alt={"project_image"} width={300} height={200} className={"w-full object-cover"}/>
+            <Image src={project.image||"/brain.jpg"} alt={"project_image"} width={300} height={200} className={"w-full object-cover"}/>
 
         </div>
         <CardContent>
             <CardTitle>
-                Stack Forge
+                {project.name}
             </CardTitle>
             <CardDescription className={"line-clamp-2"}>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione esse facere corrupti, incidunt vitae cum quas dolor quos, inventore ab, possimus quidem officiis sapiente non ad assumenda quod repellat quia?
+                {project?.description}
             </CardDescription>
 
             <div>

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -12,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import React from "react";
 
 export default function ProjectFilter() {
@@ -20,6 +21,11 @@ export default function ProjectFilter() {
     { label: "Light", value: "light" },
     { label: "Dark", value: "dark" },
     { label: "System", value: "system" },
+  ];
+  const techStack = [
+    { label: "Next.JS", value: "next.js" },
+    { label: "Nest.JS", value: "nest.js" },
+    { label: "PostgreSQL", value: "postgresql" },
   ];
   return (
     <div className="flex flex-row flex-wrap lg:flex-nowrap items-center justify-between gap-6">
@@ -34,26 +40,26 @@ export default function ProjectFilter() {
         </InputGroup>
       </search>
 
-{/* Filter by Tech Stack */}
+      {/* Filter by Tech Stack */}
       <Select>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="">
           <SelectValue placeholder="Tech Stack" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {items.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
+            {techStack.map((stack) => (
+              <SelectItem key={stack.value} value={stack.value}>
+                {stack.label}
               </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
       </Select>
 
-{/* Filter by Status */}
+      {/* Filter by Status */}
       <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Status"/>
+        <SelectTrigger className="">
+          <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -66,8 +72,7 @@ export default function ProjectFilter() {
         </SelectContent>
       </Select>
 
-      
-{/* Sort by Recent Updates */}
+      {/* Sort by Recent Updates */}
       <Select>
         <SelectTrigger>
           <SelectValue placeholder="Sort: Recently Updated" />
@@ -83,7 +88,9 @@ export default function ProjectFilter() {
         </SelectContent>
       </Select>
 
-
+      <Button variant={"default"} size={"icon-sm"}>
+        <Filter />
+      </Button>
     </div>
   );
 }
