@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   InputGroup,
@@ -14,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Filter, Search } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 
 export default function ProjectFilter() {
   const items = [
@@ -27,6 +28,14 @@ export default function ProjectFilter() {
     { label: "Nest.JS", value: "nest.js" },
     { label: "PostgreSQL", value: "postgresql" },
   ];
+
+  const handleSelect = () => {
+    return null;
+  };
+  const handleFilter = () => {
+    return null;
+  };
+
   return (
     <div className="flex flex-row flex-wrap lg:flex-nowrap items-center justify-between gap-6">
       <search className="w-xs">
@@ -57,14 +66,18 @@ export default function ProjectFilter() {
       </Select>
 
       {/* Filter by Status */}
-      <Select>
+      <Select >
         <SelectTrigger className="">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             {items.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                onClick={handleSelect}
+              >
                 {item.label}
               </SelectItem>
             ))}
@@ -88,7 +101,7 @@ export default function ProjectFilter() {
         </SelectContent>
       </Select>
 
-      <Button variant={"default"} size={"icon-sm"}>
+      <Button variant={"default"} size={"icon-sm"} onClick={handleFilter}>
         <Filter />
       </Button>
     </div>

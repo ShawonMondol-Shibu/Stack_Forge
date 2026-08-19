@@ -9,7 +9,6 @@ export default function AllProjects() {
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["all-projects"],
     queryFn: () =>  apiService("projects"),
-    select: (res)=> res.data,
   });
 
    if (isPending) {
@@ -22,9 +21,9 @@ export default function AllProjects() {
   console.log(data)
   return (
     <div
-      className={"w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-center"}
+      className={"w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"}
     >
-      {data.map((project:ProjectType) => (
+      {data.data.map((project:ProjectType) => (
         <ProjectCard key={project.id} project={project} />
       ))}
     </div>

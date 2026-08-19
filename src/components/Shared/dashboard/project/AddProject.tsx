@@ -1,6 +1,17 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxChip, ComboboxChips, ComboboxChipsInput, ComboboxContent, ComboboxEmpty, ComboboxItem, ComboboxList, ComboboxValue, useComboboxAnchor } from "@/components/ui/combobox";
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +23,9 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { apiService } from "@/lib/api-routes/apis";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -24,9 +37,8 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Enter a description of your project" }),
   techStack: z.array(z.string()),
-  image: z.string(),
+  // image: z.string().optional(),
 });
-
 
 const frameworks = [
   "Next.js",
@@ -34,12 +46,23 @@ const frameworks = [
   "Nuxt.js",
   "Remix",
   "Astro",
-  "NestJS"
-] as const
-
+  "Nest.jS",
+  "Node.js",
+  "Better-Auth",
+  "Drizzle",
+  "Supabase"
+] as const;
 
 export default function AddProject() {
-const anchor = useComboboxAnchor()
+  const anchor = useComboboxAnchor();
+  const { mutate } = useMutation({
+    mutationKey: ["create-project"],
+    mutationFn: (data: z.infer<typeof formSchema>) =>
+      apiService("/projects", "POST", data),
+    onError:(err)=>{
+      console.log(err.message)
+    }
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,24 +70,20 @@ const anchor = useComboboxAnchor()
       name: "",
       description: "",
       techStack: [],
-      image: "",
+      // image: "",
     },
   });
 
-
-  const onSubmit = (data: z.infer<typeof formSchema>)=> {
-
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    mutate(data);
     console.log(data)
-
-  }
-
-
+  };
 
   return (
     <Dialog>
       <DialogTrigger
         render={
-          <Button  size={"sm"}>
+          <Button size={"sm"}>
             <Plus /> New Project{" "}
           </Button>
         }
@@ -72,7 +91,9 @@ const anchor = useComboboxAnchor()
       <DialogContent>
         <DialogHeader>
           <div className="flex items-center gap-6">
-            <span className={"p-4 bg-primary/10 text-primary w-fit rounded-2xl"}>
+            <span
+              className={"p-4 bg-primary/10 text-primary w-fit rounded-2xl"}
+            >
               <Plus size={30} />
             </span>
             <div>
@@ -84,7 +105,11 @@ const anchor = useComboboxAnchor()
           </div>
         </DialogHeader>
 
-        <form {...form} onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          {...form}
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
           <Controller
             name="name"
             control={form.control}
@@ -124,62 +149,66 @@ const anchor = useComboboxAnchor()
             )}
           />
           <Controller
-  name="techStack"
-  control={form.control}
-  render={({ field, fieldState }) => {
-    // Ensure value is an array for multi-select
-    const selectedValues = Array.isArray(field.value) ? field.value : [];
+            name="techStack"
+            control={form.control}
+            render={({ field, fieldState }) => {
+              // Ensure value is an array for multi-select
+              const selectedValues = Array.isArray(field.value)
+                ? field.value
+                : [];
 
-    return (
-      <Field data-invalid={fieldState.invalid}>
-        <FieldLabel htmlFor={field.name}>Tech Stack</FieldLabel>
+              return (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Tech Stack</FieldLabel>
 
-        <Combobox
-          multiple
-          autoHighlight
-          items={frameworks}
-          value={selectedValues}
-          onValueChange={(val) => field.onChange(val)}
-        >
-          <ComboboxChips ref={anchor} className="w-full max-w-xs">
-            <ComboboxValue>
-              {(values: string[]) => (
-                <React.Fragment>
-                  {values.map((value: string) => (
-                    <ComboboxChip key={value} value={value}>
-                      {value}
-                    </ComboboxChip>
-                  ))}
-                  <ComboboxChipsInput 
-                    id={field.name}
-                    onBlur={field.onBlur}
-                  />
-                </React.Fragment>
-              )}
-            </ComboboxValue>
-          </ComboboxChips>
+                  <Combobox
+                    multiple
+                    autoHighlight
+                    items={frameworks}
+                    value={selectedValues}
+                    onValueChange={(val) => field.onChange(val)}
+                  >
+                    <ComboboxChips ref={anchor} className="w-full max-w-xs">
+                      <ComboboxValue>
+                        {(values: string[]) => (
+                          <React.Fragment>
+                            {values.map((value: string) => (
+                              <ComboboxChip key={value}>
+                                {value}
+                              </ComboboxChip>
+                            ))}
+                            <ComboboxChipsInput
+                              id={field.name}
+                              onBlur={field.onBlur}
+                            />
+                          </React.Fragment>
+                        )}
+                      </ComboboxValue>
+                    </ComboboxChips>
 
-          <ComboboxContent anchor={anchor}>
-            <ComboboxEmpty>No items found.</ComboboxEmpty>
-            <ComboboxList>
-              {(item: string) => (
-                <ComboboxItem key={item} value={item}>
-                  {item}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+                    <ComboboxContent anchor={anchor}>
+                      <ComboboxEmpty>No items found.</ComboboxEmpty>
+                      <ComboboxList>
+                        {(item: string) => (
+                          <ComboboxItem key={item} value={item}>
+                            {item}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
 
-        {fieldState.invalid && (
-          <FieldError errors={[fieldState.error]} />
-        )}
-      </Field>
-    );
-  }}
-/>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              );
+            }}
+          />
 
-<Button size={"sm"} type="submit">Create Project</Button>
+          <Button size={"sm"} type="submit">
+            Create Project
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

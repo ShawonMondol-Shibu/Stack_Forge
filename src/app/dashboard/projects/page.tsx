@@ -27,7 +27,7 @@ export default function Page() {
   return (
     <main
       className={
-        "w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-7 gap-4 items-start"
+        "w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-7 gap-6 items-start"
       }
     >
       <Tabs className={"lg:col-span-5 gap-6"}>
@@ -40,37 +40,38 @@ export default function Page() {
           </TabsContent>
         ))}
 
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </Tabs>
 
-      <div className="lg:col-span-2 space-y-6">
-
-        <ProjectOverview/>
-        <TopTechnologies/>
-        <NewProject/>
+      <div className="lg:col-span-2 space-y-6 lg:top-6 lg:sticky">
+        <ProjectOverview />
+        <TopTechnologies />
+        <NewProject />
       </div>
     </main>
   );

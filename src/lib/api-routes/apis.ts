@@ -5,6 +5,7 @@ export const apiUrl = (
 export const apiService = async (
   endpoint = "",
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
+  body?: unknown,
   options?: RequestInit,
 ) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
@@ -19,6 +20,7 @@ export const apiService = async (
       "Content-Type": "application/json",
       ...options?.headers,
     },
+    body: body? JSON.stringify(body): undefined,
   });
 
   if (!res.ok) {
