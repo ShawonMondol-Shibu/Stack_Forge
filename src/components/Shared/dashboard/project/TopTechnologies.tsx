@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -6,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Progress, ProgressValue } from "@/components/ui/progress";
+import { Select, SelectTrigger } from "@/components/ui/select";
 import React from "react";
 import { BsTypescript } from "react-icons/bs";
 
@@ -16,9 +15,9 @@ export default function TopTechnologies() {
       <CardHeader>
         <CardTitle>Top Technologies</CardTitle>
         <CardAction>
-          <Button variant={"ghost"} size={"sm"}>
-            This year
-          </Button>
+          <Select>
+            <SelectTrigger>This year</SelectTrigger>
+          </Select>
         </CardAction>
       </CardHeader>
       <CardContent className="space-y-4">

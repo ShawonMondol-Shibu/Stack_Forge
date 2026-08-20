@@ -22,12 +22,12 @@ import {
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GitHubIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -127,7 +127,7 @@ export function NavbarRight() {
               <DropdownMenuItem>Shawon Mondol Shibu</DropdownMenuItem>
             </motion.div>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem variant="destructive">Logout</DropdownMenuItem>
+              <DropdownMenuItem variant="destructive" >Logout</DropdownMenuItem>
             </motion.div>
           </DropdownMenuContent>
         </DropdownMenu>

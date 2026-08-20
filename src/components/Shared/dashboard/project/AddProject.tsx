@@ -23,10 +23,12 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/toast";
 import { apiService } from "@/lib/api-routes/apis";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -55,13 +57,28 @@ const frameworks = [
 
 export default function AddProject() {
   const anchor = useComboboxAnchor();
+  const router = useRouter();
+
   const { mutate } = useMutation({
     mutationKey: ["create-project"],
     mutationFn: (data: z.infer<typeof formSchema>) =>
       apiService("/projects", "POST", data),
     onError:(err)=>{
       console.log(err.message)
-    }
+    },
+    onSuccess:()=>{
+      const id = toast.add({
+        type: "success",
+        title: "Project created successfully",
+        actionProps: {
+          onClick(){
+            toast.close(id)
+          }
+        }
+      })
+      
+      router.push('')
+    },
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -78,6 +95,7 @@ export default function AddProject() {
     mutate(data);
     console.log(data)
   };
+  
 
   return (
     <Dialog>

@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,8 +7,12 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "@/components/ui/toast";
+import { apiService } from "@/lib/api-routes/apis";
 import { ProjectType } from "@/lib/types/project-type";
-import { Eye, Star } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { Edit, Eye, Menu, Star } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { GoRepoForked } from "react-icons/go";
@@ -17,6 +22,19 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
   const arr = JSON.stringify(techStack).replace("{", "[").replace("}", "]");
   const stacks = JSON.parse(JSON.parse(arr));
   console.log(arr[2]);
+
+  const mutation = useMutation({
+    mutationFn: (id:string)=> apiService(`/projects/${id}`, "DELETE"),
+    onSuccess:(data: {message: string})=>{
+      toast.add({
+        title: data.message,
+      })
+    }
+  })
+
+  const handleDelete = (id:string)=>{
+    mutation.mutate(id)
+  }
   return (
     <Card className={"w-full pt-0"}>
       <div>
@@ -27,6 +45,14 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
           height={200}
           className={"w-full object-cover"}
         />
+        <Popover>
+          <PopoverTrigger render={<Button size={"icon-sm"}/>} className={"absolute top-4 right-4"}> <Menu/> </PopoverTrigger>
+          <PopoverContent align="end" className={'p-2 w-fit gap-2'}>
+
+              <Button variant={"outline"} size={"sm"}> <Edit/> edit</Button>
+              <Button variant={"destructive"} size={"sm"} onClick={()=>handleDelete(project.id)}>delelet</Button>
+          </PopoverContent>
+        </Popover>
       </div>
       <CardContent>
         <CardTitle>{project.name}</CardTitle>

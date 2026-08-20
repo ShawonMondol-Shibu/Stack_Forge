@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function RecentProjects() {
   return (
-    <Card size={"sm"} className={"w-xs gap-1"}>
+    <Card size={"sm"} className={"w-full gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Recent Projects</CardTitle>
         <CardAction>

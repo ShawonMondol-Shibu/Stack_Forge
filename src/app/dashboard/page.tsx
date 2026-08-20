@@ -15,9 +15,9 @@ import React from "react";
 
 export default function Page() {
   return (
-    <main className="space-y-6 ">
-      <div className={"flex items-start gap-6 justify-center"}>
-        <div className="space-y-4">
+    <main className="space-y-6 w-full container mx-auto ">
+      <div className={"grid grid-cols-10 items-start gap-6"}>
+        <div className="col-span-8 space-y-4">
           <Greetings />
           <QuickActions />
           <Overview />
@@ -26,7 +26,7 @@ export default function Page() {
             <TodaysTask />
           </div>
 
-          <div className="flex flex-wrap items-start justify-start gap-4">
+          <div className="grid grid-cols-4 items-start justify-start gap-4">
             <RecentNotes />
             <RecentProjects />
             <ContinueWorking />
@@ -35,7 +35,7 @@ export default function Page() {
           
         </div>
 
-        <aside className={"grid gap-4"}>
+        <aside className={"col-span-2 grid gap-4 lg:sticky lg:top-6"}>
           <PortfolioCard />
           <WeeklyProductivity />
           <NextUp />

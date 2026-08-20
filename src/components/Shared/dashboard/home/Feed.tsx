@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Feed() {
   return (
-    <Card size={"sm"} className={"w-xs"}>
+    <Card size={"sm"} className={"w-full"}>
         <CardHeader>
             <CardTitle className={"text-xl"}>
                 Feed
