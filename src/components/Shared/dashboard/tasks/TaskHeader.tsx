@@ -1,15 +1,15 @@
-'use client'
+"use client";
 /* eslint-disable react/no-unescaped-entities */
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  FolderOpen,
-  LayoutGrid,
-  List,
-} from "lucide-react";
 import React from "react";
 import AddTasks from "./AddTasks";
+import {
+  FolderOpenIcon,
+  LayoutGridIcon,
+  ListIcon,
+} from "@animateicons/react/lucide";
 
 export default function TaskHeader() {
   const triggersData = [
@@ -21,8 +21,8 @@ export default function TaskHeader() {
     <header className="space-y-4 w-full border-b">
       <div className="flex items-center justify-between">
         <div className={"flex items-center gap-2 text-3xl font-bold"}>
-          <span className={"p-2 bg-primary/20 rounded-md text-primary"}>
-            <FolderOpen size={30} />
+          <span className={"px-2 pt-2 bg-primary/20 rounded-md text-primary"}>
+            <FolderOpenIcon size={30} />
           </span>
           <h1>Tasks</h1>
         </div>
@@ -30,19 +30,19 @@ export default function TaskHeader() {
         <div className="flex items-center gap-6">
           <ButtonGroup>
             <Button variant={"default"} size={"icon-sm"}>
-              <LayoutGrid />{" "}
+              <LayoutGridIcon />{" "}
             </Button>
             <Button variant={"outline"} size={"icon-sm"}>
-              <List />{" "}
+              <ListIcon />{" "}
             </Button>
           </ButtonGroup>
-<AddTasks/>
+          <AddTasks />
         </div>
       </div>
 
       <div>
         <p className="text-base text-muted-foreground">
-         Organize your work and get things done.
+          Organize your work and get things done.
         </p>
       </div>
 
@@ -57,8 +57,6 @@ export default function TaskHeader() {
           </TabsTrigger>
         ))}
       </TabsList>
-
-
     </header>
   );
 }

@@ -27,9 +27,9 @@ import { toast } from "@/components/ui/toast";
 import { useProjectContext } from "@/context/ProjectContext";
 import { apiService } from "@/lib/api-routes/apis";
 import { ProjectType } from "@/lib/types/project-type";
+import { PlusIcon } from "@animateicons/react/lucide";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -119,7 +119,7 @@ export default function AddProject() {
       <DialogTrigger
         render={
           <Button size={"sm"}>
-            <Plus /> New Project{" "}
+            <PlusIcon /> New Project{" "}
           </Button>
         }
       />
@@ -129,7 +129,7 @@ export default function AddProject() {
             <span
               className={"p-4 bg-primary/10 text-primary w-fit rounded-2xl"}
             >
-              <Plus size={30} />
+              <PlusIcon size={30} />
             </span>
             <div>
               <DialogTitle>New Project</DialogTitle>

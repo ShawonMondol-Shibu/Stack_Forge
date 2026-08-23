@@ -1,4 +1,3 @@
-import ProjectFilter from "@/components/Shared/dashboard/project/ProjectFilter";
 import ProjectHeader from "@/components/Shared/dashboard/project/ProjectHeader";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import React from "react";
@@ -15,6 +14,18 @@ import {
 import ProjectOverview from "@/components/Shared/dashboard/project/ProjectOverview";
 import TopTechnologies from "@/components/Shared/dashboard/project/TopTechnologies";
 import NewProject from "@/components/Shared/dashboard/project/NewProject";
+import CommonFilter from "@/components/Shared/dashboard/CommonFilter";
+
+ const items = [
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
+    { label: "System", value: "system" },
+  ];
+  const techStack = [
+    { label: "Next.JS", value: "next.js" },
+    { label: "Nest.JS", value: "nest.js" },
+    { label: "PostgreSQL", value: "postgresql" },
+  ];
 
 export default function Page() {
   const contentsData = [
@@ -32,7 +43,7 @@ export default function Page() {
     >
       <Tabs className={"lg:col-span-5 gap-6"}>
         <ProjectHeader />
-        <ProjectFilter />
+        <CommonFilter searchPlaceholder="Search projects..." selectPlaceholder="Tech Stack" selectPlaceholder_2="Status" sortPlaceholder="Sort: Recently Updated" selectItems={techStack} selectItems2={items} sortitems={items} />
         {contentsData.map((content, i) => (
           <TabsContent key={i} value={content.value}>
             {" "}

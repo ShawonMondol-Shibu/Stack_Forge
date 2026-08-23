@@ -14,20 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, Search } from "lucide-react";
-import React, { useRef } from "react";
+import { Search } from "lucide-react";
+import { Filter } from "@animateicons/react/lucide"
+import React from "react";
+import { CommonFilterType, SelectItemsType } from "@/lib/types/CommonFilterType";
 
-export default function ProjectFilter() {
-  const items = [
-    { label: "Light", value: "light" },
-    { label: "Dark", value: "dark" },
-    { label: "System", value: "system" },
-  ];
-  const techStack = [
-    { label: "Next.JS", value: "next.js" },
-    { label: "Nest.JS", value: "nest.js" },
-    { label: "PostgreSQL", value: "postgresql" },
-  ];
+export default function CommonFilter({searchPlaceholder,selectPlaceholder,selectPlaceholder_2,sortPlaceholder, selectItems, selectItems2, sortitems }:CommonFilterType) {
+ 
 
   const handleSelect = () => {
     return null;
@@ -45,20 +38,20 @@ export default function ProjectFilter() {
               <Search />
             </InputGroupButton>
           </InputGroupAddon>
-          <InputGroupInput type="search" placeholder="Search projects..." />
+          <InputGroupInput type={"search"} placeholder={searchPlaceholder} />
         </InputGroup>
       </search>
 
       {/* Filter by Tech Stack */}
       <Select>
         <SelectTrigger className="">
-          <SelectValue placeholder="Tech Stack" />
+          <SelectValue placeholder={selectPlaceholder} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {techStack.map((stack) => (
-              <SelectItem key={stack.value} value={stack.value}>
-                {stack.label}
+            {selectItems?.map((stack:SelectItemsType) => (
+              <SelectItem key={stack?.value} value={stack?.value}>
+                {stack?.label}
               </SelectItem>
             ))}
           </SelectGroup>
@@ -68,17 +61,17 @@ export default function ProjectFilter() {
       {/* Filter by Status */}
       <Select >
         <SelectTrigger className="">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder={selectPlaceholder_2} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {items.map((item) => (
+            {selectItems2?.map((item: {value:string, label:string}) => (
               <SelectItem
-                key={item.value}
-                value={item.value}
+                key={item?.value}
+                value={item?.value}
                 onClick={handleSelect}
               >
-                {item.label}
+                {item?.label}
               </SelectItem>
             ))}
           </SelectGroup>
@@ -88,20 +81,20 @@ export default function ProjectFilter() {
       {/* Sort by Recent Updates */}
       <Select>
         <SelectTrigger>
-          <SelectValue placeholder="Sort: Recently Updated" />
+          <SelectValue placeholder={sortPlaceholder} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {items.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
+            {sortitems?.map((item:SelectItemsType) => (
+              <SelectItem key={item?.value} value={item?.value}>
+                {item?.label}
               </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
       </Select>
 
-      <Button variant={"default"} size={"icon-sm"} onClick={handleFilter}>
+      <Button variant={"default"} size={"icon"} onClick={handleFilter}>
         <Filter />
       </Button>
     </div>

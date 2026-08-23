@@ -16,7 +16,8 @@ import { toast } from "@/components/ui/toast";
 import { apiService } from "@/lib/api-routes/apis";
 import { ProjectType } from "@/lib/types/project-type";
 import { useMutation } from "@tanstack/react-query";
-import { Edit, Eye, Menu, Star } from "lucide-react";
+import { Edit, Eye, Star } from "lucide-react";
+import { MenuIcon, Trash } from "@animateicons/react/lucide";
 import Image from "next/image";
 import React from "react";
 import { GoRepoForked } from "react-icons/go";
@@ -28,7 +29,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
   console.log(arr[2]);
 
   const mutation = useMutation({
-    mutationFn: (id: string) => apiService(`/projects/${id}`),
+    mutationFn: (id:string) => apiService({endpoint:`/projects/${id}`, method: "DELETE"}),
     onSuccess: (data: { message: string }) => {
       toast.add({
         title: data.message,
@@ -55,7 +56,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
             className={"absolute top-4 right-4"}
           >
             {" "}
-            <Menu />{" "}
+            <MenuIcon />{" "}
           </PopoverTrigger>
           <PopoverContent align="end" className={"p-2 w-fit gap-2"}>
             <Button variant={"outline"} size={"sm"}>
@@ -67,6 +68,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
               size={"sm"}
               onClick={() => handleDelete(project.id)}
             >
+              <Trash/>
               delelet
             </Button>
           </PopoverContent>

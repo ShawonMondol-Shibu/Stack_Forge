@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus } from 'lucide-react';
+import { PlusIcon } from '@animateicons/react/lucide';
 import React from 'react'
 
 export default function AddTasks() {
@@ -9,7 +9,7 @@ export default function AddTasks() {
       <DialogTrigger
         render={
           <Button size={"sm"}>
-            <Plus /> New Task{" "}
+            <PlusIcon /> New Task{" "}
           </Button>
         }
       />
@@ -19,7 +19,7 @@ export default function AddTasks() {
             <span
               className={"p-4 bg-primary/10 text-primary w-fit rounded-2xl"}
             >
-              <Plus size={30} />
+              <PlusIcon size={30} />
             </span>
             <div>
               <DialogTitle>New Project</DialogTitle>
