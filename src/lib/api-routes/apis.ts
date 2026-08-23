@@ -1,14 +1,25 @@
-export const apiUrl = (
-  process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:6969"
-).replace(/\/+$/, "");
+export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:5000";
 
-export const apiService = async (
-  endpoint = "",
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "GET",
-  body?: unknown,
-  options?: RequestInit,
-) => {
-  const cleanEndpoint = endpoint.replace(/^\/+/, "");
+if (!apiUrl) {
+  throw new Error("NEXT_PUBLIC_BACKEND_API_URL is not defined");
+}
+
+export type ApiMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+type ApiRequestOptions = {
+  endpoint: string;
+  method?: ApiMethod;
+  body?: unknown;
+  options?: RequestInit;
+};
+
+export const apiService = async <T>({
+  endpoint,
+  method = "GET",
+  body,
+  options,
+}: ApiRequestOptions): Promise<T> => {
+  const cleanEndpoint = endpoint.replace(/^\/+|\/+$/g, "");
 
   const url = cleanEndpoint ? `${apiUrl}/${cleanEndpoint}` : apiUrl;
 
@@ -16,34 +27,36 @@ export const apiService = async (
     ...options,
     method,
     credentials: "include",
+
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
     },
-    body: body? JSON.stringify(body): undefined,
+
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   if (!res.ok) {
-    let message = `API error: ${res.status} ${res.statusText}`;
+    let message = `API error: ${res.status}`;
 
     try {
-      const data = await res.json();
+      const errorData = await res.json();
 
-      if (data?.message) {
-        message = Array.isArray(data.message)
-          ? data.message.join(", ")
-          : data.message;
+      if (errorData?.message) {
+        message = Array.isArray(errorData.message)
+          ? errorData.message.join(", ")
+          : errorData.message;
       }
     } catch {
-      // Response wasn't JSON
+      // Non-JSON response
     }
 
     throw new Error(message);
   }
 
   if (res.status === 204) {
-    return null;
+    return null as T;
   }
 
-  return res.json();
+  return res.json() as Promise<T>;
 };

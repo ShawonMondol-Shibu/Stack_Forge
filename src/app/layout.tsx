@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
-
+import ProjectContextProvider from "@/context/ProjectContext";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -44,15 +44,14 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <TanStackProvider>
-           <ThemeProvider
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-
-          <Toaster />
-          {children}
+            <Toaster />
+            <ProjectContextProvider>{children}</ProjectContextProvider>
           </ThemeProvider>
         </TanStackProvider>
       </body>

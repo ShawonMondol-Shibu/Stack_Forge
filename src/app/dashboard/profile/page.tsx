@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <main
       className={
-        "w-full max-w-7xl mx-auto space-y-4 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start justify-between"
+        "w-full container mx-auto space-y-4 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start justify-between"
       }
     >
       <Tabs className={"gap-4 lg:col-span-4 mx-auto w-full"}>

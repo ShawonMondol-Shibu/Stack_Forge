@@ -23,7 +23,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
@@ -97,6 +97,7 @@ export function NavbarLeft() {
 
 
 export function NavbarRight() {
+  const router = useRouter();
   return (
     <motion.div
         initial={{ scale: 0 }}
@@ -127,7 +128,10 @@ export function NavbarRight() {
               <DropdownMenuItem>Shawon Mondol Shibu</DropdownMenuItem>
             </motion.div>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem variant="destructive" >Logout</DropdownMenuItem>
+              <DropdownMenuItem variant="destructive" onClick={()=>{
+                authClient.signOut()
+                router.push('/')
+              }}>Logout</DropdownMenuItem>
             </motion.div>
           </DropdownMenuContent>
         </DropdownMenu>

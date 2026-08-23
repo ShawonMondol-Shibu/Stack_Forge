@@ -24,12 +24,14 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
+import { useProjectContext } from "@/context/ProjectContext";
 import { apiService } from "@/lib/api-routes/apis";
+import { ProjectType } from "@/lib/types/project-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -52,32 +54,37 @@ const frameworks = [
   "Node.js",
   "Better-Auth",
   "Drizzle",
-  "Supabase"
+  "Supabase",
 ] as const;
 
 export default function AddProject() {
   const anchor = useComboboxAnchor();
   const router = useRouter();
+  const { setProjects } = useProjectContext();
 
-  const { mutate } = useMutation({
+  const { mutate, data } = useMutation({
     mutationKey: ["create-project"],
     mutationFn: (data: z.infer<typeof formSchema>) =>
-      apiService("/projects", "POST", data),
-    onError:(err)=>{
-      console.log(err.message)
+      apiService({
+        endpoint: "/projects",
+        method: "POST",
+        body: data,
+      }),
+    onError: (err) => {
+      console.log(err.message);
     },
-    onSuccess:()=>{
+    onSuccess: () => {
       const id = toast.add({
         type: "success",
         title: "Project created successfully",
         actionProps: {
-          onClick(){
-            toast.close(id)
-          }
-        }
-      })
-      
-      router.push('')
+          onClick() {
+            toast.close(id);
+          },
+        },
+      });
+
+      router.push("/projects");
     },
   });
 
@@ -91,11 +98,21 @@ export default function AddProject() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    mutate(data);
-    console.log(data)
-  };
+
+  useEffect(() => {
+    if(data){setProjects(data)}
+  }, [data, setProjects])
   
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setProjects((prev)=> [...prev, { ...data, id: crypto.randomUUID(), userId: 'temp'}])
+
+    mutate(data);
+
+    console.log(data);
+  };
+
+
 
   return (
     <Dialog>
@@ -191,9 +208,7 @@ export default function AddProject() {
                         {(values: string[]) => (
                           <React.Fragment>
                             {values.map((value: string) => (
-                              <ComboboxChip key={value}>
-                                {value}
-                              </ComboboxChip>
+                              <ComboboxChip key={value}>{value}</ComboboxChip>
                             ))}
                             <ComboboxChipsInput
                               id={field.name}

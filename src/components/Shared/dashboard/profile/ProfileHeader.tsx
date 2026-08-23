@@ -19,6 +19,7 @@ import {
 import { Item, ItemContent } from "@/components/ui/item";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiService } from "@/lib/api-routes/apis";
+import { UserProfile } from "@/lib/types/profile-type";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil, Share } from "lucide-react";
 import Image from "next/image";
@@ -45,15 +46,15 @@ const tabsList = [
 
 export default function ProfileHeader() {
   const {
-    data:profile,
+    data: profile,
     isLoading,
     isError,
     error,
-  } = useQuery({
+  } = useQuery<UserProfile>({
     queryKey: ["my-profile"],
-    queryFn: async () => apiService("/profile"),
+    queryFn: async () => apiService({ endpoint: "/profile" }),
+    select: (data) => data.data,
   });
-
 
   if (isLoading) {
     return <div>Loading profile...</div>;
@@ -62,13 +63,13 @@ export default function ProfileHeader() {
   if (isError) {
     return <div>{error.message}</div>;
   }
-  console.log(profile)
+  console.log(profile);
 
   return (
     <Card size={"sm"} className={"w-full min-h-80 pt-0"}>
       <div className={"relative"}>
         <Image
-          src={"/brain.jpg"}
+          src={profile?.coverUrl||"/brain.jpg"}
           alt={"profile_cover-image"}
           width={800}
           height={600}
@@ -76,14 +77,14 @@ export default function ProfileHeader() {
         />
         <div className={"absolute -bottom-14 left-5"}>
           <Avatar className={"size-30"}>
-            <AvatarImage src={""} />
-            <AvatarFallback>{'profile picture'}</AvatarFallback>
+            <AvatarImage src={profile?.avatarUrl||""} />
+            <AvatarFallback>{"profile picture"}</AvatarFallback>
             <AvatarBadge className="bottom-3 right-4" />
           </Avatar>
         </div>
       </div>
       <CardHeader className="ml-36">
-        <CardTitle>{'Full name'}</CardTitle>
+        <CardTitle>{profile?.fullName||"Full name"}</CardTitle>
         <CardAction>
           <ButtonGroup>
             <Button variant={"outline"} size={"sm"}>
@@ -102,9 +103,7 @@ export default function ProfileHeader() {
             <address>Dhaka, Bangladesh</address>
             <Link href={"#"}>shawonmondolshibu.vercel.app</Link>
           </div>
-          <CardDescription>
-            {/* {profile.data} */}
-          </CardDescription>
+          <CardDescription>{/* {profile.data} */}</CardDescription>
         </div>
 
         <Item

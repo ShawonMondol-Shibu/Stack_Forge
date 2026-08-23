@@ -9,17 +9,13 @@ import {
   List,
 } from "lucide-react";
 import React from "react";
-import AddProject from "./AddProject";
-import { useProjectContext } from "@/context/ProjectContext";
+import AddTasks from "./AddTasks";
 
-export default function ProjectHeader() {
-  const {projects} = useProjectContext()
+export default function TaskHeader() {
   const triggersData = [
-    { label: "All Projects", value: "allProjects" },
-    { label: "Personal", value: "personal" },
-    { label: "Collaborative", value: "collaborative" },
-    { label: "Open Sourse", value: "openSourse" },
-    { label: "Archived", value: "archived" },
+    { label: "My Tasks", value: "mytasks" },
+    { label: "Completed", value: "completed" },
+    { label: "Over Due", value: "overdue" },
   ];
   return (
     <header className="space-y-4 w-full border-b">
@@ -28,7 +24,7 @@ export default function ProjectHeader() {
           <span className={"p-2 bg-primary/20 rounded-md text-primary"}>
             <FolderOpen size={30} />
           </span>
-          <h1>Projects</h1>
+          <h1>Tasks</h1>
         </div>
 
         <div className="flex items-center gap-6">
@@ -40,16 +36,13 @@ export default function ProjectHeader() {
               <List />{" "}
             </Button>
           </ButtonGroup>
-
-          <AddProject/>
+<AddTasks/>
         </div>
       </div>
 
       <div>
-        <h3 className="text-base font-bold">Build. Ship. Improve. Repeat.</h3>
         <p className="text-base text-muted-foreground">
-          All the project you've built, collaborated on, or contributed to.{" "}
-          <br /> Track progress, manage deployments, and showcase your work{" "}
+         Organize your work and get things done.
         </p>
       </div>
 
@@ -59,11 +52,13 @@ export default function ProjectHeader() {
             {trigger.label}
             <Button variant={"outline"} size={"icon-xs"}>
               {" "}
-              <small>{projects.length}</small>
+              <small>{0}</small>
             </Button>
           </TabsTrigger>
         ))}
       </TabsList>
+
+
     </header>
   );
 }

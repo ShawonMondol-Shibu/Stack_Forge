@@ -7,7 +7,11 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { toast } from "@/components/ui/toast";
 import { apiService } from "@/lib/api-routes/apis";
 import { ProjectType } from "@/lib/types/project-type";
@@ -24,17 +28,17 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
   console.log(arr[2]);
 
   const mutation = useMutation({
-    mutationFn: (id:string)=> apiService(`/projects/${id}`, "DELETE"),
-    onSuccess:(data: {message: string})=>{
+    mutationFn: (id: string) => apiService(`/projects/${id}`),
+    onSuccess: (data: { message: string }) => {
       toast.add({
         title: data.message,
-      })
-    }
-  })
+      });
+    },
+  });
 
-  const handleDelete = (id:string)=>{
-    mutation.mutate(id)
-  }
+  const handleDelete = (id: string) => {
+    mutation.mutate(id);
+  };
   return (
     <Card className={"w-full pt-0"}>
       <div>
@@ -46,11 +50,25 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
           className={"w-full object-cover"}
         />
         <Popover>
-          <PopoverTrigger render={<Button size={"icon-sm"}/>} className={"absolute top-4 right-4"}> <Menu/> </PopoverTrigger>
-          <PopoverContent align="end" className={'p-2 w-fit gap-2'}>
-
-              <Button variant={"outline"} size={"sm"}> <Edit/> edit</Button>
-              <Button variant={"destructive"} size={"sm"} onClick={()=>handleDelete(project.id)}>delelet</Button>
+          <PopoverTrigger
+            render={<Button size={"icon-sm"} />}
+            className={"absolute top-4 right-4"}
+          >
+            {" "}
+            <Menu />{" "}
+          </PopoverTrigger>
+          <PopoverContent align="end" className={"p-2 w-fit gap-2"}>
+            <Button variant={"outline"} size={"sm"}>
+              {" "}
+              <Edit /> edit
+            </Button>
+            <Button
+              variant={"destructive"}
+              size={"sm"}
+              onClick={() => handleDelete(project.id)}
+            >
+              delelet
+            </Button>
           </PopoverContent>
         </Popover>
       </div>
