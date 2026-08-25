@@ -22,6 +22,10 @@ import Image from "next/image";
 import React from "react";
 import { GoRepoForked } from "react-icons/go";
 
+type DeleteResponse = {
+  message: string;
+}
+
 export default function ProjectCard({ project }: { project: ProjectType }) {
   const { techStack } = project;
   const arr = JSON.stringify(techStack).replace("{", "[").replace("}", "]");
@@ -29,10 +33,11 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
   console.log(arr[2]);
 
   const mutation = useMutation({
-    mutationFn: (id:string) => apiService({endpoint:`/projects/${id}`, method: "DELETE"}),
-    onSuccess: (data: { message: string }) => {
+    mutationFn: (id: string) =>
+      apiService<DeleteResponse>({ endpoint: `/projects/${id}`, method: "DELETE" }),
+    onSuccess: (data) => {
       toast.add({
-        title: data.message,
+        title: data?.message,
       });
     },
   });
@@ -68,7 +73,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
               size={"sm"}
               onClick={() => handleDelete(project.id)}
             >
-              <Trash/>
+              <Trash />
               delelet
             </Button>
           </PopoverContent>

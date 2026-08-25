@@ -62,7 +62,7 @@ export default function AddProject() {
   const router = useRouter();
   const { setProjects } = useProjectContext();
 
-  const { mutate, data } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["create-project"],
     mutationFn: (data: z.infer<typeof formSchema>) =>
       apiService({
@@ -99,9 +99,9 @@ export default function AddProject() {
   });
 
 
-  useEffect(() => {
-    if(data){setProjects(data)}
-  }, [data, setProjects])
+  // useEffect(() => {
+  //   if(data){setProjects(data)}
+  // }, [data, setProjects])
   
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
