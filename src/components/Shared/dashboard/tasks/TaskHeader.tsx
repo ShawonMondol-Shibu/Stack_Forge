@@ -10,12 +10,14 @@ import {
   LayoutGridIcon,
   ListIcon,
 } from "@animateicons/react/lucide";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function TaskHeader() {
+  const { tasks, completedTasks } = useTaskContext();
   const triggersData = [
-    { label: "My Tasks", value: "mytasks" },
-    { label: "Completed", value: "completed" },
-    { label: "Over Due", value: "overdue" },
+    { label: "My Tasks", value: "mytasks", count: tasks.length },
+    { label: "Completed", value: "completed", count: completedTasks.length },
+    { label: "Over Due", value: "overdue", count: 0 },
   ];
   return (
     <header className="space-y-4 w-full border-b">
@@ -52,7 +54,7 @@ export default function TaskHeader() {
             {trigger.label}
             <Button variant={"outline"} size={"icon-xs"}>
               {" "}
-              <small>{0}</small>
+              <small>{trigger?.count}</small>
             </Button>
           </TabsTrigger>
         ))}

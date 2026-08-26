@@ -24,14 +24,17 @@ import { useMutation } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-routes/apis";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function TaskCard({ data }: { data: taskType }) {
   const { title, priority, status, id, createdAt } = data;
+  const { handleDelete } = useTaskContext();
   const { mutate } = useMutation({
     mutationKey: ["delete-task"],
-    mutationFn: (id: string) =>
+    mutationFn: async (id: string) =>
       apiService({ endpoint: `/tasks/${id}`, method: "DELETE" }),
     onSuccess: () => {
+      handleDelete(id);
       toast.add({
         type: "success",
         title: "Task deleted successfully.",
@@ -73,7 +76,7 @@ export default function TaskCard({ data }: { data: taskType }) {
             {priority}
           </Badge>
           <Badge variant={"outline"}>{status}</Badge>
-          <span>
+          <span className="flex items-center gap-2">
             <Calendar size={14} /> {date}
           </span>
 

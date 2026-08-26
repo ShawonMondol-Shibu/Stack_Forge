@@ -5,12 +5,13 @@ import { useTaskContext } from '@/context/TaskContext';
 import React from 'react'
 
 export default function Completed() {
-  const {tasks} = useTaskContext()
+  const {completedTasks} = useTaskContext()
+  
   return (
     // Completed Tasks...
     <section>
       <ItemGroup>
-        {tasks.map((data, i) => (
+        {completedTasks?.map((data, i) => (
           <TaskCard data={data} key={i} />
         ))}
       </ItemGroup>

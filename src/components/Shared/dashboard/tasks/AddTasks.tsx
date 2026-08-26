@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusIcon } from "@animateicons/react/lucide";
+import { LoaderIcon, PlusIcon } from "@animateicons/react/lucide";
 import { z } from "zod";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -28,6 +28,9 @@ import {
 } from "@/components/ui/select";
 import { toast, Toaster } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useTaskContext } from "@/context/TaskContext";
+import { taskType } from "@/lib/types/task-type";
 
 const priorityEnum = ["high", "medium", "low"];
 const statusEnum = ["todo", "in_progress", "done"];
@@ -44,19 +47,38 @@ const taskSchema = z.object({
 
 type formType = z.infer<typeof taskSchema>;
 
-export default function AddTasks() {
-  const router = useRouter();
+type AddTaskResponse = {
+  message: string;
+  data: taskType;
+};
 
-  const { mutate } = useMutation({
+interface PageType {
+  className?: string;
+  variant?: "default" | "outline" | "secondary" | "ghost" | "link";
+  size?: "default" | "sm" | "lg" | "xs";
+}
+
+export default function AddTasks({
+  className,
+  variant = "default",
+  size = "default",
+}: PageType) {
+  const { setTasks } = useTaskContext();
+
+  const { mutate, isPending } = useMutation({
     mutationKey: ["add-task"],
     mutationFn: (data: formType) =>
-      apiService({ endpoint: "/tasks", method: "POST", body: data }),
-    onSuccess: () => {
+      apiService<AddTaskResponse>({
+        endpoint: "/tasks",
+        method: "POST",
+        body: data,
+      }),
+    onSuccess: (data) => {
+      setTasks((prev) => [...prev, data?.data]);
       toast.add({
         type: "success",
-        title: "Task added successfully.",
+        title: `${data?.message}`,
       });
-      router.refresh();
     },
     onError: (err) => {
       toast.add({
@@ -88,7 +110,7 @@ export default function AddTasks() {
     <Dialog>
       <DialogTrigger
         render={
-          <Button size={"sm"}>
+          <Button variant={variant} size={size} className={cn(className)}>
             <PlusIcon /> New Task{" "}
           </Button>
         }
@@ -201,7 +223,9 @@ export default function AddTasks() {
               <DialogClose>
                 <Button variant={"outline"}>Cancel</Button>{" "}
               </DialogClose>
-              <Button type={"submit"}>Add Task</Button>
+              <Button type={"submit"} size={isPending ? "icon-sm": "default"} disabled={isPending}>
+                {isPending ? <LoaderIcon /> : "Add Task"}
+              </Button>
             </div>
           </div>
           <Toaster />

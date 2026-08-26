@@ -1,4 +1,6 @@
+'use client'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTaskContext } from "@/context/TaskContext";
 import {
   CircleCheckIcon,
   ClockIcon,
@@ -7,14 +9,15 @@ import {
 } from "@animateicons/react/lucide";
 import React from "react";
 
-const summaryData = [
-  { icon: ShoppingBagIcon, title: "Total Tasks", value: 24 },
-  { icon: CircleCheckIcon, title: "Completed", value: 16 },
-  { icon: ClockIcon, title: "Overdue", value: 3 },
-  { icon: CalendarIcon, title: "This Week", value: 5 },
-];
 
 export default function TaskSummary() {
+  const {tasks, completedTasks, inProgressTasks}= useTaskContext()
+  const summaryData = [
+    { icon: ShoppingBagIcon, title: "Total Tasks", value: tasks.length },
+    { icon: CircleCheckIcon, title: "Completed", value: completedTasks.length },
+    { icon: ClockIcon, title: "Overdue", value: inProgressTasks.length },
+    { icon: CalendarIcon, title: "This Week", value: tasks.length },
+  ];
   return (
     <Card>
       <CardHeader>

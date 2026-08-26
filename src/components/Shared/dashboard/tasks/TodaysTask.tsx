@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+'use client'
 import {
   Card,
   CardAction,
@@ -10,22 +10,23 @@ import React from "react";
 import Todo from "./Todo";
 import InProgress from "./InProgress";
 import Done from "./Done";
+import AddTasks from "./AddTasks";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function TodaysTask() {
+  const {todoTasks, inProgressTasks, completedTasks} = useTaskContext()
   return (
     <Card size={"sm"} className={"w-full gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Today&apos;s Tasks</CardTitle>
         <CardAction>
-          <Button variant={"ghost"} size={"xs"} className={"text-primary"}>
-            + Add Task
-          </Button>
+          <AddTasks variant={"ghost"} size={'xs'}/>
         </CardAction>
       </CardHeader>
       <CardContent className={"grid grid-cols-3 "}>
-        <Todo />
-        <InProgress />
-        <Done />
+        <Todo data={todoTasks}/>
+        <InProgress data={inProgressTasks} />
+        <Done data={completedTasks} />
       </CardContent>
     </Card>
   );
