@@ -70,7 +70,7 @@ export function NavbarLeft() {
                 <DropdownMenuItem
                   className={cn(
                     pathName == nav.url &&
-                      "bg-primary text-accent shadow-primary/50 shadow-xl",
+                      "bg-primary text-accent shadow-primary/50 shadow-lg",
                     "group hover:bg-primary! hover:text-accent!",
                   )}
                   render={<Link href={nav.url} />}
@@ -130,7 +130,7 @@ export function NavbarRight() {
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
               <DropdownMenuItem variant="destructive" onClick={()=>{
                 authClient.signOut()
-                router.push('/')
+                router.push('/login')
               }}>Logout</DropdownMenuItem>
             </motion.div>
           </DropdownMenuContent>

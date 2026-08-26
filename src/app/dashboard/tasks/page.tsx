@@ -6,17 +6,18 @@ import React from "react";
 import MyTasks from "./MyTasks";
 import Completed from "./Completed";
 import Overdue from "./Overdue";
+import StayProductive from "@/components/Shared/dashboard/tasks/StayProductive";
 
 const techStack = [
-  { label: "Next.JS", value: "next.js" },
-  { label: "Nest.JS", value: "nest.js" },
-  { label: "PostgreSQL", value: "postgresql" },
+  { label: "High", value: "high" },
+  { label: "Medium", value: "medium" },
+  { label: "Low", value: "low" },
 ];
 
 const tabsContent = [
-  { page: MyTasks, label: "My Tasks" },
-  { page: Completed, label: "Completed" },
-  { page: Overdue, label: "Overdue" },
+  { page: MyTasks, label: "mytasks" },
+  { page: Completed, label: "completed" },
+  { page: Overdue, label: "overdue" },
 ];
 
 export default function Page() {
@@ -26,25 +27,24 @@ export default function Page() {
         <TaskHeader />
         <CommonFilter
           searchPlaceholder="Search Tasks"
-          selectPlaceholder="All Projects"
+          // selectPlaceholder="All Projects"
           selectPlaceholder_2="All Priorities"
           sortPlaceholder="Sort: Due Date"
-          selectItems={techStack}
+          // selectItems={techStack}
           selectItems2={techStack}
           sortitems={techStack}
         />
 
-        <div>
           {tabsContent.map((content, i) => (
             <TabsContent key={i} value={content.label}>
               {content?.page && <content.page />}
             </TabsContent>
           ))}
-        </div>
       </Tabs>
 
-      <div className="col-span-2">
+      <div className="lg:col-span-2 space-y-4">
         <TaskSummary />
+        <StayProductive/>
       </div>
     </main>
   );

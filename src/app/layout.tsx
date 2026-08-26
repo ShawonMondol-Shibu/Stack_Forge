@@ -6,6 +6,7 @@ import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
 import ProjectContextProvider from "@/context/ProjectContext";
+import TaskContextProvider from "@/context/TaskContext";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -51,7 +52,12 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <ProjectContextProvider>{children}</ProjectContextProvider>
+            <ProjectContextProvider>
+              <TaskContextProvider>
+
+              {children}
+              </TaskContextProvider>
+              </ProjectContextProvider>
           </ThemeProvider>
         </TanStackProvider>
       </body>
