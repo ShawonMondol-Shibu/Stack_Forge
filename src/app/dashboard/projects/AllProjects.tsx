@@ -27,7 +27,7 @@ export default function AllProjects() {
 
   if (isError) {
     return (
-      <div className="p-2 bg-background w-full h-50 rounded-2xl flex items-center justify-center">
+      <div className="p-2 bg-background w-full min-h-[50dvh] rounded-2xl flex items-center justify-center">
         <div className="flex flex-col items-center justify-center gap-4">
           <span className="text-xl capitalize text-destructive">
             {error.message}
@@ -41,7 +41,7 @@ export default function AllProjects() {
   console.log(data);
   return (
     <div
-      className={"w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"}
+      className={"w-full min-h-[50dvh] grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"}
     >
       {isPending && (
         <Suspense fallback={null}>

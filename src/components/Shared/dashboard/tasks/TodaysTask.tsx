@@ -16,7 +16,7 @@ import { useTaskContext } from "@/context/TaskContext";
 export default function TodaysTask() {
   const {todoTasks, inProgressTasks, completedTasks} = useTaskContext()
   return (
-    <Card size={"sm"} className={"w-full gap-1"}>
+    <Card size={"sm"} className={"w-full min-h-60 gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Today&apos;s Tasks</CardTitle>
         <CardAction>

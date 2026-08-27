@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   CheckCircle,
@@ -9,15 +10,19 @@ import {
 import { FaGithub } from "react-icons/fa6";
 import { ItemGroup } from "@/components/ui/item";
 import OverviewItem from "../home/OverviewItem";
+import { useProjectContext } from "@/context/ProjectContext";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function Overview() {
+  const {projects}= useProjectContext()
+  const {tasks, completedTasks} = useTaskContext()
   const overViewData = [
-    { name: "Projects", total: 24, icon: FolderOpen },
+    { name: "Projects", total: projects.length, icon: FolderOpen },
     { name: "Repositories", total: 18, icon: FaGithub },
-    { name: "Tasks", total: 36, icon: CheckCircle },
+    { name: "Tasks", total: tasks.length, icon: CheckCircle },
     { name: "Portfolio Views", total: 1200, icon: Eye },
     { name: "Followers", total: 128, icon: UsersRound },
-    { name: "Completed Tasks", total: 120, icon: SquareCheckBig },
+    { name: "Completed Tasks", total: completedTasks.length, icon: SquareCheckBig },
   ];
   return (
     <section className={"space-y-1"}>
