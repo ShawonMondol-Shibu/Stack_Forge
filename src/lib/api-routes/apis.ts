@@ -1,4 +1,4 @@
-export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:5000";
+export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_API_KEY ?? "http://localhost:5000";
 
 if (!apiUrl) {
   throw new Error("NEXT_PUBLIC_BACKEND_API_URL is not defined");
