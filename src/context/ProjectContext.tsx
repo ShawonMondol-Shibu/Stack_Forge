@@ -1,16 +1,27 @@
 "use client";
-import { ProjectType } from "@/lib/types/project-type";
-import React, { createContext, type Dispatch, type SetStateAction, useContext, useState } from "react";
+import { getAllProjects } from "@/hooks/queries/use-projects";
+import { apiService } from "@/lib/api-routes/apis";
+import { Project as ProjectType } from "@/lib/types/project-type";
+import { useQuery } from "@tanstack/react-query";
+import React, { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState } from "react";
 
-type ProjectContextValue = {
+type ProjectContextType = {
     projects: ProjectType[],
     setProjects: Dispatch<SetStateAction<ProjectType[]>>,
+    isError: boolean,
+    isPending: boolean,
+    error: Error | null
 }
+
+
 const defaultValue = {
     projects: [],
     setProjects: ()=> {},
+    isError: false,
+    isPending: true,
+    error: null,
 }
-export const ProjectContext = createContext<ProjectContextValue>(defaultValue);
+export const ProjectContext = createContext<ProjectContextType>(defaultValue);
 
 export default function ProjectContextProvider({
   children,
@@ -19,8 +30,14 @@ export default function ProjectContextProvider({
 }) {
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
+ const { data, isError, isPending, error } = useQuery({
+  ...getAllProjects(),
+  select: (data)=> setProjects(data.data) 
+ });
+
+
   return (
-    <ProjectContext.Provider value={{ projects, setProjects }}>
+    <ProjectContext.Provider value={{ projects, setProjects, isError, isPending, error }}>
       {children}
     </ProjectContext.Provider>
   );

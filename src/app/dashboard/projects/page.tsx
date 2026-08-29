@@ -87,11 +87,11 @@ export default function Page() {
         </div>
       </Tabs>
 
-      <div className="lg:col-span-2 space-y-6 lg:top-6 lg:sticky">
+      <aside className="lg:col-span-2 space-y-6 lg:top-6 lg:sticky">
         <ProjectOverview />
         <TopTechnologies />
         <NewProject />
-      </div>
+      </aside>
     </main>
   );
 }

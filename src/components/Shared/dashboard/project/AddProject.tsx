@@ -14,10 +14,7 @@ import { PlusIcon } from "@animateicons/react/lucide";
 
 import ProjectForm from "./ProjectForm";
 
-
 export default function AddProject() {
-
-
   return (
     <Dialog>
       <DialogTrigger
@@ -44,7 +41,7 @@ export default function AddProject() {
           </div>
         </DialogHeader>
 
-      <ProjectForm/>
+        <ProjectForm />
       </DialogContent>
     </Dialog>
   );

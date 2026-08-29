@@ -2,8 +2,6 @@
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { apiService } from "@/lib/api-routes/apis";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,9 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast, Toaster } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toast";
 import { useTaskContext } from "@/context/TaskContext";
-import { taskType } from "@/lib/types/task-type";
 import React from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -35,39 +32,13 @@ const taskSchema = z.object({
   }),
 });
 
-type formType = z.infer<typeof taskSchema>;
+export type formType = z.infer<typeof taskSchema>;
 
-type AddTaskResponse = {
-  message: string;
-  data: taskType;
-};
 
 export default function TaskForm() {
-  const { setTasks } = useTaskContext();
+  const { isPending, mutate } = useTaskContext();
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["add-task"],
-    mutationFn: (data: formType) =>
-      apiService<AddTaskResponse>({
-        endpoint: "/tasks",
-        method: "POST",
-        body: data,
-      }),
-    onSuccess: (data) => {
-      setTasks((prev) => [...prev, data?.data]);
-      toast.add({
-        type: "success",
-        title: `${data?.message}`,
-      });
-    },
-    onError: (err) => {
-      toast.add({
-        type: "error",
-        title: `${err.message}`,
-      });
-      console.log(err.message);
-    },
-  });
+  
 
   const {
     register,

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 /* eslint-disable react/no-unescaped-entities */
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -6,10 +6,14 @@ import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import AddProject from "./AddProject";
 import { useProjectContext } from "@/context/ProjectContext";
-import { FolderOpenIcon, LayoutGridIcon, ListIcon } from "@animateicons/react/lucide";
+import {
+  FolderOpenIcon,
+  LayoutGridIcon,
+  ListIcon,
+} from "@animateicons/react/lucide";
 
 export default function ProjectHeader() {
-  const {projects} = useProjectContext()
+  const { projects } = useProjectContext();
   const triggersData = [
     { label: "All Projects", value: "allProjects" },
     { label: "Personal", value: "personal" },
@@ -37,7 +41,7 @@ export default function ProjectHeader() {
             </Button>
           </ButtonGroup>
 
-          <AddProject/>
+          <AddProject />
         </div>
       </div>
 

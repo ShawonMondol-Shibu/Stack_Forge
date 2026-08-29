@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import { Geist, Geist_Mono, Roboto, Lato } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
@@ -7,6 +7,13 @@ import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
 import ProjectContextProvider from "@/context/ProjectContext";
 import TaskContextProvider from "@/context/TaskContext";
+
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  variable: "--font-lato",
+});
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -32,17 +39,18 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-sans",
-        roboto.variable,
-      )}
-      suppressHydrationWarning={true}
-    >
+  lang="en"
+  className={cn(
+    "h-full antialiased",
+    lato.variable,
+    geistSans.variable,
+    geistMono.variable,
+    roboto.variable,
+    "font-sans"
+  )}
+
+  suppressHydrationWarning={true}
+>
       <body className="min-h-full flex flex-col">
         <TanStackProvider>
           <ThemeProvider
@@ -52,12 +60,12 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <ProjectContextProvider>
               <TaskContextProvider>
+            <ProjectContextProvider>
 
               {children}
-              </TaskContextProvider>
               </ProjectContextProvider>
+              </TaskContextProvider>
           </ThemeProvider>
         </TanStackProvider>
       </body>

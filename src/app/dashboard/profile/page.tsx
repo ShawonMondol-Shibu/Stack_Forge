@@ -21,11 +21,7 @@ const tabsContent = [
   { page: <Notes />, value: "notes" },
 ];
 
-
 export default function Page() {
-
-
-
   return (
     <main
       className={
@@ -40,12 +36,12 @@ export default function Page() {
           </TabsContent>
         ))}
       </Tabs>
-      <div className="w-full lg:col-span-2 space-y-4">
+      <aside className="w-full lg:col-span-2 space-y-4 sticky lg:top-6">
         <ProfileCompletion />
         <ProfileStats />
         <ContributionActivity />
-        <QuickLinks/>
-      </div>
+        <QuickLinks />
+      </aside>
     </main>
   );
 }

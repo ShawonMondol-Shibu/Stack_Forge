@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useProjectContext } from "@/context/ProjectContext";
 import { apiService } from "@/lib/api-routes/apis";
+import { ApiResponse } from "@/lib/types/api";
 import { UserProfile } from "@/lib/types/profile-type";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil, Share } from "lucide-react";
@@ -26,14 +28,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const userInfo = [
-  { label: "Repositories", value: 24 },
-  { label: "Projects", value: 12 },
-  { label: "Followers", value: 803 },
-  { label: "Following", value: 128 },
-  { label: "Profile View", value: 1.5 },
-  { label: "Achievements", value: 16 },
-];
 
 const tabsList = [
   { name: "About", value: "about" },
@@ -45,14 +39,16 @@ const tabsList = [
 ];
 
 export default function ProfileHeader() {
+  const {projects} = useProjectContext()
   const {
     data: profile,
     isLoading,
     isError,
     error,
-  } = useQuery<UserProfile>({
+  } = useQuery({
     queryKey: ["my-profile"],
-    queryFn: async () => apiService({ endpoint: "/profile" }),
+    queryFn: async () =>
+      apiService<ApiResponse<UserProfile>>({ endpoint: "/profile" }),
     select: (data) => data.data,
   });
 
@@ -65,11 +61,20 @@ export default function ProfileHeader() {
   }
   console.log(profile);
 
+  const userInfo = [
+    { label: "Repositories", value: 24 },
+    { label: "Projects", value: projects.length },
+    { label: "Followers", value: 803 },
+    { label: "Following", value: 128 },
+    { label: "Profile View", value: 1.5 },
+    { label: "Achievements", value: 16 },
+  ];
+
   return (
     <Card size={"sm"} className={"w-full min-h-80 pt-0"}>
       <div className={"relative"}>
         <Image
-          src={profile?.coverUrl||"/brain.jpg"}
+          src={profile?.coverUrl || "/brain.jpg"}
           alt={"profile_cover-image"}
           width={800}
           height={600}
@@ -77,14 +82,14 @@ export default function ProfileHeader() {
         />
         <div className={"absolute -bottom-14 left-5"}>
           <Avatar className={"size-30"}>
-            <AvatarImage src={profile?.avatarUrl||""} />
+            <AvatarImage src={profile?.avatarUrl || ""} />
             <AvatarFallback>{"profile picture"}</AvatarFallback>
             <AvatarBadge className="bottom-3 right-4" />
           </Avatar>
         </div>
       </div>
       <CardHeader className="ml-36">
-        <CardTitle>{profile?.fullName||"Full name"}</CardTitle>
+        <CardTitle>{profile?.fullName || "Full name"}</CardTitle>
         <CardAction>
           <ButtonGroup>
             <Button variant={"outline"} size={"sm"}>

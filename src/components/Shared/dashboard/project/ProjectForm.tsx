@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import {
   Combobox,
   ComboboxChip,
@@ -14,17 +15,23 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/toast";
-import { useProjectContext } from "@/context/ProjectContext";
-import { apiService } from "@/lib/api-routes/apis";
-import { ProjectType } from "@/lib/types/project-type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useCreateProject } from "@/hooks/mutations/use-project-mutation";
+import { Toaster } from "@/components/ui/toast";
+import { LoaderIcon, PlusIcon } from "@animateicons/react/lucide";
+import { useQuery } from "@tanstack/react-query";
+import { apiService } from "@/lib/api-routes/apis";
+import Image from "next/image";
+
+type TechStackItem = {
+  id: string;
+  name: string;
+  image: string;
+};
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Enter project name" }),
@@ -32,53 +39,21 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Enter a description of your project" }),
   techStack: z.array(z.string()),
-  // image: z.string().optional(),
 });
 
-const frameworks = [
-  "Next.js",
-  "SvelteKit",
-  "Nuxt.js",
-  "Remix",
-  "Astro",
-  "Nest.jS",
-  "Node.js",
-  "Better-Auth",
-  "Drizzle",
-  "Supabase",
-] as const;
-
 export default function ProjectForm() {
-      const anchor = useComboboxAnchor();
+  const anchor = useComboboxAnchor();
 
-  const router = useRouter();
-  const { setProjects } = useProjectContext();
-
-  const { mutate } = useMutation({
-    mutationKey: ["create-project"],
-    mutationFn: (data: z.infer<typeof formSchema>) =>
-      apiService({
-        endpoint: "/projects",
-        method: "POST",
-        body: data,
+  const { data: techStacks = [] } = useQuery({
+    queryKey: ["techstacks"],
+    queryFn: () =>
+      apiService<{ data: TechStackItem[] }>({
+        endpoint: "/tech-stack",
       }),
-    onError: (err) => {
-      console.log(err.message);
-    },
-    onSuccess: () => {
-      const id = toast.add({
-        type: "success",
-        title: "Project created successfully",
-        actionProps: {
-          onClick() {
-            toast.close(id);
-          },
-        },
-      });
-
-      router.push("/projects");
-    },
+    select: (res) => res.data,
   });
+
+  const { mutate, isPending } = useCreateProject();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -86,31 +61,15 @@ export default function ProjectForm() {
       name: "",
       description: "",
       techStack: [],
-      // image: "",
     },
   });
 
-  // useEffect(() => {
-  //   if(data){setProjects(data)}
-  // }, [data, setProjects])
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setProjects((prev) => [
-      ...prev,
-      { ...data, id: crypto.randomUUID(), userId: "temp" },
-    ]);
-
-    mutate(data);
-
-    console.log(data);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    mutate(values);
   };
 
   return (
-    <form
-      {...form}
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <Controller
         name="name"
         control={form.control}
@@ -121,13 +80,14 @@ export default function ProjectForm() {
               {...field}
               id={field.name}
               aria-invalid={fieldState.invalid}
-              placeholder="you@gmail.com"
+              placeholder="Enter project name..."
               autoComplete="off"
             />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
+
       <Controller
         name="description"
         control={form.control}
@@ -145,11 +105,11 @@ export default function ProjectForm() {
           </Field>
         )}
       />
+
       <Controller
         name="techStack"
         control={form.control}
         render={({ field, fieldState }) => {
-          // Ensure value is an array for multi-select
           const selectedValues = Array.isArray(field.value) ? field.value : [];
 
           return (
@@ -158,33 +118,57 @@ export default function ProjectForm() {
 
               <Combobox
                 multiple
-                autoHighlight
-                items={frameworks}
+                items={techStacks}
                 value={selectedValues}
                 onValueChange={(val) => field.onChange(val)}
               >
-                <ComboboxChips ref={anchor} className="w-full max-w-xs">
+                <ComboboxChips ref={anchor} className="w-full">
                   <ComboboxValue>
-                    {(values: string[]) => (
-                      <React.Fragment>
-                        {values.map((value: string) => (
-                          <ComboboxChip key={value}>{value}</ComboboxChip>
-                        ))}
-                        <ComboboxChipsInput
-                          id={field.name}
-                          onBlur={field.onBlur}
-                        />
-                      </React.Fragment>
-                    )}
+                    {(values) => {
+                      const selectedItems = techStacks.filter((item) =>
+                        values.includes(item.id),
+                      );
+
+                      return (
+                        <>
+                          {selectedItems.map((item) => (
+                            <ComboboxChip key={item.id}>
+                              {item?.image && (
+                                <Image
+                                  src={item.image}
+                                  alt={item.name}
+                                  width={14}
+                                  height={14}
+                                />
+                              )}
+                              {item.name}
+                            </ComboboxChip>
+                          ))}
+                          <ComboboxChipsInput
+                            id={field.name}
+                            onBlur={field.onBlur}
+                            placeholder="Select your technology"
+                          />
+                        </>
+                      );
+                    }}
                   </ComboboxValue>
                 </ComboboxChips>
 
                 <ComboboxContent anchor={anchor}>
                   <ComboboxEmpty>No items found.</ComboboxEmpty>
                   <ComboboxList>
-                    {(item: string) => (
-                      <ComboboxItem key={item} value={item}>
-                        {item}
+                    {(item: TechStackItem) => (
+                      <ComboboxItem key={item.id} value={item.id}>
+                        {item?.image && (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={14}
+                            height={14}
+                          />
+                        )}
+                        {item.name}
                       </ComboboxItem>
                     )}
                   </ComboboxList>
@@ -197,9 +181,18 @@ export default function ProjectForm() {
         }}
       />
 
-      <Button size={"sm"} type="submit">
-        Create Project
+      <Button size={"sm"} disabled={isPending} type="submit">
+        {isPending ? (
+          <LoaderIcon />
+        ) : (
+          <>
+            <PlusIcon />
+            Create Project
+          </>
+        )}
       </Button>
+
+      <Toaster />
     </form>
   );
 }

@@ -1,14 +1,19 @@
 "use client";
 import React from "react";
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { AreaChart, Bar, CartesianGrid, XAxis } from "recharts";
 
 const chartConfig = {
   streak: {
     label: "Streak",
-    color: ""
-  }
+    color: "",
+  },
 } satisfies ChartConfig;
 
 export default function Greetings() {
@@ -20,11 +25,11 @@ export default function Greetings() {
     { day: "Friday", desktop: 214, mobile: 140 },
     { day: "Sunday", desktop: 186, mobile: 80 },
     { day: "Saturday", desktop: 186, mobile: 80 },
-]
+  ];
   return (
     <div className="flex items-start justify-between">
       <div>
-        <h1 className={"text-2xl font-bold"}>Good Evening, Shibu 👋</h1>
+        <h1 className={"text-2xl font-bold font-[lato]"}>Good Evening, Shibu 👋</h1>
 
         <div className={"text-muted-foreground"}>
           <p>Lets build something amazing today.</p>
@@ -40,20 +45,20 @@ export default function Greetings() {
           </div>
 
           <ChartContainer config={chartConfig} className="h-26 w-xs">
-  <AreaChart accessibilityLayer data={chartData}>
-    {/* <CartesianGrid vertical={false} /> */}
-    <XAxis
-      dataKey="day"
-      tickLine={false}
-      tickMargin={0}
-      axisLine={false}
-      tickFormatter={(value) => value.slice(0, 1)}
-    />
-    {/* <ChartTooltip content={<ChartTooltipContent />} />
+            <AreaChart accessibilityLayer data={chartData}>
+              {/* <CartesianGrid vertical={false} /> */}
+              <XAxis
+                dataKey="day"
+                tickLine={false}
+                tickMargin={0}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 1)}
+              />
+              {/* <ChartTooltip content={<ChartTooltipContent />} />
     <ChartLegend content={<ChartLegendContent />} /> */}
-    <Bar dataKey="desktop" fill="var(--primary)" radius={4} />
-  </AreaChart>
-</ChartContainer>
+              <Bar dataKey="desktop" fill="var(--primary)" radius={4} />
+            </AreaChart>
+          </ChartContainer>
         </CardContent>
       </Card>
     </div>
