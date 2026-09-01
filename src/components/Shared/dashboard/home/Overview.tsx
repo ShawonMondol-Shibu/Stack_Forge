@@ -10,11 +10,11 @@ import {
 import { FaGithub } from "react-icons/fa6";
 import { ItemGroup } from "@/components/ui/item";
 import OverviewItem from "../home/OverviewItem";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 import { useTaskContext } from "@/context/TaskContext";
 
 export default function Overview() {
-  const {projects}= useProjectContext()
+  const {projects}= useProjectStore()
   const {tasks, completedTasks} = useTaskContext()
   const overViewData = [
     { name: "Projects", total: projects.length, icon: FolderOpen },

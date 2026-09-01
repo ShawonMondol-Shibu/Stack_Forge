@@ -19,14 +19,14 @@ import {
 } from "@/components/ui/item";
 import { FolderOpen, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-routes/apis";
 import { TechStackItem } from "@/lib/types/techStack-type";
 
 export default function RecentProjects() {
-  const { projects } = useProjectContext();
+  const { projects } = useProjectStore();
   const { data: techStacks = [] } = useQuery({
     queryKey: ["techstacks"],
     queryFn: () =>

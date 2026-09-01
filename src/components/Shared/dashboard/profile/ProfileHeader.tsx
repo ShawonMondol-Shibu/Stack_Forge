@@ -1,4 +1,11 @@
 "use client";
+
+import React, { useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { Pencil, Share } from "lucide-react";
+
 import {
   Avatar,
   AvatarBadge,
@@ -18,16 +25,12 @@ import {
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useProjectContext } from "@/context/ProjectContext";
+
+import { useProjectStore } from "@/store/useProjectStore";
 import { apiService } from "@/lib/api-routes/apis";
 import { ApiResponse } from "@/lib/types/api";
 import { UserProfile } from "@/lib/types/profile-type";
-import { useQuery } from "@tanstack/react-query";
-import { Pencil, Share } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-
+import { useProfileStore } from "@/store/ProfileStore";
 
 const tabsList = [
   { name: "About", value: "about" },
@@ -39,7 +42,9 @@ const tabsList = [
 ];
 
 export default function ProfileHeader() {
-  const {projects} = useProjectContext()
+  const { projects } = useProjectStore();
+  const {setProfile} = useProfileStore();
+
   const {
     data: profile,
     isLoading,
@@ -49,17 +54,23 @@ export default function ProfileHeader() {
     queryKey: ["my-profile"],
     queryFn: async () =>
       apiService<ApiResponse<UserProfile>>({ endpoint: "/profile" }),
-    select: (data) => data.data,
+    select: (data) => data.data, // Pure transformation only
   });
+
+  // Sync state cleanly via React lifecycle
+  useEffect(() => {
+    if (profile) {
+      setProfile(profile);
+    }
+  }, [profile, setProfile]);
 
   if (isLoading) {
     return <div>Loading profile...</div>;
   }
 
   if (isError) {
-    return <div>{error.message}</div>;
+    return <div>{error?.message || "Failed to load profile"}</div>;
   }
-  console.log(profile);
 
   const userInfo = [
     { label: "Repositories", value: 24 },
@@ -93,22 +104,24 @@ export default function ProfileHeader() {
         <CardAction>
           <ButtonGroup>
             <Button variant={"outline"} size={"sm"}>
-              <Pencil /> Edit
+              <Pencil className="size-4 mr-1" /> Edit
             </Button>
             <Button size={"sm"}>
-              <Share /> Share
+              <Share className="size-4 mr-1" /> Share
             </Button>
           </ButtonGroup>
         </CardAction>
       </CardHeader>
       <CardContent className="mt-1">
         <div className="ml-30">
-          <h3>Full Stack Developer</h3>
-          <div className="flex items-center gap-6">
-            <address>Dhaka, Bangladesh</address>
-            <Link href={"#"}>shawonmondolshibu.vercel.app</Link>
+          <h3 className="font-semibold">{profile?.headline || "Full Stack Developer"}</h3>
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <address className="not-italic">{profile?.location || "Dhaka, Bangladesh"}</address>
+            <Link href={`https://${profile?.website || "shawonmondolshibu.vercel.app"}`} target="_blank">
+              {profile?.website || "shawonmondolshibu.vercel.app"}
+            </Link>
           </div>
-          <CardDescription>{/* {profile.data} */}</CardDescription>
+          <CardDescription className="mt-2">{profile?.bio}</CardDescription>
         </div>
 
         <Item

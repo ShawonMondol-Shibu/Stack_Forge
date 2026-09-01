@@ -1,10 +1,10 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 import React from "react";
 
 export default function ProjectOverview() {
-  const { projects } = useProjectContext();
+  const { projects } = useProjectStore();
   const totalProjects = projects.length;
   const overviewData = [
     { title: "total projects", value: totalProjects },

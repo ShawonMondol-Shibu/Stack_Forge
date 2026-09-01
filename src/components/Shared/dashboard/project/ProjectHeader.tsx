@@ -5,7 +5,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import AddProject from "./AddProject";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 import {
   FolderOpenIcon,
   LayoutGridIcon,
@@ -13,7 +13,7 @@ import {
 } from "@animateicons/react/lucide";
 
 export default function ProjectHeader() {
-  const { projects } = useProjectContext();
+  const { projects } = useProjectStore();
   const triggersData = [
     { label: "All Projects", value: "allProjects" },
     { label: "Personal", value: "personal" },

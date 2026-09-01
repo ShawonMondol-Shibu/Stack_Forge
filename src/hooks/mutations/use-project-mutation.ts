@@ -2,29 +2,36 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { projectsService } from "@/services/project.service";
 import { queryKeys } from "@/lib/Query-keys";
-
 import type {
   CreateProjectPayload,
   UpdateProjectPayload,
 } from "@/lib/types/project-type";
 import { toast } from "@/components/ui/toast";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
-  const { setProjects } = useProjectContext();
+  const addProject = useProjectStore((state) => state.addProject);
 
   return useMutation({
     mutationFn: (data: CreateProjectPayload) => projectsService.create(data),
 
     onError: (err) => {
-      console.log(err.message);
+      toast.add({
+        type: "error",
+        title: err.message || "Failed to create project",
+      });
     },
-    onSuccess: (data) => {
+
+    onSuccess: (res) => {
+      // 1. Update Zustand store synchronously for immediate UI feedback
+      addProject(res.data);
+
+      // 2. Invalidate cache to ensure server state consistency
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.all,
       });
-      setProjects((prev) => [...prev, data.data]);
+
       const id = toast.add({
         type: "success",
         title: "Project created successfully",
@@ -40,42 +47,68 @@ export const useCreateProject = () => {
 
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
-  const { setProjects } = useProjectContext();
-  
+  const updateProjectInStore = useProjectStore(
+    (state) => state.updateProjectInStore
+  );
+
   return useMutation({
-      mutationFn: ({ id, data }: { id: string; data: UpdateProjectPayload }) =>
-        projectsService.update(id, data),
-      
-      onSuccess: (res, variables) => {
-          queryClient.invalidateQueries({
+    mutationFn: ({ id, data }: { id: string; data: UpdateProjectPayload }) =>
+      projectsService.update(id, data),
+
+    onError: (err) => {
+      toast.add({
+        type: "error",
+        title: err.message || "Failed to update project",
+      });
+    },
+
+    onSuccess: (res, variables) => {
+      // 1. Update Zustand store synchronously
+      updateProjectInStore(res.data);
+
+      // 2. Invalidate relevant queries
+      queryClient.invalidateQueries({
         queryKey: queryKeys.projects.all,
       });
-
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.getOne(variables.id),
       });
 
-      setProjects((prev) =>
-        prev.map((data) => (data.id === res.data.id ? res.data : data)),
-      );
+      toast.add({
+        type: "success",
+        title: "Project updated successfully",
+      });
     },
   });
 };
 
 export const useDeleteProject = () => {
   const queryClient = useQueryClient();
-          const { setProjects } = useProjectContext();
+  const removeProjectFromStore = useProjectStore(
+    (state) => state.removeProjectFromStore
+  );
 
   return useMutation({
     mutationFn: (id: string) => projectsService.delete(id),
 
-    onSuccess: (data) => {
+    onError: (err) => {
+      toast.add({
+        type: "error",
+        title: err.message || "Failed to delete project",
+      });
+    },
+
+    onSuccess: (res, id) => {
+      // 1. Update Zustand store synchronously
+      removeProjectFromStore(id);
+
+      // 2. Invalidate cache
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.all,
       });
-      setProjects(prev=> prev.filter(res=>res.id !== data.data.id))
+
       toast.add({
-        title: data?.message,
+        title: res?.message || "Project deleted successfully",
       });
     },
   });

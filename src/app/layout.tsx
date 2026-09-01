@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
-import ProjectContextProvider from "@/context/ProjectContext";
 import TaskContextProvider from "@/context/TaskContext";
 
 
@@ -61,10 +60,8 @@ export default function RootLayout({
           >
             <Toaster />
               <TaskContextProvider>
-            <ProjectContextProvider>
 
               {children}
-              </ProjectContextProvider>
               </TaskContextProvider>
           </ThemeProvider>
         </TanStackProvider>

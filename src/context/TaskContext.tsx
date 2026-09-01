@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { formType } from "@/components/Shared/dashboard/tasks/TaskForm";
 import { toast } from "@/components/ui/toast";
 import { apiService } from "@/lib/api-routes/apis";
@@ -12,16 +12,16 @@ import React, {
   useState,
 } from "react";
 
+type mutateType = { title: string; priority: string; status: string; }
 interface TaskContextType {
   tasks: taskType[];
   setTasks: Dispatch<SetStateAction<taskType[]>>;
-  handleDelete: (id: string)=> void,
-  completedTasks: taskType[],
-  inProgressTasks: taskType[],
-  todoTasks: taskType[],
-  isPending: boolean,
-   mutate: (data: unknown | any)=> void,
-  
+  handleDelete: (id: string) => void;
+  completedTasks: taskType[];
+  inProgressTasks: taskType[];
+  todoTasks: taskType[];
+  isPending: boolean;
+  mutate: (data: mutateType) => void;
 }
 
 type TasksType = {
@@ -32,16 +32,15 @@ type AddTaskResponse = {
   data: taskType;
 };
 
-
 const defaultContext = {
   tasks: [],
   setTasks: () => {},
-    handleDelete: ()=> {},
-    completedTasks: [],
-    inProgressTasks: [],
-    todoTasks: [],
-    isPending: true,
-    mutate: ()=>{}
+  handleDelete: () => {},
+  completedTasks: [],
+  inProgressTasks: [],
+  todoTasks: [],
+  isPending: true,
+  mutate: () => {},
 };
 
 const taskContext = createContext<TaskContextType>(defaultContext);
@@ -58,8 +57,6 @@ export default function TaskContextProvider({
     queryFn: async () => apiService<TasksType>({ endpoint: "/tasks" }),
     select: (data) => setTasks(data.data),
   });
-
-  
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["add-task"],
@@ -84,19 +81,29 @@ export default function TaskContextProvider({
       console.log(err.message);
     },
   });
-  
 
-  const handleDelete = (id: string)=>{
-    const deletedTask = tasks.filter((task)=> task.id != id)
-    setTasks(deletedTask)
-  }
+  const handleDelete = (id: string) => {
+    const deletedTask = tasks.filter((task) => task.id != id);
+    setTasks(deletedTask);
+  };
 
-  const completedTasks = tasks.filter((task)=> task.status === "done")
-  const inProgressTasks = tasks.filter((task)=> task.status === "in_progress")
-  const todoTasks = tasks.filter((task)=> task.status === "todo")
+  const completedTasks = tasks.filter((task) => task.status === "done");
+  const inProgressTasks = tasks.filter((task) => task.status === "in_progress");
+  const todoTasks = tasks.filter((task) => task.status === "todo");
 
   return (
-    <taskContext.Provider value={{ tasks, setTasks, handleDelete, completedTasks, inProgressTasks, todoTasks, isPending, mutate }}>
+    <taskContext.Provider
+      value={{
+        tasks,
+        setTasks,
+        handleDelete,
+        completedTasks,
+        inProgressTasks,
+        todoTasks,
+        isPending,
+        mutate,
+      }}
+    >
       {children}
     </taskContext.Provider>
   );

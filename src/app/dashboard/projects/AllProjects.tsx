@@ -2,12 +2,24 @@
 import ProjectCard from "@/components/Shared/dashboard/project/ProjectCard";
 import ProjectCardSkeleton from "@/components/Shared/dashboard/project/ProjectCardSkeleton";
 import { Button } from "@/components/ui/button";
-import { useProjectContext } from "@/context/ProjectContext";
+import { useProjectStore } from "@/store/useProjectStore";
 import { Project } from "@/lib/types/project-type";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProjects } from "@/hooks/queries/use-projects";
 
 export default function AllProjects() {
-  const { projects, isPending, isError, error } = useProjectContext();
+  const { projects, setProjects } = useProjectStore();
+  const { data, isPending, isError, error } = useQuery({
+    ...getAllProjects(),
+    select: (data: { data: [] }) => data.data,
+  });
+
+  useEffect(()=>{
+    if (data) {
+      setProjects(data)
+    }
+  }, [data, setProjects])
 
   if (isError) {
     return (
@@ -24,7 +36,9 @@ export default function AllProjects() {
   }
   return (
     <div
-      className={"w-full min-h-[50dvh] grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"}
+      className={
+        "w-full min-h-[50dvh] grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"
+      }
     >
       {isPending && (
         <Suspense fallback={null}>
