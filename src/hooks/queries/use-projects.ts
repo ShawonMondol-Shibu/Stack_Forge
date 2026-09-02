@@ -9,6 +9,7 @@ export const getAllProjects = () =>
   queryOptions({
     queryKey: queryKeys.projects.all,
     queryFn: () => projectsService.getAll(),
+    select: (data) => data.data,
     staleTime: 1000 * 60 * 5, // 5 minutes cache retention
   });
 

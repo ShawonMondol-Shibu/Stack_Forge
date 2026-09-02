@@ -1,3 +1,4 @@
+"use client";
 import ContinueWorking from "@/components/Shared/dashboard/home/ContinueWorking";
 import Feed from "@/components/Shared/dashboard/home/Feed";
 import GithubActivitiy from "@/components/Shared/dashboard/github/GithubActivitiy";
@@ -12,8 +13,11 @@ import RecentProjects from "@/components/Shared/dashboard/home/RecentProjects";
 import TodaysTask from "@/components/Shared/dashboard/tasks/TodaysTask";
 import WeeklyProductivity from "@/components/Shared/dashboard/WeeklyProductivity";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProjects } from "@/hooks/queries/use-projects";
 
 export default function Page() {
+  const { data: projects } = useQuery(getAllProjects())
   return (
     <main className="space-y-6 w-full container mx-auto ">
       <div className={"grid grid-cols-10 items-start gap-6"}>

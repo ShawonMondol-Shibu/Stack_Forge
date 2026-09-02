@@ -1,4 +1,3 @@
-"use client"
 import { apiService } from '@/lib/api-routes/apis';
 import { TechStackItem } from '@/lib/types/techStack-type';
 // import { techStackStore } from '@/store/TechStackStore';
