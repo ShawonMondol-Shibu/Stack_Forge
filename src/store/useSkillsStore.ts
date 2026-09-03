@@ -1,33 +1,38 @@
 import { create } from "zustand";
 
 export interface Skill {
-  id: string;
-  name: string;
+  id?: string;
+  userId?: string;
+  techStack?: string[];
   description?: string;
+  createdAt?: number | Date | undefined;
+  updatedAt?: number | Date | undefined;
 }
 
 interface SkillsStore {
-  skills: Skill[];
-  setSkills: (skills: Skill[]) => void;
-  addSkillToStore: (skill: Skill) => void;
+  skills: Skill;
+  setSkills: (skills: Skill) => void;
   updateSkillInStore: (updatedSkill: Skill) => void;
   removeSkillFromStore: (skillId: string) => void;
 }
 
 const useSkillsStore = create<SkillsStore>((set) => ({
   skills: [],
+
   setSkills: (skills) => set({ skills }),
-  addSkillToStore: (skill) =>
-    set((state) => ({ skills: [...state.skills, skill] })),
   updateSkillInStore: (updatedSkill) =>
     set((state) => ({
-      skills: state.skills.map((skill) =>
-        skill.id === updatedSkill.id ? updatedSkill : skill
-      ),
+      skills: {
+        ...state.skills,
+        ...updatedSkill
+      }
     })),
   removeSkillFromStore: (skillId) =>
     set((state) => ({
-      skills: state.skills.filter((skill) => skill.id !== skillId),
+      skills: {
+        ...state.skills,
+        techStack: state.skills.techStack?.filter((skill) => skill !== skillId),
+      }
     })),
 }));
 

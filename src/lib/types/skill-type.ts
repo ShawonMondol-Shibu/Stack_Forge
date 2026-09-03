@@ -1,9 +1,9 @@
 export type Skill = {
   id: string;
   userId: string;
-  techStack: string[];
-  createdAt: string;
-  updatedAt: string;
+  techStack?: string[];
+  createdAt?: number | Date | undefined;
+  updatedAt?: number | Date | undefined;
 };
 
 export type CreateSkillPayload = {

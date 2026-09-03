@@ -13,11 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toast";
-import { useTaskContext } from "@/context/TaskContext";
 import React from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LoaderIcon } from "@animateicons/react/lucide";
+import { TaskMutation } from "@/hooks/mutations/use-task-mutation";
 
 const priorityEnum = ["high", "medium", "low"];
 const statusEnum = ["todo", "in_progress", "done"];
@@ -36,8 +36,7 @@ export type formType = z.infer<typeof taskSchema>;
 
 
 export default function TaskForm() {
-  const { isPending, mutate } = useTaskContext();
-
+const {mutate, isPending} = TaskMutation.useCreateTask()
   
 
   const {

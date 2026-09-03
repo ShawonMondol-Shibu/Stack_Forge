@@ -7,3 +7,8 @@ export type taskType ={
     createdAt?: number | Date | undefined,
     updatedAt?: number | Date | undefined,
 }
+
+
+export type CreateTaskPayload = Omit<taskType, "id" | "createdAt" | "updatedAt">;
+
+export type UpdateTaskPayload = Partial<CreateTaskPayload>;

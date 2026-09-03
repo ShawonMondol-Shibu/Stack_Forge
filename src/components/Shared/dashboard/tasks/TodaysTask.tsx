@@ -11,10 +11,10 @@ import Todo from "./Todo";
 import InProgress from "./InProgress";
 import Done from "./Done";
 import AddTasks from "./AddTasks";
-import { useTaskContext } from "@/context/TaskContext";
+import { useTaskStore } from "@/store/TaskStore";
 
 export default function TodaysTask() {
-  const {todoTasks, inProgressTasks, completedTasks} = useTaskContext()
+  const {todoTasks, inProgressTasks, completedTasks} = useTaskStore()
   return (
     <Card size={"sm"} className={"w-full min-h-60 gap-1"}>
       <CardHeader>
@@ -24,7 +24,7 @@ export default function TodaysTask() {
         </CardAction>
       </CardHeader>
       <CardContent className={"grid grid-cols-3 "}>
-        <Todo data={todoTasks}/>
+        <Todo data={todoTasks} />
         <InProgress data={inProgressTasks} />
         <Done data={completedTasks} />
       </CardContent>

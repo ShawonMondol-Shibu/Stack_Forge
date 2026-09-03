@@ -1,6 +1,6 @@
 'use client'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTaskContext } from "@/context/TaskContext";
+import { useTaskStore } from "@/store/TaskStore";
 import {
   CircleCheckIcon,
   ClockIcon,
@@ -11,7 +11,7 @@ import React from "react";
 
 
 export default function TaskSummary() {
-  const {tasks, completedTasks, inProgressTasks}= useTaskContext()
+  const {tasks, completedTasks, inProgressTasks}= useTaskStore()
   const summaryData = [
     { icon: ShoppingBagIcon, title: "Total Tasks", value: tasks.length },
     { icon: CircleCheckIcon, title: "Completed", value: completedTasks.length },

@@ -10,10 +10,7 @@ import { getAllProjects } from "@/hooks/queries/use-projects";
 
 export default function AllProjects() {
   const { projects, setProjects } = useProjectStore();
-  const { data, isPending, isError, error } = useQuery({
-    ...getAllProjects(),
-    select: (data: { data: [] }) => data.data,
-  });
+  const { data, isPending, isError, error } = useQuery(getAllProjects());
 
   useEffect(()=>{
     if (data) {

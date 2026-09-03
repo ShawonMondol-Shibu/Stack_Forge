@@ -22,6 +22,10 @@ export const queryKeys = {
     all: ["all-skills"] as const,
   },
 
+  techStacks: {
+    all: ["all-techstacks"] as const,
+  },
+
   profile: {
     me: ["profile", "me"] as const,
   },

@@ -24,17 +24,17 @@ import { useMutation } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-routes/apis";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
-import { useTaskContext } from "@/context/TaskContext";
+import { useTaskStore } from "@/store/TaskStore";
 
 export default function TaskCard({ data }: { data: taskType }) {
   const { title, priority, status, id, createdAt } = data;
-  const { handleDelete } = useTaskContext();
+  const { removeTask } = useTaskStore();
   const { mutate } = useMutation({
     mutationKey: ["delete-task"],
     mutationFn: async (id: string) =>
       apiService({ endpoint: `/tasks/${id}`, method: "DELETE" }),
     onSuccess: () => {
-      handleDelete(id);
+      removeTask(id);
       toast.add({
         type: "success",
         title: "Task deleted successfully.",

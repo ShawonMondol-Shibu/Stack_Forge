@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
-import TaskContextProvider from "@/context/TaskContext";
 
 
 const lato = Lato({
@@ -59,10 +58,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-              <TaskContextProvider>
 
               {children}
-              </TaskContextProvider>
           </ThemeProvider>
         </TanStackProvider>
       </body>

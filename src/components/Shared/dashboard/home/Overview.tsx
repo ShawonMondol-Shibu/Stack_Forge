@@ -11,11 +11,11 @@ import { FaGithub } from "react-icons/fa6";
 import { ItemGroup } from "@/components/ui/item";
 import OverviewItem from "../home/OverviewItem";
 import { useProjectStore } from "@/store/useProjectStore";
-import { useTaskContext } from "@/context/TaskContext";
+import { useTaskStore } from "@/store/TaskStore";
 
 export default function Overview() {
   const {projects}= useProjectStore()
-  const {tasks, completedTasks} = useTaskContext()
+  const {tasks, completedTasks} = useTaskStore()
   const overViewData = [
     { name: "Projects", total: projects.length, icon: FolderOpen },
     { name: "Repositories", total: 18, icon: FaGithub },

@@ -10,10 +10,10 @@ import {
   LayoutGridIcon,
   ListIcon,
 } from "@animateicons/react/lucide";
-import { useTaskContext } from "@/context/TaskContext";
+import { useTaskStore } from "@/store/TaskStore";
 
 export default function TaskHeader() {
-  const { tasks, completedTasks } = useTaskContext();
+  const { tasks, completedTasks } = useTaskStore();
   const triggersData = [
     { label: "My Tasks", value: "mytasks", count: tasks.length },
     { label: "Completed", value: "completed", count: completedTasks.length },

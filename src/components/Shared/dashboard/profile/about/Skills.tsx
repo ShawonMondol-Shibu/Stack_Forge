@@ -85,17 +85,17 @@ export default function Skills() {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="flex min-h-[160px] w-full items-center justify-center">
+          <div className="flex min-h-40 w-full items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : isError ? (
-          <div className="flex min-h-[160px] w-full items-center justify-center">
+          <div className="flex min-h-40 w-full items-center justify-center">
             <p className="text-sm text-destructive">
               Failed to load skills configuration.
             </p>
           </div>
         ) : visibleSkills.length === 0 ? (
-          <div className="flex min-h-[160px] w-full items-center justify-center">
+          <div className="flex min-h-40 w-full items-center justify-center">
             <p className="text-sm text-muted-foreground">No skills selected.</p>
           </div>
         ) : (
