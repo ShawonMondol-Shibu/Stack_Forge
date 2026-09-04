@@ -1,39 +1,59 @@
-"use client"
-import { Button } from '@/components/ui/button'
-import { Combobox, ComboboxChip, ComboboxChips, ComboboxChipsInput, ComboboxContent, ComboboxEmpty, ComboboxItem, ComboboxList, ComboboxValue, useComboboxAnchor } from '@/components/ui/combobox'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { TechStackItem } from '@/lib/types/techStack-type'
-import { Field, FieldLabel, FieldError } from '@/components/ui/field'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Image from 'next/image';
-import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import z from 'zod'
-import { useTechStackStore } from '@/store/TechStackStore'
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { TechStackItem } from "@/lib/types/techStack-type";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import z from "zod";
+import { useTechStackStore } from "@/store/TechStackStore";
+import useSkillsStore from "@/store/useSkillsStore";
 
 const skillSchema = z.object({
   techStack: z.array(z.string()).min(1, "At least one skill is required"),
-})
+});
 export default function AddSkills() {
-  const anchor = useComboboxAnchor()
-  
-  const { techStack } = useTechStackStore();
-  
+  const anchor = useComboboxAnchor();
+
+  const { techStacks } = useTechStackStore();
+  const { skills } = useSkillsStore(); 
+  const exstingSkills = skills?.techStack || [];
+
   const form = useForm({
     resolver: zodResolver(skillSchema),
     defaultValues: {
       techStack: [],
-    }
-  })
+    },
+  });
 
   const onSubmit = (data: z.infer<typeof skillSchema>) => {
     console.log("Selected skills:", data.techStack);
-  }
+  };
   return (
     <Dialog>
-      <DialogTrigger render={
-        <Button variant="outline" className={"w-fit mx-auto"}/>}
-
+      <DialogTrigger
+        render={<Button variant="outline" className={"w-fit mx-auto"} />}
         className="w-fit mx-auto text-center"
       >
         Add Skills
@@ -46,12 +66,14 @@ export default function AddSkills() {
           </DialogDescription>
         </DialogHeader>
         {/* Add your form or content here */}
-        <form onSubmit={()=>form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Controller
             name="techStack"
             control={form.control}
             render={({ field, fieldState }) => {
-              const selectedValues = Array.isArray(field.value) ? field.value : [];
+              const selectedValues = Array.isArray(field.value)
+                ? field.value
+                : [];
 
               return (
                 <Field data-invalid={fieldState.invalid}>
@@ -59,14 +81,14 @@ export default function AddSkills() {
 
                   <Combobox
                     multiple
-                    items={techStack}
+                    items={techStacks.filter((item) => !exstingSkills.includes(item.id))}
                     value={selectedValues}
                     onValueChange={(val) => field.onChange(val)}
                   >
                     <ComboboxChips ref={anchor} className="w-full">
                       <ComboboxValue>
                         {(values) => {
-                          const selectedItems = techStack.filter((item) =>
+                          const selectedItems = techStacks.filter((item) =>
                             values.includes(item.id),
                           );
 
@@ -116,7 +138,9 @@ export default function AddSkills() {
                     </ComboboxContent>
                   </Combobox>
 
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               );
             }}
@@ -127,5 +151,5 @@ export default function AddSkills() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

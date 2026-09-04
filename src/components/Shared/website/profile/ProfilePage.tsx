@@ -8,9 +8,11 @@ import Image from "next/image";
 import { userData as data } from "@/lib/mockData";
 import { AvatarHeader } from "./ProfileAvatar";
 import { ProfileMetaInfo } from "./ProfileMetaInfo";
+import { useProfileStore } from "@/store/ProfileStore";
 
 export default function ProfilePage() {
   const userData = data[0];
+  const { profile } = useProfileStore();
   const handleShare = () => {
     return navigator.clipboard.writeText(window.location.href);
   };
@@ -19,9 +21,9 @@ export default function ProfilePage() {
       <Card className="overflow-hidden border-border/60 shadow-sm pt-0">
         {/* Cover Banner */}
         <div className="h-48 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-cyan-500 relative">
-          {userData.coverUrl && (
+          {profile?.coverUrl && (
             <Image
-              src={userData.coverUrl}
+              src={profile?.coverUrl || "/brain.jpg"}
               alt="Cover"
               width={800}
               height={600}
@@ -33,9 +35,9 @@ export default function ProfilePage() {
 
         {/* Profile Header & Controls */}
         <AvatarHeader
-          fullName={userData.fullName}
-          avatarUrl={userData.avatarUrl}
-          availability={userData.availability}
+          fullName={profile?.fullName || userData.fullName}
+          avatarUrl={profile?.avatarUrl || userData.avatarUrl}
+          availability={profile?.availability || userData.availability}
         />
 
         <CardContent className="space-y-6 pt-0">
@@ -43,11 +45,11 @@ export default function ProfilePage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight capitalize text-foreground">
-                {userData.fullName}
+                {profile?.fullName || userData.fullName}
               </h1>
-              {userData.headline && (
+              {profile?.headline || userData.headline && (
                 <p className="text-muted-foreground mt-0.5">
-                  {userData.headline}
+                  {profile?.headline ||   userData.headline}
                 </p>
               )}
             </div>
@@ -76,17 +78,17 @@ export default function ProfilePage() {
 
           {/* Metadata (Location, Website, Date) */}
           <ProfileMetaInfo
-            location={userData.location}
-            website={userData.website}
-            createdAt={userData.createdAt}
+            location={profile?.location || userData.location}
+            website={profile?.website || userData.website}
+            createdAt={profile?.createdAt || userData.createdAt}
           />
 
           {/* Bio Section with Empty State Handling */}
           <article className="pt-4 border-t border-border/50">
             <h2 className="text-sm font-medium text-foreground mb-2">About</h2>
-            {userData.bio ? (
+            {profile?.bio || userData.bio ? (
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {userData.bio}
+                {profile?.bio || userData.bio}
               </p>
             ) : (
               <p className="text-sm italic text-muted-foreground/60">

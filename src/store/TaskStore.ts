@@ -3,22 +3,23 @@ import { create } from "zustand";
 
 export interface UseTaskStore {
   tasks: taskType[];
-  setTask: (task: taskType[]) => void;
-  removeTask: (id: string) => void;
   completedTasks: taskType[];
   inProgressTasks: taskType[];
   todoTasks: taskType[];
+  setTask: (tasks: taskType[]) => void;
+  removeTask: (id: string) => void;
 }
 
+const filterTasks = (tasks: taskType[]) => ({
+  tasks,
+  completedTasks: tasks.filter((t) => t.status === "done"),
+  inProgressTasks: tasks.filter((t) => t.status === "in_progress"),
+  todoTasks: tasks.filter((t) => t.status === "todo"),
+});
+
 export const useTaskStore = create<UseTaskStore>((set) => ({
-  tasks: [],
-  completedTasks: [],
-  inProgressTasks: [],
-  todoTasks: [],
-  setTask: (task) => set({ tasks: task }),
-  removeTask: (id: string) =>
-    set((state) => ({ tasks: state.tasks.filter((task) => task.id !== id) })),
-  setCompletedTasks: (tasks: taskType[]) => set({ completedTasks: tasks.filter((task) => task.status === "done") }),
-  setInProgressTasks: (tasks: taskType[]) => set({ inProgressTasks: tasks.filter((task) => task.status === "in_progress") }),
-  setTodoTasks: (tasks: taskType[]) => set({ todoTasks: tasks.filter((task) => task.status === "todo") }),
+  ...filterTasks([]),
+  setTask: (tasks) => set(filterTasks(tasks)),
+  removeTask: (id) =>
+    set((state) => filterTasks(state.tasks.filter((task) => task.id !== id))),
 }));

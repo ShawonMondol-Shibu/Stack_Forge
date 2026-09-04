@@ -21,20 +21,11 @@ import { FolderOpen, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useProjectStore } from "@/store/useProjectStore";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { apiService } from "@/lib/api-routes/apis";
-import { TechStackItem } from "@/lib/types/techStack-type";
+import { useTechStackStore } from "@/store/TechStackStore";
 
 export default function RecentProjects() {
   const { projects } = useProjectStore();
-  const { data: techStacks = [] } = useQuery({
-    queryKey: ["techstacks"],
-    queryFn: () =>
-      apiService<{ data: TechStackItem[] }>({
-        endpoint: "/tech-stack",
-      }),
-    select: (res) => res.data,
-  });
+  const { techStacks} = useTechStackStore()
 
   return (
     <Card size={"sm"} className={"w-full gap-1"}>

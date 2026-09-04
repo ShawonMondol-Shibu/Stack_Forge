@@ -23,15 +23,10 @@ import { Button } from "@/components/ui/button";
 import { useCreateProject } from "@/hooks/mutations/use-project-mutation";
 import { Toaster } from "@/components/ui/toast";
 import { LoaderIcon, PlusIcon } from "@animateicons/react/lucide";
-import { useQuery } from "@tanstack/react-query";
-import { apiService } from "@/lib/api-routes/apis";
 import Image from "next/image";
+import useTechStack from "@/hooks/queries/useTechStack";
+import { TechStackItem } from "@/lib/types/techStack-type";
 
-type TechStackItem = {
-  id: string;
-  name: string;
-  image: string;
-};
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Enter project name" }),
@@ -44,14 +39,7 @@ const formSchema = z.object({
 export default function ProjectForm() {
   const anchor = useComboboxAnchor();
 
-  const { data: techStacks = [] } = useQuery({
-    queryKey: ["techstacks"],
-    queryFn: () =>
-      apiService<{ data: TechStackItem[] }>({
-        endpoint: "/tech-stack",
-      }),
-    select: (res) => res.data,
-  });
+  const { data: techStacks = [] } = useTechStack()
 
   const { mutate, isPending } = useCreateProject();
 

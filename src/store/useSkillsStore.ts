@@ -17,7 +17,7 @@ interface SkillsStore {
 }
 
 const useSkillsStore = create<SkillsStore>((set) => ({
-  skills: [],
+  skills: {},
 
   setSkills: (skills) => set({ skills }),
   updateSkillInStore: (updatedSkill) =>

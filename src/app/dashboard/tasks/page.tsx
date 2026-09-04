@@ -5,7 +5,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import React from "react";
 import MyTasks from "./MyTasks";
 import Completed from "./Completed";
-import Overdue from "./Overdue";
+import InProgress from "./InProgress";
 import StayProductive from "@/components/Shared/dashboard/tasks/StayProductive";
 
 const techStack = [
@@ -17,7 +17,7 @@ const techStack = [
 const tabsContent = [
   { page: MyTasks, label: "mytasks" },
   { page: Completed, label: "completed" },
-  { page: Overdue, label: "overdue" },
+  { page: InProgress, label: "inprogress" },
 ];
 
 export default function Page() {

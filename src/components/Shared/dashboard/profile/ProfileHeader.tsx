@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
 import { Pencil, Share } from "lucide-react";
 
 import {
@@ -27,10 +26,8 @@ import { Item, ItemContent } from "@/components/ui/item";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useProjectStore } from "@/store/useProjectStore";
-import { apiService } from "@/lib/api-routes/apis";
-import { ApiResponse } from "@/lib/types/api";
-import { UserProfile } from "@/lib/types/profile-type";
 import { useProfileStore } from "@/store/ProfileStore";
+import { profileQuery } from "@/hooks/queries/use-profile";
 
 const tabsList = [
   { name: "About", value: "about" },
@@ -43,19 +40,14 @@ const tabsList = [
 
 export default function ProfileHeader() {
   const { projects } = useProjectStore();
-  const {setProfile} = useProfileStore();
+  const { setProfile } = useProfileStore();
 
   const {
     data: profile,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["my-profile"],
-    queryFn: async () =>
-      apiService<ApiResponse<UserProfile>>({ endpoint: "/profile" }),
-    select: (data) => data.data, // Pure transformation only
-  });
+  } = profileQuery.GetProfile()
 
   // Sync state cleanly via React lifecycle
   useEffect(() => {
@@ -114,10 +106,17 @@ export default function ProfileHeader() {
       </CardHeader>
       <CardContent className="mt-1">
         <div className="ml-30">
-          <h3 className="font-semibold">{profile?.headline || "Full Stack Developer"}</h3>
+          <h3 className="font-semibold">
+            {profile?.headline || "Full Stack Developer"}
+          </h3>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <address className="not-italic">{profile?.location || "Dhaka, Bangladesh"}</address>
-            <Link href={`https://${profile?.website || "shawonmondolshibu.vercel.app"}`} target="_blank">
+            <address className="not-italic">
+              {profile?.location || "Dhaka, Bangladesh"}
+            </address>
+            <Link
+              href={`https://${profile?.website || "shawonmondolshibu.vercel.app"}`}
+              target="_blank"
+            >
               {profile?.website || "shawonmondolshibu.vercel.app"}
             </Link>
           </div>

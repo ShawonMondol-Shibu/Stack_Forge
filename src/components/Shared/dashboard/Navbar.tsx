@@ -28,6 +28,7 @@ import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
+import { useProfileStore } from "@/store/ProfileStore";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -98,6 +99,7 @@ export function NavbarLeft() {
 
 export function NavbarRight() {
   const router = useRouter();
+  const {profile} = useProfileStore()
   return (
     <motion.div
         initial={{ scale: 0 }}
@@ -114,18 +116,18 @@ export function NavbarRight() {
             >
               <Avatar size={"lg"}>
                 <AvatarImage
-                  src={
+                  src={ profile?.avatarUrl ||
                     "https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
                   }
-                  alt={"user_image"}
+                  alt={profile?.fullName || "user_image"}
                 />
-                <AvatarFallback>user image</AvatarFallback>
+                <AvatarFallback>{profile?.fullName}</AvatarFallback>
               </Avatar>
             </motion.div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem>Shawon Mondol Shibu</DropdownMenuItem>
+              <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
             </motion.div>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
               <DropdownMenuItem variant="destructive" onClick={()=>{

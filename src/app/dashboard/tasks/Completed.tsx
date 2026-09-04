@@ -5,8 +5,7 @@ import { useTaskStore } from '@/store/TaskStore';
 import React from 'react'
 
 export default function Completed() {
-  const {completedTasks} = useTaskStore()
-  
+  const { completedTasks } = useTaskStore()
   return (
     // Completed Tasks...
     <section>

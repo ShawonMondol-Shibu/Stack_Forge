@@ -57,28 +57,30 @@ export default function TaskCard({ data }: { data: taskType }) {
     <Item variant={"muted"} size={"xs"} className="w-full">
       <ItemContent>
         <div className="flex w-full items-center justify-between gap-4">
-          <span className="flex items-center gap-2">
-            <Checkbox />
-            <ItemTitle>{title}</ItemTitle>
-          </span>
-          <Badge
-            className={cn(
-              priority == "high"
-                ? "bg-destructive/16 text-destructive"
-                : priority == "medium"
-                  ? "bg-yellow-500/16 text-yellow-500"
-                  : priority == "low"
-                    ? "bg-green-500/16 text-green-500"
-                    : null,
-              "font-bold",
-            )}
-          >
-            {priority}
-          </Badge>
-          <Badge variant={"outline"}>{status}</Badge>
-          <span className="flex items-center gap-2">
-            <Calendar size={14} /> {date}
-          </span>
+          <div className="grid grid-cols-12 items-center gap-4 w-full">
+            <span className="col-span-6 flex items-center gap-2">
+              <Checkbox />
+              <ItemTitle>{title}</ItemTitle>
+            </span>
+            <Badge
+              className={cn(
+                priority == "high"
+                  ? "bg-destructive/16 text-destructive"
+                  : priority == "medium"
+                    ? "bg-yellow-500/16 text-yellow-500"
+                    : priority == "low"
+                      ? "bg-green-500/16 text-green-500"
+                      : null,
+                "font-bold col-span-2",
+              )}
+            >
+              {priority}
+            </Badge>
+            <Badge variant={"outline"} className={"col-span-2"}>{status}</Badge>
+            <span className="flex items-center gap-2 col-span-2">
+              <Calendar size={14} /> {date}
+            </span>
+          </div>
 
           <ItemActions>
             <Popover>

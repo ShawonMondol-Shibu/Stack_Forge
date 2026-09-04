@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable react/no-unescaped-entities */
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,14 +9,26 @@ import {
   LayoutGridIcon,
   ListIcon,
 } from "@animateicons/react/lucide";
-import { useTaskStore } from "@/store/TaskStore";
+import {
+  useTaskStore,
+} from "@/store/TaskStore";
+import { TaskQuery } from "@/hooks/queries/use-task";
 
 export default function TaskHeader() {
-  const { tasks, completedTasks } = useTaskStore();
+  const { data: tasks } = TaskQuery.GetAllTasks()
+  const { setTask, completedTasks, inProgressTasks } = useTaskStore();
+
+  React.useEffect(() => {
+    if (tasks) {
+      setTask(tasks);
+    }
+  }, [tasks, setTask]);
+  
+  
   const triggersData = [
-    { label: "My Tasks", value: "mytasks", count: tasks.length },
-    { label: "Completed", value: "completed", count: completedTasks.length },
-    { label: "Over Due", value: "overdue", count: 0 },
+    { label: "My Tasks", value: "mytasks", count: tasks?.length },
+    { label: "Completed", value: "completed", count: completedTasks?.length },
+    { label: "In Progress", value: "inprogress", count: inProgressTasks?.length },
   ];
   return (
     <header className="space-y-4 w-full border-b">
@@ -51,11 +62,13 @@ export default function TaskHeader() {
       <TabsList variant={"line"}>
         {triggersData.map((trigger, i) => (
           <TabsTrigger key={i} value={trigger.value}>
-            {trigger.label}
-            <Button variant={"outline"} size={"icon-xs"}>
-              {" "}
-              <small>{trigger?.count}</small>
-            </Button>
+            <div>
+              <span>{trigger.label}</span>
+              <Button variant={"outline"} size={"icon-xs"}>
+                {" "}
+                <small>{trigger?.count}</small>
+              </Button>
+            </div>
           </TabsTrigger>
         ))}
       </TabsList>

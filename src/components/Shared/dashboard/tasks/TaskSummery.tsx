@@ -11,12 +11,12 @@ import React from "react";
 
 
 export default function TaskSummary() {
-  const {tasks, completedTasks, inProgressTasks}= useTaskStore()
+  const {tasks, completedTasks, inProgressTasks } = useTaskStore()
   const summaryData = [
-    { icon: ShoppingBagIcon, title: "Total Tasks", value: tasks.length },
-    { icon: CircleCheckIcon, title: "Completed", value: completedTasks.length },
-    { icon: ClockIcon, title: "Overdue", value: inProgressTasks.length },
-    { icon: CalendarIcon, title: "This Week", value: tasks.length },
+    { icon: ShoppingBagIcon, title: "Total Tasks", value: tasks?.length },
+    { icon: CircleCheckIcon, title: "Completed", value: completedTasks?.length },
+    { icon: ClockIcon, title: "In Progress", value: inProgressTasks?.length },
+    { icon: CalendarIcon, title: "This Week", value: tasks?.length - completedTasks?.length - inProgressTasks?.length },
   ];
   return (
     <Card>

@@ -27,7 +27,8 @@ export const queryKeys = {
   },
 
   profile: {
-    me: ["profile", "me"] as const,
+    me: [ "me"] as const,
+    profile: (id: string) => ["profile", id] as const,
   },
 
 };
