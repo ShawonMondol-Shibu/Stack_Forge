@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
 import { Pencil, Loader2 } from "lucide-react";
 
 import MotionDiv from "@/components/Shared/MotionDiv";
@@ -23,64 +22,65 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-import { apiService } from "@/lib/api-routes/apis";
-import { ApiResponse } from "@/lib/types/api";
 import { useTechStackStore } from "@/store/TechStackStore";
 import AddSkill from "./skills/AddSkills";
 import useTechStack from "@/hooks/queries/useTechStack";
+import { useSkillsQuery } from "@/hooks/queries/use-skills";
+import useSkillsStore from "@/store/useSkillsStore";
 
 const DISPLAY_LIMIT = 12;
 
 export default function Skills() {
   const setTechStack = useTechStackStore((state) => state.setTechStack);
+  const { setSkills } = useSkillsStore();
 
   // Query 1: User's enabled skill IDs
   const {
     data: skills,
     isLoading: isSkillsLoading,
     isError: isSkillsError,
-  } = useQuery({
-    queryKey: ["my-skills"],
-    queryFn: async () =>
-      apiService<ApiResponse<{ techStack: string[] }>>({ endpoint: "/skills" }),
-    select: (res) => res.data?.techStack ?? [],
-    staleTime: 1000 * 60 * 5, // 5 minutes cache
-  });
+  } = useSkillsQuery();
 
   // Query 2: Master tech stack database catalog
   const {
     data: techStacks,
     isLoading: isTechLoading,
     isError: isTechError,
-  } = useTechStack()
+  } = useTechStack();
 
   // Update store conditionally without triggering extra re-renders during render cycles
   useMemo(() => {
     if (techStacks && techStacks.length > 0) {
       setTechStack(techStacks);
     }
-  }, [techStacks, setTechStack]);
+    if (skills) {
+      setSkills(skills);
+    }
+  }, [techStacks, setTechStack, skills, setSkills]);
 
   // O(N + M) Lookup Optimization via Set indexing
   const mySkills = useMemo(() => {
-    if (!techStacks || !skills) return [];
-    const skillSet = new Set(skills);
+    if (!skills || !techStacks) return [];
+    const skillSet = new Set(skills.techStack || []);
     return techStacks.filter((stack) => skillSet.has(stack.id));
-  }, [techStacks, skills]);
+  }, [skills, techStacks]);
 
   const isLoading = isSkillsLoading || isTechLoading;
   const isError = isSkillsError || isTechError;
   const hasMoreSkills = mySkills.length > DISPLAY_LIMIT;
-  const visibleSkills = hasMoreSkills ? mySkills.slice(0, DISPLAY_LIMIT) : mySkills;
+  const visibleSkills = hasMoreSkills
+    ? mySkills.slice(0, DISPLAY_LIMIT)
+    : mySkills;
 
   return (
     <Card className="min-h-64 gap-0">
       <CardHeader>
         <CardTitle>Skills</CardTitle>
         <CardAction>
-          <Button size="icon-sm" variant="ghost" aria-label="Edit skills">
+          {/* <Button size="icon-sm" variant="ghost" aria-label="Edit skills">
             <Pencil className="h-4 w-4" />
-          </Button>
+          </Button> */}
+          <AddSkill />
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -102,7 +102,7 @@ export default function Skills() {
           <ItemGroup className="flex flex-col gap-4">
             <div className="flex flex-row flex-wrap items-center gap-2">
               {visibleSkills.map((skill) => (
-                <MotionDiv key={skill.id} >
+                <MotionDiv key={skill.id}>
                   <Item
                     variant="outline"
                     size="xs"
@@ -138,10 +138,15 @@ export default function Skills() {
             )}
           </ItemGroup>
         )}
-
       </CardContent>
       <CardFooter>
-        <AddSkill/>
+        {mySkills.length > 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Total skills selected: {mySkills.length}
+          </p>
+        ) : (
+          <AddSkill />
+        )}
       </CardFooter>
     </Card>
   );

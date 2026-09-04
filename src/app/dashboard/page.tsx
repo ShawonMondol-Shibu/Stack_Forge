@@ -19,7 +19,7 @@ import useTechStack from "@/hooks/queries/useTechStack";
 import { useProjectStore } from "@/store/useProjectStore";
 import { useTechStackStore } from "@/store/TechStackStore";
 import { useTaskStore } from "@/store/TaskStore";
-import { useSkills } from "@/hooks/queries/use-skills";
+import { useSkillsQuery } from "@/hooks/queries/use-skills";
 import useSkillsStore from "@/store/useSkillsStore";
 import { TaskQuery } from "@/hooks/queries/use-task";
 
@@ -27,7 +27,7 @@ export default function Page() {
   const { data: projects } = useQuery(getAllProjects())
   const { data: task } = TaskQuery.GetAllTasks();
   const { data: techStack } = useTechStack()
-  const { data: skills } = useSkills()
+  const { data: skills } = useSkillsQuery()
   const { setProjects } = useProjectStore()
   const { setTask } = useTaskStore()
   const { setTechStack } = useTechStackStore()

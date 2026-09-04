@@ -18,7 +18,7 @@ export const skillService = {
   updateSkill: (id: string, data: UpdateSkillPayload) => {
     return apiService<ApiResponse<Skill>>({
       endpoint: `/skills/${id}`,
-      method: "PUT",
+      method: "PATCH",
       body: data,
     });
   },

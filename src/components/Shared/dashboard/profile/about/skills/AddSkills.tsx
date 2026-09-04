@@ -29,6 +29,7 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { useTechStackStore } from "@/store/TechStackStore";
 import useSkillsStore from "@/store/useSkillsStore";
+import { useCreateSkill, useUpdateSkill } from "@/hooks/mutations/use-skills-mutation";
 
 const skillSchema = z.object({
   techStack: z.array(z.string()).min(1, "At least one skill is required"),
@@ -38,7 +39,10 @@ export default function AddSkills() {
 
   const { techStacks } = useTechStackStore();
   const { skills } = useSkillsStore(); 
-  const exstingSkills = skills?.techStack || [];
+  const {mutate: updateSkill}= useUpdateSkill()
+  const {mutate: createSkill} = useCreateSkill()
+  const newSkills = techStacks.filter((stack)=> !skills.techStack?.includes(stack.id));
+  console.log(skills.techStack, techStacks)
 
   const form = useForm({
     resolver: zodResolver(skillSchema),
@@ -48,7 +52,15 @@ export default function AddSkills() {
   });
 
   const onSubmit = (data: z.infer<typeof skillSchema>) => {
-    console.log("Selected skills:", data.techStack);
+    if(skills.id){
+      const updatedSkills = { techStack: [...skills.techStack ?? [], ...data.techStack] };
+      updateSkill({ id: skills.id, data: updatedSkills })
+    }
+    if (!skills.id) {
+      const newSkillsData = { techStack: data.techStack };
+      createSkill(newSkillsData);
+    }
+    console.log("Selected skills:", [...skills.techStack ?? [], ...data.techStack]);
   };
   return (
     <Dialog>
@@ -65,6 +77,7 @@ export default function AddSkills() {
             Add a new skill to your profile.
           </DialogDescription>
         </DialogHeader>
+
         {/* Add your form or content here */}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Controller
@@ -81,7 +94,7 @@ export default function AddSkills() {
 
                   <Combobox
                     multiple
-                    items={techStacks.filter((item) => !exstingSkills.includes(item.id))}
+                    items={newSkills}
                     value={selectedValues}
                     onValueChange={(val) => field.onChange(val)}
                   >
