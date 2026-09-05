@@ -1,15 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiService } from "@/lib/api-routes/apis";
-import { taskType } from "@/lib/types/task-type";
-import { ApiResponse } from "@/lib/types/api";
 import { queryKeys } from "@/lib/Query-keys";
+import { taskService } from "@/services/task.service";
 
 export const TaskQuery = {
   GetAllTasks: () => {
     return useQuery({
       queryKey: queryKeys.tasks.all,
-      queryFn: async () =>
-        apiService<ApiResponse<taskType[]>>({ endpoint: "/tasks" }),
+      queryFn: async () => taskService.getAll(),
       select: (data) => data.data,
     });
   },
@@ -17,8 +14,7 @@ export const TaskQuery = {
   GetTaskById: (id: string) => {
     return useQuery({
       queryKey: queryKeys.tasks.getOne(id),
-      queryFn: async () =>
-        apiService<ApiResponse<taskType>>({ endpoint: `/tasks/${id}` }),
+      queryFn: async () => taskService.getById(id),
       select: (data) => data.data,
     });
   },

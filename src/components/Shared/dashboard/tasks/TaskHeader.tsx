@@ -62,7 +62,7 @@ export default function TaskHeader() {
       <TabsList variant={"line"}>
         {triggersData.map((trigger, i) => (
           <TabsTrigger key={i} value={trigger.value}>
-            <div>
+            <div className="flex items-center gap-2">
               <span>{trigger.label}</span>
               <Button variant={"outline"} size={"icon-xs"}>
                 {" "}

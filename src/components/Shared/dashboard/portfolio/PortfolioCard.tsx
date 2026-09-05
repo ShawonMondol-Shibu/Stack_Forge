@@ -24,7 +24,7 @@ import React, { useEffect } from "react";
 export default function PortfolioCard() {
   const { setProfile } = useProfileStore();
   const { projects } = useProjectStore();
-  const { data: profile } = profileQuery.GetProfile();
+  const { data: profile } = profileQuery.GetMyProfile();
   useEffect(() => {
     if (profile) {
       setProfile(profile);

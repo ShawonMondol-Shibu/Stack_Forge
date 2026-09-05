@@ -47,7 +47,7 @@ export default function ProfileHeader() {
     isLoading,
     isError,
     error,
-  } = profileQuery.GetProfile()
+  } = profileQuery.GetMyProfile()
 
   // Sync state cleanly via React lifecycle
   useEffect(() => {

@@ -1,23 +1,26 @@
-import { apiService } from "@/lib/api-routes/apis";
 import { queryKeys } from "@/lib/Query-keys";
-import { ApiResponse } from "@/lib/types/api";
-import { UserProfile } from "@/lib/types/profile-type";
+import { profileService } from "@/services/profile.service";
 import { useQuery } from "@tanstack/react-query";
 
 export const profileQuery = {
-  GetProfile: () => {
+  GetMyProfile: () => {
     return useQuery({
       queryKey: queryKeys.profile.me,
-      queryFn: async () =>
-        apiService<ApiResponse<UserProfile>>({ endpoint: "/profile" }),
+      queryFn: async () => profileService.getMyProfile(),
+      select: (data) => data.data,
+    });
+  },
+  GetAllProfiles: () => {
+    return useQuery({
+      queryKey: queryKeys.profile.allProfiles,
+      queryFn: async () => profileService.getAllProfiles(),
       select: (data) => data.data,
     });
   },
   GetProfileById: (id: string) => {
     return useQuery({
       queryKey: queryKeys.profile.profile(id),
-      queryFn: async () =>
-        apiService<ApiResponse<UserProfile>>({ endpoint: `/profile/${id}` }),
+      queryFn: async () => profileService.getProfileById(id),
       select: (data) => data.data,
     });
   },
