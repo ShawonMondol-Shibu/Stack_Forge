@@ -1,4 +1,5 @@
 import { apiService } from "@/lib/api-routes/apis";
+import { ApiResponse } from "@/lib/types/api";
 import { TechStackItem } from "@/lib/types/techStack-type";
 
 export const techStackService = {
@@ -10,27 +11,27 @@ export const techStackService = {
     })
   },
   getAll: () => {
-    return apiService({
+    return apiService<ApiResponse<TechStackItem[]>>({
       endpoint: "/tech-stacks",
       method: "GET",
     })
   },
 
   getById: (id: string) => {
-    return apiService({
+    return apiService<ApiResponse<TechStackItem>>({
       endpoint: `/tech-stacks/${id}`,
       method: "GET",
     })
   },
   update: (id: string, data: TechStackItem) => {
-    return apiService({
+    return apiService<ApiResponse<TechStackItem>>({
       endpoint: `/tech-stacks/${id}`,
       method: "PUT",
       body: data,
     })
   },
   delete: (id: string) => {
-    return apiService({
+    return apiService<ApiResponse<TechStackItem>>({
       endpoint: `/tech-stacks/${id}`,
       method: "DELETE",
     })
