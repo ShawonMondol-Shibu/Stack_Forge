@@ -31,7 +31,7 @@ import useSkillsStore from "@/store/useSkillsStore";
 const DISPLAY_LIMIT = 12;
 
 export default function Skills() {
-  const setTechStack = useTechStackStore((state) => state.setTechStack);
+  const {setTechStack} = useTechStackStore();
   const { setSkills } = useSkillsStore();
 
   // Query 1: User's enabled skill IDs
@@ -53,7 +53,7 @@ export default function Skills() {
     if (techStacks && techStacks.length > 0) {
       setTechStack(techStacks);
     }
-    if (skills) {
+    if (skills && skills.techStack && skills.techStack.length > 0) {
       setSkills(skills);
     }
   }, [techStacks, setTechStack, skills, setSkills]);
@@ -73,7 +73,7 @@ export default function Skills() {
     : mySkills;
 
   return (
-    <Card className="min-h-64 gap-0">
+    <Card className="min-h-64 gap-2">
       <CardHeader>
         <CardTitle>Skills</CardTitle>
         <CardAction>

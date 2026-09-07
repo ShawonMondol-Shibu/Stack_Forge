@@ -5,35 +5,36 @@ import { TechStackItem } from "@/lib/types/techStack-type";
 export const techStackService = {
   create: (data: TechStackItem) => {
     return apiService({
-      endpoint: "/tech-stacks",
+      endpoint: "/tech-stack",
       method: "POST",
       body: data,
-    })
+    });
   },
+
   getAll: () => {
     return apiService<ApiResponse<TechStackItem[]>>({
-      endpoint: "/tech-stacks",
+      endpoint: "/tech-stack",
       method: "GET",
-    })
+    });
   },
 
   getById: (id: string) => {
     return apiService<ApiResponse<TechStackItem>>({
-      endpoint: `/tech-stacks/${id}`,
+      endpoint: `/tech-stack/${id}`,
       method: "GET",
-    })
+    });
   },
   update: (id: string, data: TechStackItem) => {
     return apiService<ApiResponse<TechStackItem>>({
-      endpoint: `/tech-stacks/${id}`,
+      endpoint: `/tech-stack/${id}`,
       method: "PUT",
       body: data,
-    })
+    });
   },
   delete: (id: string) => {
     return apiService<ApiResponse<TechStackItem>>({
       endpoint: `/tech-stacks/${id}`,
       method: "DELETE",
-    })
+    });
   },
-}
+};

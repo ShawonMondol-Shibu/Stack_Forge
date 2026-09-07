@@ -27,7 +27,6 @@ import Image from "next/image";
 import useTechStack from "@/hooks/queries/useTechStack";
 import { TechStackItem } from "@/lib/types/techStack-type";
 
-
 const formSchema = z.object({
   name: z.string().min(2, { message: "Enter project name" }),
   description: z
@@ -39,7 +38,7 @@ const formSchema = z.object({
 export default function ProjectForm() {
   const anchor = useComboboxAnchor();
 
-  const { data: techStacks = [] } = useTechStack()
+  const { data: techStacks = [] } = useTechStack();
 
   const { mutate, isPending } = useCreateProject();
 

@@ -29,7 +29,12 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { useTechStackStore } from "@/store/TechStackStore";
 import useSkillsStore from "@/store/useSkillsStore";
-import { useCreateSkill, useUpdateSkill } from "@/hooks/mutations/use-skills-mutation";
+import {
+  useCreateSkill,
+  useUpdateSkill,
+} from "@/hooks/mutations/use-skills-mutation";
+import { Pencil, Plus } from "@animateicons/react/lucide";
+import { Toaster } from "@/components/ui/toast";
 
 const skillSchema = z.object({
   techStack: z.array(z.string()).min(1, "At least one skill is required"),
@@ -38,11 +43,13 @@ export default function AddSkills() {
   const anchor = useComboboxAnchor();
 
   const { techStacks } = useTechStackStore();
-  const { skills } = useSkillsStore(); 
-  const {mutate: updateSkill}= useUpdateSkill()
-  const {mutate: createSkill} = useCreateSkill()
-  const newSkills = techStacks.filter((stack)=> !skills.techStack?.includes(stack.id));
-  console.log(skills.techStack, techStacks)
+  const { skills } = useSkillsStore();
+  const { mutate: updateSkill } = useUpdateSkill();
+  const { mutate: createSkill } = useCreateSkill();
+  const newSkills = techStacks.filter(
+    (stack) => !skills.techStack?.includes(stack.id),
+  );
+  console.log(skills.techStack, techStacks);
 
   const form = useForm({
     resolver: zodResolver(skillSchema),
@@ -52,23 +59,38 @@ export default function AddSkills() {
   });
 
   const onSubmit = (data: z.infer<typeof skillSchema>) => {
-    if(skills.id){
-      const updatedSkills = { techStack: [...skills.techStack ?? [], ...data.techStack] };
-      updateSkill({ id: skills.id, data: updatedSkills })
+    if (skills.id) {
+      const updatedSkills = {
+        techStack: [...(skills.techStack ?? []), ...data.techStack],
+      };
+      updateSkill({ id: skills.id, data: updatedSkills });
     }
     if (!skills.id) {
       const newSkillsData = { techStack: data.techStack };
       createSkill(newSkillsData);
     }
-    console.log("Selected skills:", [...skills.techStack ?? [], ...data.techStack]);
+    console.log("Selected skills:", [
+      ...(skills.techStack ?? []),
+      ...data.techStack,
+    ]);
   };
   return (
     <Dialog>
       <DialogTrigger
-        render={<Button variant="outline" className={"w-fit mx-auto"} />}
+        render={
+          <Button variant="default" size={"xs"} className={"w-fit mx-auto"} />
+        }
         className="w-fit mx-auto text-center"
       >
-        Add Skills
+        {skills.techStack && skills.techStack.length > 0 ? (
+          <>
+            <Pencil /> Edit
+          </>
+        ) : (
+          <>
+            <Plus /> Add Skills
+          </>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-106">
         <DialogHeader>
@@ -159,8 +181,17 @@ export default function AddSkills() {
             }}
           />
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="submit">Add</Button>
+            {skills.techStack && skills.techStack.length > 0 ? (
+              <>
+                <Button type="submit">Save</Button>
+              </>
+            ) : (
+              <>
+                <Button type="submit">Add</Button>
+              </>
+            )}
           </div>
+          <Toaster/>
         </form>
       </DialogContent>
     </Dialog>

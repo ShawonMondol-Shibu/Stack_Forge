@@ -43,7 +43,7 @@ export default function RecentProjects() {
       </CardHeader>
       <CardContent>
         <ItemGroup className="gap-0.5!">
-          {projects.slice(0, 3).map((project, i) => {
+          {projects.slice(0, 4).map((project, i) => {
             const projectTechStacks = techStacks.filter((stack) =>
               project.techStack.includes(stack.id),
             );

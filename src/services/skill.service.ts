@@ -1,18 +1,22 @@
 import { apiService } from "@/lib/api-routes/apis";
 import { ApiResponse } from "@/lib/types/api";
-import { UpdateSkillPayload, type CreateSkillPayload, type Skill } from "@/lib/types/skill-type";
+import {
+  UpdateSkillPayload,
+  type CreateSkillPayload,
+  type Skill,
+} from "@/lib/types/skill-type";
 
 export const skillService = {
-  getMySkills: () => {
-    return apiService<ApiResponse<Skill>>({ endpoint: "/skills" });
-  },
-
   addSkill: (data: CreateSkillPayload) => {
     return apiService<ApiResponse<Skill>>({
       endpoint: "/skills",
       method: "POST",
       body: data,
     });
+  },
+
+  getMySkills: () => {
+    return apiService<ApiResponse<Skill>>({ endpoint: "/skills" });
   },
 
   updateSkill: (id: string, data: UpdateSkillPayload) => {
@@ -24,6 +28,9 @@ export const skillService = {
   },
 
   deleteSkill: (id: string) => {
-    return apiService<ApiResponse<void>>({ endpoint: `/skills/${id}`, method: "DELETE" });
+    return apiService<ApiResponse<void>>({
+      endpoint: `/skills/${id}`,
+      method: "DELETE",
+    });
   },
 };
