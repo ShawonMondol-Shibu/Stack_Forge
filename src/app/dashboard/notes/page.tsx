@@ -1,10 +1,10 @@
-import NotesHeader from '@/components/Shared/dashboard/notes/NotesHeader';
+import { Card } from '@/components/ui/card';
 import React from 'react'
 
-export default function Page() {
+export default function page() {
   return (
-    <main className='w-full container mx-auto'>
-      <NotesHeader/>
-    </main>
+    <Card className="w-full border rounded-l-none col-span-10">
+      
+    </Card>
   )
 }

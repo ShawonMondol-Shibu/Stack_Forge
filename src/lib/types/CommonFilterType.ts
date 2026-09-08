@@ -2,10 +2,10 @@ export type CommonFilterType = {
     searchPlaceholder:string,
     selectPlaceholder?: string,
     selectPlaceholder_2?: string,
-    sortPlaceholder: string,
+    sortPlaceholder?: string,
     selectItems?: SelectItemsType[],
     selectItems2?: SelectItemsType[],
-    sortitems: SelectItemsType[]
+    sortitems?: SelectItemsType[]
 };
 
 export type SelectItemsType = {

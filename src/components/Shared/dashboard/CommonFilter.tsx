@@ -92,20 +92,22 @@ export default function CommonFilter({
       )}
 
       {/* Sort by Recent Updates */}
-      <Select>
-        <SelectTrigger>
-          <SelectValue placeholder={sortPlaceholder} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {sortitems?.map((item: SelectItemsType) => (
-              <SelectItem key={item?.value} value={item?.value}>
-                {item?.label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {!sortPlaceholder ? null : (
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder={sortPlaceholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {sortitems?.map((item: SelectItemsType) => (
+                <SelectItem key={item?.value} value={item?.value}>
+                  {item?.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
 
       <Button variant={"default"} size={"icon"} onClick={handleFilter}>
         <Filter />
