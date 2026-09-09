@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { NotebookPen } from "lucide-react";
+import AddNote from "../notes/AddNote";
 
 export default function RecentNotes() {
   return (
@@ -15,10 +15,7 @@ export default function RecentNotes() {
       <CardHeader>
         <CardTitle className="text-xl">Recent Notes</CardTitle>
         <CardAction>
-          <Button variant={"ghost"} size={"xs"} className={"text-primary"}>
-            {" "}
-            + New Note
-          </Button>
+          <AddNote variant="ghost" size="xs"/>
         </CardAction>
       </CardHeader>
       <CardContent>
