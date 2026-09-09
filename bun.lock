@@ -16,6 +16,7 @@
         "embla-carousel-autoplay": "^8.6.0",
         "embla-carousel-react": "^8.6.0",
         "install": "^0.13.0",
+        "jodit-react": "^5.5.8",
         "lucide-react": "^1.25.0",
         "motion": "^12.43.0",
         "next": "16.2.10",
@@ -960,6 +961,10 @@
     "iterator.prototype": ["iterator.prototype@1.1.5", "", { "dependencies": { "define-data-property": "^1.1.4", "es-object-atoms": "^1.0.0", "get-intrinsic": "^1.2.6", "get-proto": "^1.0.0", "has-symbols": "^1.1.0", "set-function-name": "^2.0.2" } }, "sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g=="],
 
     "jiti": ["jiti@2.7.0", "", { "bin": { "jiti": "lib/jiti-cli.mjs" } }, "sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ=="],
+
+    "jodit": ["jodit@4.14.7", "", {}, "sha512-Ef3Vgcp+XSCboTL/drH6ZGBdLLEzm/Jw7yjsUaK7p50462/we6wDDNWW2nGQUIlSYvUvzAH2SIw7c1io2Wl3Sg=="],
+
+    "jodit-react": ["jodit-react@5.5.8", "", { "dependencies": { "jodit": "^4.14.7" }, "peerDependencies": { "react": "~0.14 || ^15 || ^16 || ^17 || ^18 || ^19", "react-dom": "~0.14 || ^15 || ^16 || ^17 || ^18 || ^19" } }, "sha512-vTASru9YmzAP4i80XwiByWvb1R0xrKNRYczkL2+/qeRrw4JW0PlkLitB2QBF8Swdix++ad6ZzEFdqnkn3htJcA=="],
 
     "jose": ["jose@6.2.10", "", {}, "sha512-iiW7J9qRFlGxvCOIBDBDxFePQSn7ZMAnrYGhrrOo6siO/MIqwfyilLR27pkfDgUk+raLuzADS8A3S/KLBisc0g=="],
 

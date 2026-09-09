@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { ChevronDown, X } from "@animateicons/react/lucide";
-import { Cross } from "lucide-react";
+import JoditEditor from "jodit-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import JoditConfig from "./JoditConfig";
 
 export default function NoteForm() {
   const [tags, setTags] = useState<string[]>([]);
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
   const tagsRef = useRef<HTMLInputElement | null>(null);
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const tagsValue = tagsRef.current?.value.trim();
@@ -25,9 +28,11 @@ export default function NoteForm() {
   };
 
   const handleRemoveTag = (tag: string) => {
-    const removedTags = tags.filter((t)=> t!==tag)
+    const removedTags = tags.filter((t) => t !== tag);
     setTags(removedTags);
   };
+
+  
 
   return (
     <form className="w-full">
@@ -69,13 +74,13 @@ export default function NoteForm() {
             />
           </InputGroup>
           <div className="flex items-center gap-2">
-            <small className="text-muted-foreground">
-
-            # Tags: 
-            </small>
+            <small className="text-muted-foreground"># Tags:</small>
             {tags.map((tag: string, i: number) => (
-              <Badge key={i} variant={"outline"} className="p-1.5 text-accent-foreground ">
-
+              <Badge
+                key={i}
+                variant={"outline"}
+                className="p-1.5 text-accent-foreground "
+              >
                 {tag}{" "}
                 <X
                   size={10}
@@ -86,12 +91,24 @@ export default function NoteForm() {
             ))}
           </div>
         </div>
+
         {/* Content Input */}
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="tags">Content</Label>
           <InputGroup>
-            <InputGroupInput name="tags" placeholder="Add tags..." />
+          <InputGroupInput name="tags" placeholder="Add tags..." />
           </InputGroup>
+          </div> */}
+
+        <div className="space-y-2">
+          <Label htmlFor="tags">Content:</Label>
+          <JoditEditor
+            ref={editor}
+            value={content}
+            config={JoditConfig()}
+            onBlur={(newContent) => setContent(newContent)}
+            name="content"
+          />
         </div>
       </div>
     </form>
