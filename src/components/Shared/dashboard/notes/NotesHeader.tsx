@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Item, ItemContent, ItemGroup, ItemMedia } from "@/components/ui/item";
-import { FilesIcon, Plus } from "@animateicons/react/lucide";
+import { FilesIcon, Plus, PlusIcon } from "@animateicons/react/lucide";
 import React from "react";
+import AddNote from "./AddNote";
+import NoteForm from "./NoteForm";
+import Link from "next/link";
 
 export default function NotesHeader() {
   return (
@@ -13,15 +16,19 @@ export default function NotesHeader() {
             Capture ideas, learnings and important things.
           </span>
         </div>
+
+        <Link href={"/dashboard/notes/add_note"}>
         <Button>
-        <Plus/> New Note
+
+            <PlusIcon/> New Note
         </Button>
+        </Link>
       </div>
 
       <ItemGroup className="grid grid-cols-4 items-center gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <Item key={i} variant={"outline"} className="">
-            <ItemMedia className="p-2 bg-primary/20 rounded-md">
+            <ItemMedia className="p-4 bg-primary/20 text-primary rounded-md">
               <FilesIcon size={24} />
             </ItemMedia>
             <ItemContent>

@@ -14,7 +14,7 @@ import React from "react";
 
 export default function NoteDetails({ id }: { id: string }) {
   return (
-      <Card className={"rounded-l-none w-full col-span-10 shadow-none border-0"}>
+      <Card className={"rounded-l-none w-full h-full shadow-none border-0"}>
         <MotionDiv>
       <CardHeader>
         <div className="flex items-center gap-x-4">

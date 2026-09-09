@@ -1,7 +1,7 @@
 import React from "react";
 import NoteDetails from "./NoteDetails";
 
-export default async function page({
+export default async function Page({
   params,
 }: {
   params: Promise<{ note_content: string }>;
