@@ -22,7 +22,7 @@ export const noteService = {
     });
   },
 
-  getOne: (id: string) => {
+  getOne: (id?: string) => {
     return apiService<ApiResponse<NoteType>>({
       endpoint: `/notes/${id}`,
       method: "GET",

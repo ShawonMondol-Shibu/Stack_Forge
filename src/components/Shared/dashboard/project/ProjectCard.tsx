@@ -25,12 +25,13 @@ import { useQuery } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-routes/apis";
 import { TechStackItem } from "@/lib/types/techStack-type";
 import MotionDiv from "../../MotionDiv";
+import { queryKeys } from "@/lib/Query-keys";
 
 export default function ProjectCard({ project }: { project: ProjectType }) {
   const { mutate, isPending } = useDeleteProject();
 
   const { data: techStacks = [] } = useQuery({
-    queryKey: ["techstacks"],
+    queryKey: queryKeys.techStacks.all,
     queryFn: () =>
       apiService<{ data: TechStackItem[] }>({
         endpoint: "/tech-stack",

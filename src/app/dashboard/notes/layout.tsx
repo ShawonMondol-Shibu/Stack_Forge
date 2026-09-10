@@ -10,10 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className=" rounded-4xl border grid grid-cols-12 w-full">
         <NotesSidebar className="col-span-2 border-r-0" />
 
-<div className="col-span-10 border-l w-full h-full">
-
-        {children}
-</div>
+        <div className="col-span-10 border-l w-full min-h-[50vh] ">
+          {children}
+        </div>
       </section>
     </div>
   );

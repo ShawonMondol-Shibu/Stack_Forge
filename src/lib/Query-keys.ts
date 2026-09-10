@@ -27,4 +27,11 @@ export const queryKeys = {
     profile: (id: string) => ["profile", id] as const,
     update: (id: string) => ["update-profile", id] as const,
   },
+
+  notes: {
+    all: ["all-notes"] as const,
+    getOne: (id?: string) => ["note", id] as const,
+    update: (id: string) => ["update-note", id] as const,
+    delete: (id: string) => ["delete-note", id] as const,
+  },
 };
