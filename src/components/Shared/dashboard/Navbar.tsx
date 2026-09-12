@@ -52,7 +52,6 @@ const navLinks = [
 export function NavbarLeft() {
   const pathName = usePathname();
   return (
-      <div className={"z-50 fixed top-8 left-6 w-fit"}>
         <DropdownMenu>
           <DropdownMenuTrigger className={""}>
             <motion.div
@@ -91,7 +90,7 @@ export function NavbarLeft() {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+    
   );
 }
 
@@ -104,7 +103,7 @@ export function NavbarRight() {
     <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        className="z-50 flex items-center gap-2 fixed top-8 right-5 w-fit"
+        className="flex items-center gap-2 w-fit"
       >
         <ModeToggle/>
         <DropdownMenu>

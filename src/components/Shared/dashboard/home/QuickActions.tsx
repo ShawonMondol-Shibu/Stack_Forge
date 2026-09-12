@@ -12,6 +12,7 @@ import { ItemGroup } from "@/components/ui/item";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import ProjectForm from "../project/ProjectForm";
 import TaskForm from "../tasks/TaskForm";
+import NoteForm from "../notes/NoteForm";
 
 export default function QuickActions() {
   const actionData = [
@@ -34,7 +35,7 @@ export default function QuickActions() {
       subtitle: "Write something",
       color: "amber-500",
       icon: NotebookPen,
-      content: null
+      content: <NoteForm/>
     },
     {
       title: "New Event",

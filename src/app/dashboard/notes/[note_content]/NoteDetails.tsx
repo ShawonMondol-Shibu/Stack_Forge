@@ -33,7 +33,7 @@ const noteTags = objToArr(note?.tag);
               variant={"ghost"}
               size={"icon-sm"}
               className={"text-muted-foreground"}
-              onClick={()=>{router.push(`/dashboard/notes/add_note/${note?.id}`)}}
+              onClick={()=>{router.push(`/dashboard/notes/update_note/${note?.id}`)}}
             >
               <Pencil />
             </Button>

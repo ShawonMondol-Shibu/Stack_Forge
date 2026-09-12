@@ -14,6 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { noteMutation } from "@/hooks/mutations/use-note-mutation";
 import { noteQuery } from "@/hooks/queries/use-note";
 import { objToArr } from "@/lib/ObjToArr";
+import MotionDiv from "../../MotionDiv";
+import { usePathname } from "next/navigation";
 
 const noteSchema = z.object({
   title: z.string().min(2, { message: "Please enter note title" }),
@@ -23,18 +25,22 @@ const noteSchema = z.object({
 
 export default function NoteForm({ id }: { id?: string }) {
   const { data: note } = noteQuery.GetOne(id);
-  const [tags, setTags] = useState<string[]>(() =>
-    note?.tag ? objToArr(note.tag) : [],
-  );
-  const editor = useRef(null);
- const [content, setContent] = useState<string>(() =>
-  String(note?.content ?? ""),
-);
-  const tagsRef = useRef<HTMLInputElement | null>(null);
   const { mutate: create, isPending: createLoading } =
     noteMutation.CreateNote();
   const { mutate: update, isPending: updateLoading } =
     noteMutation.UpdateNote();
+
+  const [title, setTitle] = useState(note?.title ?? "");
+  const tagsRef = useRef<HTMLInputElement | null>(null);
+  const editor = useRef(null);
+  const [tags, setTags] = useState<string[]>(() =>
+    note?.tag ? objToArr(note.tag) : [],
+  );
+  const [content, setContent] = useState<string>(() =>
+    String(note?.content ?? ""),
+  );
+
+  const pathName = usePathname();
 
   const {
     register,
@@ -68,7 +74,7 @@ export default function NoteForm({ id }: { id?: string }) {
   };
 
   const onSubmit = (data: z.infer<typeof noteSchema>) => {
-    const finalData = { ...data, tag: tags, content };
+    const finalData = { ...data, title, tag: tags, content };
 
     if (id) {
       update({ id, data: finalData });
@@ -78,103 +84,117 @@ export default function NoteForm({ id }: { id?: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      {/* Form Header */}
-      <div className="flex flex-row items-center justify-between border-b p-4">
-        <h1>{id ? "Update Note" : "New Note"}</h1>
+    <MotionDiv>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        {/* Form Header */}
+        <div className="flex flex-row items-center justify-between border-b p-4">
+          <h1>{id ? "Update Note" : "New Note"}</h1>
 
-        <div className="flex items-center gap-2">
-          <Link href={!id?"/dashboard/notes": `/dashboard/notes/${id}`}>
-            <Button variant={"outline"} size={"sm"}>
-              Close
-            </Button>
-          </Link>
-          {id ? (
-            <Button size={"sm"} type="submit">
-              {updateLoading ? (
-                <LoaderIcon />
-              ) : (
-                <>
-                  Update Note <ChevronDown />
-                </>
-              )}
-            </Button>
-          ) : (
-            <Button size={"sm"} type="submit">
-              {createLoading ? (
-                <LoaderIcon />
-              ) : (
-                <>
-                  Save Note <ChevronDown />
-                </>
-              )}
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {/* Form Inputs */}
-
-      <div className="space-y-6 p-4">
-        {/* * * Title Input */}
-        <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
-          <InputGroup>
-            <InputGroupInput
-              {...register("title")}
-              name="title"
-              value={note?.title}
-              placeholder="Enter note title..."
-            />
-          </InputGroup>
-          {errors.title?.message && (
-            <p className="text-red-500">{errors.title?.message}</p>
-          )}
-        </div>
-        {/* Tags Input */}
-        <div className="space-y-2">
-          <Label htmlFor="tags">Tags (option)</Label>
-          <InputGroup>
-            <InputGroupInput
-              ref={tagsRef}
-              name="tags"
-              placeholder="Add tag name & enter"
-              onKeyDown={handleKeyDown}
-            />
-          </InputGroup>
           <div className="flex items-center gap-2">
-            <small className="text-muted-foreground"># Tags:</small>
-            {tags.map((tag: string, i: number) => (
-              <Badge
-                key={i}
-                variant={"outline"}
-                className="p-1.5 text-accent-foreground "
+            {pathName === "/dashboard" ? null : (
+              <Link
+                href={
+                  pathName === `/dashboard/notes/update_note/${id}`
+                    ? `/dashboard/notes/${id}`
+                    : pathName === `/dashboard/notes/add_note/${id}`
+                      ? `/dashboard/notes/${id}`
+                      : `/dashboard/notes`
+                }
               >
-                {tag}{" "}
-                <X
-                  size={10}
-                  className="hover:cursor-pointer"
-                  onClick={() => handleRemoveTag(tag)}
-                />
-              </Badge>
-            ))}
+                <Button variant={"outline"} size={"sm"}>
+                  Close
+                </Button>
+              </Link>
+            )}
+            {id ? (
+              <Button size={"sm"} type="submit">
+                {updateLoading ? (
+                  <LoaderIcon />
+                ) : (
+                  <>
+                    Update Note <ChevronDown />
+                  </>
+                )}
+              </Button>
+            ) : (
+              <Button size={"sm"} type="submit">
+                {createLoading ? (
+                  <LoaderIcon />
+                ) : (
+                  <>
+                    Save Note <ChevronDown />
+                  </>
+                )}
+              </Button>
+            )}
           </div>
-          {errors.tag?.message && (
-            <p className="text-red-500">{errors.title?.message}</p>
-          )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="tags">Content:</Label>
-          <JoditEditor
-            ref={editor}
-            value={content}
-            config={JoditConfig()}
-            onBlur={(newContent) => setContent(String(newContent))}
-            name="content"
-          />
+        {/* Form Inputs */}
+
+        <div className="space-y-6 p-4">
+          {/* * * Title Input */}
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <InputGroup>
+              <InputGroupInput
+                {...register("title")}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                placeholder="Enter note title..."
+              />
+            </InputGroup>
+            {errors.title?.message && (
+              <p className="text-red-500">{errors.title?.message}</p>
+            )}
+          </div>
+          {/* Tags Input */}
+          <div className="space-y-2">
+            <Label htmlFor="tags">Tags (option)</Label>
+            <InputGroup>
+              <InputGroupInput
+                ref={tagsRef}
+                name="tags"
+                placeholder="Add tag name & enter"
+                onKeyDown={handleKeyDown}
+              />
+            </InputGroup>
+            <div className="flex items-center gap-2">
+              <small className="text-muted-foreground"># Tags:</small>
+              {tags.map((tag: string, i: number) => (
+                <Badge
+                  key={i}
+                  variant={"outline"}
+                  className="p-1.5 text-accent-foreground "
+                >
+                  {tag}{" "}
+                  <X
+                    size={10}
+                    className="hover:cursor-pointer"
+                    onClick={() => handleRemoveTag(tag)}
+                  />
+                </Badge>
+              ))}
+            </div>
+            {errors.tag?.message && (
+              <p className="text-red-500">{errors.title?.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="tags">Content:</Label>
+            <JoditEditor
+              ref={editor}
+              value={content}
+              config={JoditConfig()}
+              onBlur={(newContent) => setContent(String(newContent))}
+              name="content"
+            />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </MotionDiv>
   );
 }

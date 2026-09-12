@@ -6,7 +6,7 @@ export default async function Page({
 }: {
   params: Promise<{ note_content: string }>;
 }) {
-  const id = (await params).note_content;
+  const {note_content:id} = await params;
 
   return <NoteDetails id={id} />;
 }
