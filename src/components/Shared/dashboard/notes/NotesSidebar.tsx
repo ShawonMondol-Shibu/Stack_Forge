@@ -1,28 +1,44 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import React, { useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import CommonFilter from "../CommonFilter";
 import { PinIcon } from "@animateicons/react/lucide";
 import { cn } from "@/lib/utils";
 import { Item } from "@/components/ui/item";
 import Link from "next/link";
 import { noteQuery } from "@/hooks/queries/use-note";
-import { useNoteStore } from "@/store/useNoteStore";
+import { usePathname } from "next/navigation";
 
 export default function NotesSidebar({ className }: { className?: string }) {
-  const { notes, setNotes } = useNoteStore();
   const { data } = noteQuery.GetAll();
-  useEffect(() => {
-    if (data) {
-      setNotes([...data]);
-    }
-  }, [data, setNotes]);
+  const [search, setSearch] = useState<string>("");
+  const pathName = usePathname();
+
+  const handleFilter = (value?: string) => {
+    setSearch(value as string);
+  };
+
+  const filteredNotes = useMemo(() => {
+    const notes = data ?? [];
+    const query = search.trim().toLowerCase();
+
+    if (!query) return notes;
+
+    return notes.filter((note) =>
+      JSON.stringify(note).toLowerCase().includes(query),
+    );
+  }, [data, search]);
 
   return (
     <aside className={cn("rounded-l-4xl p-2 space-y-4", className)}>
-      <CommonFilter searchPlaceholder="Search notes..." />
+      {/* Common Filter */}
+      <CommonFilter
+        searchPlaceholder="Search notes..."
+        handleFilter={handleFilter}
+        isNote={true}
+      />
       <div className="flex flex-col gap-y-2">
-        {notes?.map((note) => {
+        {filteredNotes?.map((note) => {
           const tagStr = `${note?.tag}`.replace("{", "[").replace("}", "]");
           const tags = JSON.parse(tagStr);
           return (
@@ -33,7 +49,12 @@ export default function NotesSidebar({ className }: { className?: string }) {
             >
               <Item
                 variant={"outline"}
-                className={"rounded-2xl p-2"}
+                className={cn(
+                  "rounded-2xl p-2",
+                  pathName.includes(note?.id as string)
+                    ? "border-primary"
+                    : " border-transparent",
+                )}
               >
                 <div className="space-y-1">
                   <span className="flex items-center justify-between gap-2">
@@ -48,16 +69,15 @@ export default function NotesSidebar({ className }: { className?: string }) {
                   </span>
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-x-1">
-
-                    {tags?.slice(0,2).map((tag: string) => (
-                      <Badge
-                      key={tag}
-                      variant={"default"}
-                      className="p-1.5 bg-primary/70"
-                      >
-                        <small>{tag}</small>
-                      </Badge>
-                    ))}
+                      {tags?.slice(0, 2).map((tag: string) => (
+                        <Badge
+                          key={tag}
+                          variant={"default"}
+                          className="p-1.5 bg-primary/70"
+                        >
+                          <small>{tag}</small>
+                        </Badge>
+                      ))}
                     </span>
                     <span className="uppercase text-xs text-muted-foreground">
                       10:30 AM

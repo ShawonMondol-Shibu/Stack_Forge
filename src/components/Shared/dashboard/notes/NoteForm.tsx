@@ -157,10 +157,13 @@ export default function NoteForm({ id }: { id?: string }) {
               <InputGroupInput
                 ref={tagsRef}
                 name="tags"
-                placeholder="Add tag name & enter"
+                placeholder="Add tag..."
                 onKeyDown={handleKeyDown}
               />
             </InputGroup>
+            <span>
+              <small>Press Enter to add Tags</small>
+            </span>
             <div className="flex items-center gap-2">
               <small className="text-muted-foreground"># Tags:</small>
               {tags.map((tag: string, i: number) => (

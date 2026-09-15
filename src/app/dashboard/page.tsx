@@ -12,43 +12,23 @@ import RecentNotes from "@/components/Shared/dashboard/home/RecentNotes";
 import RecentProjects from "@/components/Shared/dashboard/home/RecentProjects";
 import TodaysTask from "@/components/Shared/dashboard/tasks/TodaysTask";
 import WeeklyProductivity from "@/components/Shared/dashboard/WeeklyProductivity";
-import React, { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAllProjects } from "@/hooks/queries/use-projects";
-import useTechStack from "@/hooks/queries/useTechStack";
-import { useProjectStore } from "@/store/useProjectStore";
-import { useTechStackStore } from "@/store/TechStackStore";
-import { useTaskStore } from "@/store/TaskStore";
-import { useSkillsQuery } from "@/hooks/queries/use-skills";
-import useSkillsStore from "@/store/useSkillsStore";
-import { TaskQuery } from "@/hooks/queries/use-task";
+import React from "react";
+// import { useQuery } from "@tanstack/react-query";
+// import { getAllProjects } from "@/hooks/queries/use-projects";
+// import useTechStack from "@/hooks/queries/useTechStack";
+// import { useProjectStore } from "@/store/useProjectStore";
+// import { useTechStackStore } from "@/store/TechStackStore";
+// import { useTaskStore } from "@/store/TaskStore";
+// import { useSkillsQuery } from "@/hooks/queries/use-skills";
+// import useSkillsStore from "@/store/useSkillsStore";
+// import { TaskQuery } from "@/hooks/queries/use-task";
+// import { noteQuery } from "@/hooks/queries/use-note";
+// import { useNoteStore } from "@/store/useNoteStore";
+// import { toast } from "@/components/ui/toast";
+import { InitialLoad } from "@/lib/initialLoad";
 
 export default function Page() {
-  const { data: projects } = useQuery(getAllProjects())
-  const { data: task } = TaskQuery.GetAllTasks();
-  const { data: techStack } = useTechStack()
-  const { data: skills } = useSkillsQuery()
-  const { setProjects } = useProjectStore()
-  const { setTask } = useTaskStore()
-  const { setTechStack } = useTechStackStore()
-  const { setSkills } = useSkillsStore()
-
-  useEffect(() => {
-    if (projects) {
-      setProjects(projects)
-    }
-
-    if (task) {
-      setTask(task)
-    }
-   
-    if (techStack) {
-      setTechStack(techStack)
-    }
-    if (skills) {
-      setSkills(skills)
-    } 
-  }, [projects, setProjects, task, setTask, techStack, setTechStack, skills, setSkills]);
+  InitialLoad()
   return (
     <main className="space-y-6 w-full container mx-auto ">
       <div className={"grid grid-cols-10 items-start gap-6"}>

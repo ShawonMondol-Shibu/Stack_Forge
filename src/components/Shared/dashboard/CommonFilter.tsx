@@ -16,11 +16,12 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { Filter } from "@animateicons/react/lucide";
-import React from "react";
+import React, { useState } from "react";
 import {
   CommonFilterType,
   SelectItemsType,
 } from "@/lib/types/CommonFilterType";
+import { cn } from "@/lib/utils";
 
 export default function CommonFilter({
   searchPlaceholder,
@@ -30,31 +31,34 @@ export default function CommonFilter({
   selectItems,
   selectItems2,
   sortitems,
+  handleSelect,
+  handleFilter = () => {},
+  isNote
 }: CommonFilterType) {
-  const handleSelect = () => {
-    return null;
-  };
-  const handleFilter = () => {
-    return null;
-  };
+  const [search, setSearch] = useState<string | null>();
 
   return (
-    <div className="flex flex-row flex-wrap lg:flex-nowrap items-center justify-between gap-6">
-      <search className="w-xs">
+    <div className={cn(`grid items-center justify-between gap-2`, isNote? "flex flex-row lg:flex-nowrap": "grid-cols-8")}>
+      <search className={cn("w-full col-span-4")}>
         <InputGroup>
           <InputGroupAddon align={"inline-end"}>
-            <InputGroupButton>
+            <InputGroupButton onClick={()=>handleFilter?.(search as string)}>
               <Search />
             </InputGroupButton>
           </InputGroupAddon>
-          <InputGroupInput type={"search"} placeholder={searchPlaceholder} />
+          <InputGroupInput
+            type={"search"}
+            value={search as string}
+            onBlur={(e) => setSearch(e.target.value)}
+            placeholder={searchPlaceholder}
+          />
         </InputGroup>
       </search>
 
       {/* Filter by Tech Stack */}
       {!selectPlaceholder ? null : (
         <Select>
-          <SelectTrigger className="">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder={selectPlaceholder} />
           </SelectTrigger>
           <SelectContent>
@@ -72,7 +76,7 @@ export default function CommonFilter({
       {/* Filter by Status */}
       {!selectPlaceholder_2 ? null : (
         <Select>
-          <SelectTrigger className="">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder={selectPlaceholder_2} />
           </SelectTrigger>
           <SelectContent>
@@ -109,7 +113,12 @@ export default function CommonFilter({
         </Select>
       )}
 
-      <Button variant={"default"} size={"icon"} onClick={handleFilter}>
+      <Button
+        variant={"default"}
+        size={"icon"}
+        type="submit"
+        onClick={() => handleFilter?.(search as string)}
+      >
         <Filter />
       </Button>
     </div>

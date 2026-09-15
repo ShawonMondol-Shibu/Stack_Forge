@@ -28,7 +28,7 @@ import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
-import { useProfileStore } from "@/store/ProfileStore";
+import { profileQuery } from "@/hooks/queries/use-profile";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -98,7 +98,7 @@ export function NavbarLeft() {
 
 export function NavbarRight() {
   const router = useRouter();
-  const {profile} = useProfileStore()
+  const {data:profile}= profileQuery.GetMyProfile()
   return (
     <motion.div
         initial={{ scale: 0 }}
