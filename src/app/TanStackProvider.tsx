@@ -8,7 +8,7 @@ export default function TanStackProvider({ children }:{children:React.ReactNode}
   return (
     <QueryClientProvider client={queryClient}>
         { children }
-        <ReactQueryDevtools/>
+        <ReactQueryDevtools buttonPosition="bottom-left"/>
     </QueryClientProvider>
   )
 }

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
+import ChatBotWidget from "@/components/Shared/ChatBotWidget";
 
 
 const lato = Lato({
@@ -62,6 +63,7 @@ export default function RootLayout({
               {children}
           </ThemeProvider>
         </TanStackProvider>
+        <ChatBotWidget/>
       </body>
     </html>
   );

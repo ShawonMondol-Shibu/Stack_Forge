@@ -37,7 +37,7 @@ export default function NotesSidebar({ className }: { className?: string }) {
         handleFilter={handleFilter}
         isNote={true}
       />
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2">pl
         {filteredNotes?.map((note) => {
           const tagStr = `${note?.tag}`.replace("{", "[").replace("}", "]");
           const tags = JSON.parse(tagStr);
