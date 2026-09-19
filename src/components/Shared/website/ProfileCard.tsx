@@ -31,7 +31,7 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
             <div>
               <Image
                 src={avatarUrl || randomImage}
-                alt={fullName}
+                alt={fullName || "profile_image"}
                 width={500}
                 height={500}
                 className={

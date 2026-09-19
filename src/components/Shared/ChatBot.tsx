@@ -106,7 +106,7 @@ export default function Chatbot() {
                               isStreamingMessage ? "polite" : undefined
                             }
                             className={cn(
-                              "break-words whitespace-pre-wrap",
+                              "wrap-break-word whitespace-pre-wrap",
                               isUser
                                 ? "border-primary/20 bg-primary/10"
                                 : "border-orange-500/20 bg-orange-500/10 text-foreground",
