@@ -5,13 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit3, Share2 } from "lucide-react";
 import Image from "next/image";
-import { userData as data } from "@/lib/mockData";
 import { AvatarHeader } from "./ProfileAvatar";
 import { ProfileMetaInfo } from "./ProfileMetaInfo";
 import { useProfileStore } from "@/store/ProfileStore";
 
 export default function ProfilePage() {
-  const userData = data[0];
   const { profile } = useProfileStore();
   const handleShare = () => {
     return navigator.clipboard.writeText(window.location.href);
@@ -35,9 +33,9 @@ export default function ProfilePage() {
 
         {/* Profile Header & Controls */}
         <AvatarHeader
-          fullName={profile?.fullName || userData.fullName}
-          avatarUrl={profile?.avatarUrl || userData.avatarUrl}
-          availability={profile?.availability || userData.availability}
+          fullName={profile?.fullName || "Full Name"}
+          avatarUrl={profile?.avatarUrl || "/logo.svg"}
+          availability={profile?.availability || "open"}
         />
 
         <CardContent className="space-y-6 pt-0">
@@ -45,13 +43,11 @@ export default function ProfilePage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight capitalize text-foreground">
-                {profile?.fullName || userData.fullName}
+                {profile?.fullName || "Full Name"}
               </h1>
-              {profile?.headline || userData.headline && (
                 <p className="text-muted-foreground mt-0.5">
-                  {profile?.headline ||   userData.headline}
+                  {profile?.headline || "Profile headline"}
                 </p>
-              )}
             </div>
 
             {/* Quick Actions */}
@@ -78,17 +74,17 @@ export default function ProfilePage() {
 
           {/* Metadata (Location, Website, Date) */}
           <ProfileMetaInfo
-            location={profile?.location || userData.location}
-            website={profile?.website || userData.website}
-            createdAt={profile?.createdAt || userData.createdAt}
+            location={profile?.location || "Uesr Location"}
+            website={profile?.website || "User Website"}
+            createdAt={profile?.createdAt || "Profile created time"}
           />
 
           {/* Bio Section with Empty State Handling */}
           <article className="pt-4 border-t border-border/50">
             <h2 className="text-sm font-medium text-foreground mb-2">About</h2>
-            {profile?.bio || userData.bio ? (
+            {profile?.bio ? (
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {profile?.bio || userData.bio}
+                {profile?.bio}
               </p>
             ) : (
               <p className="text-sm italic text-muted-foreground/60">
