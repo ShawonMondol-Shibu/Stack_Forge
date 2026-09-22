@@ -15,7 +15,7 @@ export const InitialLoad = () => {
   const { data: projects } = useQuery(getAllProjects());
   const { data: task } = TaskQuery.GetAllTasks();
   const { data: techStack } = useTechStack();
-  const { data: skills } = useSkillsQuery();
+  const { data: skills } = useSkillsQuery.GetMySkills();
   const { setProjects } = useProjectStore();
   const { setTask } = useTaskStore();
   const { setTechStack } = useTechStackStore();
