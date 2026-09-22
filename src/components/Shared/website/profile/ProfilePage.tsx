@@ -9,7 +9,7 @@ import { AvatarHeader } from "./ProfileAvatar";
 import { ProfileMetaInfo } from "./ProfileMetaInfo";
 import { useProfileStore } from "@/store/ProfileStore";
 
-export default function ProfilePage() {
+export default function ProfilePage({id}: {id:string}) {
   const { profile } = useProfileStore();
   const handleShare = () => {
     return navigator.clipboard.writeText(window.location.href);

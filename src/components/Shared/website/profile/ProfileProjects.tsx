@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ItemGroup } from "@/components/ui/item";
 import ProjectCard from "../ProjectCard";
 
-export default function ProfileProjects() {
+export default function ProfileProjects({id}:{id:string}) {
   return (
     <Card>
       <CardHeader>

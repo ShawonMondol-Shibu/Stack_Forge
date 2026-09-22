@@ -39,7 +39,7 @@ export default function Skills() {
     data: skills,
     isLoading: isSkillsLoading,
     isError: isSkillsError,
-  } = useSkillsQuery();
+  } = useSkillsQuery.GetMySkills();
 
   // Query 2: Master tech stack database catalog
   const {

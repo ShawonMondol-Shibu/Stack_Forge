@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Chatbot from "@/components/Shared/ChatBot";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardAction,
@@ -13,7 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { MessageScrollerProvider } from "@/components/ui/message-scroller";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { CatIcon, XIcon } from "@animateicons/react/lucide";
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +24,7 @@ export default function ChatbotWidget() {
 
   useEffect(() => {
     const onScroll = () => {
-      setShowButton(window.scrollY > 80);
+      setShowButton(window.scrollY > 1);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -41,20 +44,7 @@ export default function ChatbotWidget() {
           onClick={() => setIsOpen((prev) => !prev)}
           className="rounded-full shadow-lg"
         >
-          {isOpen ? (
-            <X className="size-5" />
-          ) : (
-            <Avatar className="animate-pulse">
-              <AvatarImage
-                src="/only_logo.png"
-                alt="Chatbot Avatar"
-                className={'p-1'}
-              />
-              <AvatarFallback>
-                <MessageSquare className="size-5" />
-              </AvatarFallback>
-            </Avatar>
-          )}
+          {isOpen ? <XIcon /> : <CatIcon className="size-4" />}
         </Button>
       </div>
 
@@ -63,11 +53,11 @@ export default function ChatbotWidget() {
           <div className="absolute inset-0" onClick={() => setIsOpen(false)} />
           <div className="relative flex flex-col gap-4">
             <Card className="relative z-10 w-full max-w-md h-[50vh] border-transparent rounded-2xl bg-background backdrop-blur-sm shadow-2xl overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-200">
-              <CardHeader className="flex items-center justify-between border-b px-4 py-3 gap-1">
+              <CardHeader className="flex items-center justify-between border-b gap-1">
                 <CardTitle className="text-sm font-semibold">
-                 Stack Forge
+                  Stack Forge
                 </CardTitle>
-                
+
                 <CardDescription>How can i help you today?</CardDescription>
                 <CardAction>
                   <Tooltip>
@@ -78,7 +68,7 @@ export default function ChatbotWidget() {
                           size="icon-sm"
                           onClick={() => setIsOpen(false)}
                         >
-                          <X className="size-4" />
+                          <XIcon />
                         </Button>
                       }
                     />

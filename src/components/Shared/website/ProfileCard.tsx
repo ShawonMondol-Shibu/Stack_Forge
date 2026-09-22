@@ -16,15 +16,15 @@ import MotionDiv from "../MotionDiv";
 
 export default function ProfileCard({ profile }: { profile: UserProfile }) {
   const [isFollow, setIsFollow] = useState(false);
-  const { fullName, headline, avatarUrl } = profile;
+  const { fullName, headline, avatarUrl, id } = profile;
   const randomImage =
     "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80";
   return (
-    <Link href={`/devs/${profile.userId}`}>
+    <Link href={`/devs/${id}`}>
       <MotionDiv>
         <Card
           className={
-            "w-72 pt-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
+            "w-full pt-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
           }
         >
           <CardHeader className={"p-1 pb-0 "}>
@@ -68,10 +68,11 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
               <span className="text-xs text-muted-foreground">Following</span>
             </div>
             <Button
-              variant={isFollow ? "outline" : "default"}
+              variant={isFollow ? "secondary" : "outline"}
               size={"sm"}
+              disabled={isFollow}
               onClick={() => setIsFollow((prev) => !prev)}
-              className={"shadow bg"}
+              className={"border-primary text-primary"}
             >
               {isFollow ? (
                 <>

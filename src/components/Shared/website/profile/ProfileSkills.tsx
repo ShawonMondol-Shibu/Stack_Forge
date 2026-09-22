@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Item, ItemContent, ItemGroup, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { SiNextdotjs } from "react-icons/si";
 
-export default function ProfileSkills() {
+export default function ProfileSkills({id}:{id:string}) {
   return (
     <Card className=" bg-background">
       <CardHeader>

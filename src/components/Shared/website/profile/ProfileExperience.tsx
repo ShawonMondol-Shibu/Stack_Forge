@@ -11,7 +11,7 @@ import {
 import { BriefcaseBusiness } from "lucide-react";
 import React from "react";
 
-export default function ProfileExperience() {
+export default function ProfileExperience({id}:{id:string}) {
   return (
     <Card>
       <CardHeader>

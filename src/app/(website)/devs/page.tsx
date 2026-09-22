@@ -1,17 +1,10 @@
 "use client";
 import ProfileCard from "@/components/Shared/website/ProfileCard";
-import { apiService } from "@/lib/api-routes/apis";
-import { ApiResponse } from "@/lib/types/api";
+import { profileQuery } from "@/hooks/queries/use-profile";
 import { UserProfile } from "@/lib/types/profile-type";
-import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
-  const { data: profiles } = useQuery({
-    queryKey: ["profiles"],
-    queryFn: () =>
-      apiService<ApiResponse<UserProfile[]>>({ endpoint: "profile/all" }),
-    select: (data) => data.data,
-  });
+  const { data: profiles } = profileQuery.GetAllProfiles();
 
   return (
     <div className="h-dvh py-10 mt-10">

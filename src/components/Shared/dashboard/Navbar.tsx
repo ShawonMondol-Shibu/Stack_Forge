@@ -42,10 +42,10 @@ const navLinks = [
   { url: "/dashboard/github", label: "GitHub", icon: FaGithub },
   { url: "/dashboard/tasks", label: "Tasks", icon: ClipboardList },
   { url: "/dashboard/notes", label: "Notes", icon: NotebookPen },
-  { url: "/dashboard/calender", label: "Calender", icon: CalendarRange },
-  { url: "#", label: "Social Feed", icon: Newspaper },
+  // { url: "/dashboard/calender", label: "Calender", icon: CalendarRange },
+  // { url: "#", label: "Social Feed", icon: Newspaper },
   { url: "/dashboard/messages", label: "Messages", icon: MessagesSquare },
-  { url: "/dashboard/notifications", label: "Notifications", icon: Bell },
+  // { url: "/dashboard/notifications", label: "Notifications", icon: Bell },
   { url: "/dashboard/settings", label: "Settings", icon: SlidersVertical },
 ];
 

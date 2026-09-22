@@ -3,7 +3,7 @@ import { GitHubCalendar } from "react-github-calendar";
 import React from "react";
 import PinedRepositorys from "../PinedRepositorys";
 
-export default function ProfileGithub() {
+export default function ProfileGithub({id}:{id:string}) {
   return (
     <>
       <Card>

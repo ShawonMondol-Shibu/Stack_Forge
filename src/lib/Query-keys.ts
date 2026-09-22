@@ -15,6 +15,7 @@ export const queryKeys = {
 
   skills: {
     all: ["all-skills"] as const,
+    getOne:(id: string)=> ["skills", id] as const
   },
 
   techStacks: {

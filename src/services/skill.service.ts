@@ -7,7 +7,7 @@ import {
 } from "@/lib/types/skill-type";
 
 export const skillService = {
-  addSkill: (data: CreateSkillPayload) => {
+  addSkill: async (data: CreateSkillPayload) => {
     return apiService<ApiResponse<Skill>>({
       endpoint: "/skills",
       method: "POST",
@@ -15,11 +15,15 @@ export const skillService = {
     });
   },
 
-  getMySkills: () => {
+  getMySkills: async () => {
     return apiService<ApiResponse<Skill>>({ endpoint: "/skills" });
   },
 
-  updateSkill: (id: string, data: UpdateSkillPayload) => {
+  getOneSkills : (id: string)=> {
+    return apiService<ApiResponse<Skill>>({endpoint:`/skills/${id}`, method: "GET"})
+  },
+
+  updateSkill: async (id: string, data: UpdateSkillPayload) => {
     return apiService<ApiResponse<Skill>>({
       endpoint: `/skills/${id}`,
       method: "PATCH",
@@ -27,7 +31,7 @@ export const skillService = {
     });
   },
 
-  deleteSkill: (id: string) => {
+  deleteSkill: async (id: string) => {
     return apiService<ApiResponse<void>>({
       endpoint: `/skills/${id}`,
       method: "DELETE",

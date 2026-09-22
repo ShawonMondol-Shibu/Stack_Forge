@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer
       className={
-        "w-full max-w-4xl mx-auto space-y-4 py-10 text-gray-500 text-sm"
+        "w-full mx-auto space-y-4 py-10 text-gray-500 text-sm"
       }
     >
       <div className={"flex items-center justify-between"}>

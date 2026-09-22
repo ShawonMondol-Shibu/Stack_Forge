@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <main
       className={
-        "w-full max-w-4xl mx-auto flex flex-col items-center  gap-10 py-10"
+        "w-full  mx-auto flex flex-col items-center  gap-10 py-10"
       }
     >
       <Header />

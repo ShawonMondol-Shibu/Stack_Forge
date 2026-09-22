@@ -12,7 +12,7 @@ import {
 import { GraduationCap } from "lucide-react";
 import React from "react";
 
-export default function ProfileEducations() {
+export default function ProfileEducations({id}:{id:string}) {
   return (
     <Card>
       <CardHeader>
