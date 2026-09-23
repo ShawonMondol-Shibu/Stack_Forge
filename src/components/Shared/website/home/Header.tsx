@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Code, Folder, Globe, Users } from "@animateicons/react/lucide";
+import Link from "next/link";
 
 export default function Header() {
   const count = [
@@ -18,10 +19,10 @@ export default function Header() {
     <header>
       <div
         className={
-          "w-full mx-auto flex  items-center justify-between gap-10 py-10"
+          "flex items-center justify-center gap-10 py-10"
         }
       >
-        <div className={"w-xl flex flex-col gap-4 items-start justify-start"}>
+        <div className={"flex flex-col gap-4 items-start justify-start"}>
           <Badge
             variant="default"
             className={
@@ -42,9 +43,11 @@ export default function Header() {
             grow your career.
           </p>
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <Link href={'/dashboard'}>
             <Button variant={"default"} className={"bg-primary"} size={"lg"}>
               Get Started <ArrowRight/>
             </Button>
+            </Link>
             <Button
               variant={"outline"}
               size={"lg"}
@@ -66,7 +69,7 @@ export default function Header() {
               >
                 <div className="p-4 bg-primary/10 rounded-xl flex items-center">
 
-                <item.icon className="text-primary size-4 fill-primary"/>
+                <item.icon className="text-primary size-5 fill-primary"/>
                 </div>
                 <span className={"flex flex-col items-center justify-center gap-1 "}>
                 <h3 className={"text-xl font-bold"}>{item.value}</h3>
@@ -76,7 +79,10 @@ export default function Header() {
             ))}
           </div>
         </div>
+        
+        <div className="w-full border-x">
         <HomeCarousel />
+        </div>
       </div>
     </header>
   );

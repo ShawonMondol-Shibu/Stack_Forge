@@ -17,6 +17,8 @@ import { BadgeCheck } from "lucide-react";
 import { profileQuery } from "@/hooks/queries/use-profile";
 import useTechStack from "@/hooks/queries/useTechStack";
 import { useSkillsQuery } from "@/hooks/queries/use-skills";
+import MotionDiv from "../../MotionDiv";
+import { motion } from "motion/react";
 
 export function HomeCarousel() {
   const { data: profiles } = profileQuery.GetAllProfiles();
@@ -31,7 +33,7 @@ export function HomeCarousel() {
   return (
     <Carousel
       plugins={[autoplay]}
-      className="w-fit"
+      className="w-fit mx-auto"
       onMouseEnter={() => autoplay.stop()}
       onMouseLeave={() => autoplay.reset()}
     >
@@ -69,9 +71,10 @@ function ProfileCarouselItem({
   console.log(data);
 
   return (
+    <MotionDiv>
     <CarouselItem key={profile.id}>
       <div className="p-4">
-        <Card size="sm" className="shadow-lg p-0 w-lg">
+        <Card size="sm" className="shadow-lg p-0">
           <CardContent className="p-0 pb-10">
             <Image
               src={
@@ -89,23 +92,19 @@ function ProfileCarouselItem({
                   Shawon Mondol Shibu{" "}
                   <BadgeCheck className=" fill-primary stroke-accent size-5" />
                 </CardTitle>
-                <div className="flex flex-wrap gap-2 items-center justify-start mt-4 ">
+                <MotionDiv className="flex flex-wrap gap-3 items-center justify-start mt-4 ">
                   {userSkills?.map((skill) => 
                   skill.image?
                   (
-                    <Image
-                      key={skill.id}
-                      src={skill.image}
-                      alt={skill.name}
-                      width={24}
-                      height={24}
-                    />
+                    <motion.img key={skill.id} src={skill.image} alt={skill.name} width={28} height={28} initial={{ scale: 0 }} animate={{ scale: 1 }} />
                   ):null)}
-                </div>
+                </MotionDiv>
             </div>
           </CardContent>
         </Card>
       </div>
     </CarouselItem>
+
+    </MotionDiv>
   );
 }
