@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+  {name: "Home", url:"/"},
   { name: "Developers", url: "/devs" },
   { name: "About", url: "#" },
   { name: "Contact", url: "/contact" },

@@ -7,11 +7,7 @@ import React from "react";
 
 export default function Page() {
   return (
-    <main
-      className={
-        "w-full  mx-auto flex flex-col items-center  gap-10 py-10"
-      }
-    >
+    <main className={"w-full  mx-auto flex flex-col items-center  gap-10"}>
       <Header />
       <FeaturedDevelopers />
       <TrandingProjects />

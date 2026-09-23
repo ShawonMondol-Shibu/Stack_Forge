@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Code, Folder, Globe, Users } from "@animateicons/react/lucide";
 import Link from "next/link";
+import MotionDiv from "../../MotionDiv";
 
 export default function Header() {
   const count = [
@@ -19,7 +20,7 @@ export default function Header() {
     <header>
       <div
         className={
-          "flex items-center justify-center gap-10 py-10"
+          "flex items-center justify-center gap-10"
         }
       >
         <div className={"flex flex-col gap-4 items-start justify-start"}>
@@ -48,13 +49,15 @@ export default function Header() {
               Get Started <ArrowRight/>
             </Button>
             </Link>
+            <Link href={"/devs"}>
             <Button
               variant={"outline"}
               size={"lg"}
               className={" ml-4 border-primary text-primary"}
-            >
+              >
               Explore Developers
             </Button>
+              </Link>
           </motion.div>
 
           <div
@@ -80,9 +83,9 @@ export default function Header() {
           </div>
         </div>
         
-        <div className="w-full border-x">
+        <MotionDiv className="w-full border-x">
         <HomeCarousel />
-        </div>
+        </MotionDiv>
       </div>
     </header>
   );

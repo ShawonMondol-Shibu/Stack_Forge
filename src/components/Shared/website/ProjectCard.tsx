@@ -4,10 +4,8 @@ import {
   ItemContent,
   ItemTitle,
   ItemDescription,
-  ItemSeparator,
   ItemFooter,
 } from "@/components/ui/item";
-import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import MotionDiv from "../MotionDiv";
