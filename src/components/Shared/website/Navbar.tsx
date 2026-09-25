@@ -23,9 +23,11 @@ import { profileQuery } from "@/hooks/queries/use-profile";
 import { useProfileStore } from "@/store/ProfileStore";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
+import { useQuery } from "@tanstack/react-query";
 
 const navLinks = [
-  {name: "Home", url:"/"},
+  { name: "Home", url: "/" },
   { name: "Developers", url: "/devs" },
   { name: "About", url: "/about" },
   { name: "Contact", url: "/contact" },
@@ -34,7 +36,14 @@ const navLinks = [
 export default function Navbar() {
   const { data: profile } = profileQuery.GetMyProfile();
   const { setProfile } = useProfileStore();
-  const pathName = usePathname()
+
+  const { data: session } = useQuery({
+    queryKey: ["user-session"],
+    queryFn: async () => authClient.getSession(),
+    select: (data) => data.data,
+  });
+
+  const pathName = usePathname();
   useEffect(() => {
     if (profile) {
       setProfile(profile);
@@ -60,7 +69,10 @@ export default function Navbar() {
           <Link
             key={nav.name}
             href={nav.url}
-            className={cn(pathName===nav.url&&"text-primary","hover:text-primary hover:underline hover:underline-offset-2 transition-all duration-300")}
+            className={cn(
+              pathName === nav.url && "text-primary",
+              "hover:text-primary hover:underline hover:underline-offset-2 transition-all duration-300",
+            )}
           >
             {nav.name}
           </Link>
@@ -79,8 +91,10 @@ export default function Navbar() {
 
       <div className="flex items-center gap-2">
         <ModeToggle />
-        {false ? (
-          <Button size={"lg"}>Login</Button>
+        {!session?.session ? (
+          <Link href={"/login"}>
+            <Button size={"lg"}>Login</Button>
+          </Link>
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -96,13 +110,17 @@ export default function Navbar() {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" side="bottom" className="z-50">
-              <DropdownMenuItem render={<Link href={"/dashboard"} />}>
+              <DropdownMenuItem
+                className={"cursor-pointer"}
+                render={<Link href={"/dashboard"} />}
+              >
                 Dashboard
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={"/settings"} target="_blank">
-                  Settings
-                </Link>
+              <DropdownMenuItem
+                className={"cursor-pointer"}
+                render={<Link href={"/settings"} target="_blank" />}
+              >
+                Settings
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -12,8 +12,8 @@ export function ModeToggle() {
   return (
     <>
       <Button
-        variant="default"
-        size={"icon"}
+        variant="outline"
+        size={"icon-lg"}
         onClick={() =>
           setTheme((theme) => (theme === "light" ? "dark" : "light"))
         }
