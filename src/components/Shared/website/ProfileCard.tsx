@@ -12,6 +12,7 @@ import { UserProfile } from "@/lib/types/profile-type";
 import { Button } from "@/components/ui/button";
 import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function ProfileCard({ profile }: { profile: UserProfile }) {
   const [isFollow, setIsFollow] = useState(false);
@@ -71,11 +72,11 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
             </div>
             </div>
             <Button
-              variant={isFollow ? "secondary" : "outline"}
+              variant={"outline"}
               size={"sm"}
-              disabled={isFollow}
+              
               onClick={() => setIsFollow((prev) => !prev)}
-              className={"border-primary text-primary"}
+              className={cn(!isFollow?"border-primary text-primary":"")}
             >
               {isFollow ? (
                 <>

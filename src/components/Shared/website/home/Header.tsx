@@ -17,13 +17,13 @@ export default function Header() {
     { value: "120", label: "Countries", icon: Globe },
   ];
   return (
-    <header>
-      <div
+    <>
+      <header
         className={
-          "flex items-center justify-center gap-10"
+          "w-full flex items-center justify-between gap-10"
         }
       >
-        <div className={"flex flex-col gap-4 items-start justify-start"}>
+        <div className={"w-full flex flex-col gap-4 items-start"}>
           <Badge
             variant="default"
             className={
@@ -86,7 +86,7 @@ export default function Header() {
         <MotionDiv className="w-full border-x">
         <HomeCarousel />
         </MotionDiv>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import TanStackProvider from "./TanStackProvider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
 import ChatBotWidget from "@/components/Shared/ChatBotWidget";
+import MotionDiv from "@/components/Shared/MotionDiv";
 
 
 const lato = Lato({
@@ -50,7 +51,7 @@ export default function RootLayout({
 
   suppressHydrationWarning={true}
 >
-      <body className="min-h-full  flex flex-col mx-auto">
+      <body className="min-h-full  flex flex-col mx-auto bg-primary/2  dark:bg-black">
         <TanStackProvider>
           <ThemeProvider
             attribute="class"
@@ -63,7 +64,10 @@ export default function RootLayout({
               {children}
           </ThemeProvider>
         </TanStackProvider>
+        <MotionDiv>
+
         <ChatBotWidget/>
+        </MotionDiv>
       </body>
     </html>
   );

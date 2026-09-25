@@ -33,7 +33,7 @@ export function HomeCarousel() {
   return (
     <Carousel
       plugins={[autoplay]}
-      className="w-fit mx-auto"
+      className="w-fit min-h-96 mx-auto"
       onMouseEnter={() => autoplay.stop()}
       onMouseLeave={() => autoplay.reset()}
     >
@@ -71,7 +71,7 @@ function ProfileCarouselItem({
   console.log(data);
 
   return (
-    <MotionDiv>
+    <MotionDiv className="w-full mx-auto">
     <CarouselItem key={profile.id}>
       <div className="p-4">
         <Card size="sm" className="shadow-lg p-0">
@@ -84,7 +84,7 @@ function ProfileCarouselItem({
               alt={"Carousel Image"}
               width={400}
               height={400}
-              className="rounded-md w-full object-cover"
+              className="rounded-md w-full max-h-96 aspect-square object-cover"
             />
             <div className="absolute w-full bottom-0 bg-linear-to-b from-transparent from-5%  via-accent/80 via-30% to-accent to-70%  p-4 py-6 flex flex-col items-start justify-center gap-2">
                 <Badge variant="secondary">Fullstack Developer</Badge>
