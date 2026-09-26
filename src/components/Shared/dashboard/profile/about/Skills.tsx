@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
-import { Pencil, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import MotionDiv from "@/components/Shared/MotionDiv";
 import { Button } from "@/components/ui/button";

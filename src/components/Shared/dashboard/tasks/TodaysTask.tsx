@@ -16,7 +16,7 @@ import { useTaskStore } from "@/store/TaskStore";
 export default function TodaysTask() {
   const { completedTasks, inProgressTasks, todoTasks } = useTaskStore();
   return (
-    <Card size={"sm"} className={"w-full min-h-60 gap-1"}>
+    <Card size={"sm"} className={"w-full min-h-96 gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Today&apos;s Tasks</CardTitle>
         <CardAction>

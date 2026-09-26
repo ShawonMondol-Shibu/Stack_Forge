@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface Skill {
   id?: string;
@@ -16,24 +17,33 @@ interface SkillsStore {
   removeSkillFromStore: (skillId: string) => void;
 }
 
-const useSkillsStore = create<SkillsStore>((set) => ({
-  skills: {},
+const useSkillsStore = create<SkillsStore>()(
+  persist(
+    (set) => ({
+      skills: {},
 
-  setSkills: (skills) => set({ skills }),
-  updateSkillInStore: (updatedSkill) =>
-    set((state) => ({
-      skills: {
-        ...state.skills,
-        ...updatedSkill
-      }
-    })),
-  removeSkillFromStore: (skillId) =>
-    set((state) => ({
-      skills: {
-        ...state.skills,
-        techStack: state.skills.techStack?.filter((skill) => skill !== skillId),
-      }
-    })),
-}));
+      setSkills: (skills) => set({ skills }),
+      updateSkillInStore: (updatedSkill) =>
+        set((state) => ({
+          skills: {
+            ...state.skills,
+            ...updatedSkill,
+          },
+        })),
+      removeSkillFromStore: (skillId) =>
+        set((state) => ({
+          skills: {
+            ...state.skills,
+            techStack: state.skills.techStack?.filter(
+              (skill) => skill !== skillId,
+            ),
+          },
+        })),
+    }),
+    {
+      name: "stackforge-skills",
+    },
+  ),
+);
 
 export default useSkillsStore;

@@ -34,6 +34,7 @@ import {
   useUpdateSkill,
 } from "@/hooks/mutations/use-skills-mutation";
 import { Pencil, Plus } from "@animateicons/react/lucide";
+import { LoaderCircle } from "lucide-react";
 import { Toaster } from "@/components/ui/toast";
 
 const skillSchema = z.object({
@@ -44,12 +45,9 @@ export default function AddSkills() {
 
   const { techStacks } = useTechStackStore();
   const { skills } = useSkillsStore();
-  const { mutate: updateSkill } = useUpdateSkill();
-  const { mutate: createSkill } = useCreateSkill();
-  const newSkills = techStacks.filter(
-    (stack) => !skills.techStack?.includes(stack.id),
-  );
-  console.log(skills.techStack, techStacks);
+  const { mutate: updateSkill, isPending: isUpdatingSkill } = useUpdateSkill();
+  const { mutate: createSkill, isPending: isCreatingSkill } = useCreateSkill();
+  const isSubmitting = isUpdatingSkill || isCreatingSkill;
 
   const form = useForm({
     resolver: zodResolver(skillSchema),
@@ -58,21 +56,16 @@ export default function AddSkills() {
     },
   });
 
+  React.useEffect(() => {
+    form.reset({ techStack: skills.techStack ?? [] });
+  }, [form, skills.techStack]);
+
   const onSubmit = (data: z.infer<typeof skillSchema>) => {
     if (skills.id) {
-      const updatedSkills = {
-        techStack: [...(skills.techStack ?? []), ...data.techStack],
-      };
-      updateSkill({ id: skills.id, data: updatedSkills });
+      updateSkill({ id: skills.id, data: { techStack: data.techStack } });
+    } else {
+      createSkill({ techStack: data.techStack });
     }
-    if (!skills.id) {
-      const newSkillsData = { techStack: data.techStack };
-      createSkill(newSkillsData);
-    }
-    console.log("Selected skills:", [
-      ...(skills.techStack ?? []),
-      ...data.techStack,
-    ]);
   };
   return (
     <Dialog>
@@ -116,7 +109,7 @@ export default function AddSkills() {
 
                   <Combobox
                     multiple
-                    items={newSkills}
+                    items={techStacks}
                     value={selectedValues}
                     onValueChange={(val) => field.onChange(val)}
                   >
@@ -181,17 +174,20 @@ export default function AddSkills() {
             }}
           />
           <div className="flex justify-end space-x-2 pt-4">
-            {skills.techStack && skills.techStack.length > 0 ? (
-              <>
-                <Button type="submit">Save</Button>
-              </>
-            ) : (
-              <>
-                <Button type="submit">Add</Button>
-              </>
-            )}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <LoaderCircle className="size-4 animate-spin" />
+                  Saving...
+                </>
+              ) : skills.techStack && skills.techStack.length > 0 ? (
+                "Save"
+              ) : (
+                "Add"
+              )}
+            </Button>
           </div>
-          <Toaster/>
+          <Toaster />
         </form>
       </DialogContent>
     </Dialog>

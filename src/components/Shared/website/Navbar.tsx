@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 import { useQuery } from "@tanstack/react-query";
+import { HandleLogout } from "@/lib/Logout";
 
 const navLinks = [
   { name: "Home", url: "/" },
@@ -36,6 +37,7 @@ const navLinks = [
 export default function Navbar() {
   const { data: profile } = profileQuery.GetMyProfile();
   const { setProfile } = useProfileStore();
+  // const logout = HandleLogout()
 
   const { data: session } = useQuery({
     queryKey: ["user-session"],
@@ -121,6 +123,13 @@ export default function Navbar() {
                 render={<Link href={"/settings"} target="_blank" />}
               >
                 Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem
+               variant="destructive"
+               className={"cursor-pointer"}
+               onClick={()=>HandleLogout()}
+              >
+                Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

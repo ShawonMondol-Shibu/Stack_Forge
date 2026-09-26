@@ -7,7 +7,7 @@ import React from "react";
 
 export default function Todo({ data }: { data: taskType[] }) {
   return (
-    <div className="space-y-2 border-r-2 pr-2">
+    <div className="space-y-2 border-r-2 pr-2 min-h-80">
       <h3 className="text-sm font-semibold">Todo {data?.length}</h3>
       <ItemGroup className="gap-0.5!">
         {data.map((todo) => {

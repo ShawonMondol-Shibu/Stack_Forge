@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Project as ProjectType } from "@/lib/types/project-type";
+import { persist } from "zustand/middleware";
 
 interface ProjectStoreType {
   projects: ProjectType[];
@@ -9,23 +10,30 @@ interface ProjectStoreType {
   removeProjectFromStore: (projectId: string) => void;
 }
 
-export const useProjectStore = create<ProjectStoreType>((set) => ({
-  projects: [],
+export const useProjectStore = create<ProjectStoreType>()(
+  persist(
+    (set) => ({
+      projects: [],
 
-  setProjects: (projects) => set({ projects }),
+      setProjects: (projects) => set({ projects }),
 
-  addProject: (project) =>
-    set((state) => ({ projects: [...state.projects, project] })),
+      addProject: (project) =>
+        set((state) => ({ projects: [...state.projects, project] })),
 
-  updateProjectInStore: (updatedProject) =>
-    set((state) => ({
-      projects: state.projects.map((p) =>
-        p.id === updatedProject.id ? updatedProject : p,
-      ),
-    })),
+      updateProjectInStore: (updatedProject) =>
+        set((state) => ({
+          projects: state.projects.map((p) =>
+            p.id === updatedProject.id ? updatedProject : p,
+          ),
+        })),
 
-  removeProjectFromStore: (projectId) =>
-    set((state) => ({
-      projects: state.projects.filter((p) => p.id !== projectId),
-    })),
-}));
+      removeProjectFromStore: (projectId) =>
+        set((state) => ({
+          projects: state.projects.filter((p) => p.id !== projectId),
+        })),
+    }),
+    {
+      name: "stackforge-projectss",
+    },
+  ),
+);

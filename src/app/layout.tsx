@@ -8,7 +8,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import ChatBotWidget from "@/components/Shared/ChatBotWidget";
 import MotionDiv from "@/components/Shared/MotionDiv";
 
-
 const lato = Lato({
   subsets: ["latin"],
   weight: ["300", "400", "700", "900"],
@@ -39,18 +38,17 @@ export default function RootLayout({
 }>) {
   return (
     <html
-  lang="en"
-  className={cn(
-    "h-full antialiased",
-    lato.variable,
-    geistSans.variable,
-    geistMono.variable,
-    roboto.variable,
-    "font-sans"
-  )}
-
-  suppressHydrationWarning={true}
->
+      lang="en"
+      className={cn(
+        "h-full antialiased",
+        lato.variable,
+        geistSans.variable,
+        geistMono.variable,
+        roboto.variable,
+        "font-sans",
+      )}
+      suppressHydrationWarning={true}
+    >
       <body className="min-h-full  flex flex-col mx-auto bg-primary/2  dark:bg-black">
         <TanStackProvider>
           <ThemeProvider
@@ -61,12 +59,11 @@ export default function RootLayout({
           >
             <Toaster />
 
-              {children}
+            {children}
           </ThemeProvider>
         </TanStackProvider>
         <MotionDiv>
-
-        <ChatBotWidget/>
+          <ChatBotWidget />
         </MotionDiv>
       </body>
     </html>

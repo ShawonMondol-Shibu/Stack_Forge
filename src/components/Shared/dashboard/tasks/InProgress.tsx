@@ -6,7 +6,7 @@ import React from "react";
 
 export default function InProgress({ data }: { data: taskType[] }) {
   return (
-    <div className="space-y-2 border-r-2 px-2">
+    <div className="space-y-2 border-r-2 px-2 min-h-80">
       <h3 className="text-sm font-semibold">In Progress {data?.length}</h3>
       <ItemGroup>
         {data?.slice(0, 5).map((task) => {

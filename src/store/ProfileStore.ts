@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { UserProfile } from "@/lib/types/profile-type";
+import { persist } from "zustand/middleware";
 
 export interface ProfileStoreType {
   profile: UserProfile | null;
@@ -21,7 +22,12 @@ const initialProfile: UserProfile = {
   updatedAt: "",
 };
 
-export const useProfileStore = create<ProfileStoreType>((set) => ({
-  profile: initialProfile,
-  setProfile: (profile) => set({ profile }),
-}));
+export const useProfileStore = create<ProfileStoreType>()(
+  persist(
+    (set) => ({
+      profile: initialProfile,
+      setProfile: (profile) => set({ profile }),
+    }),
+    { name: "stackforge-profile" },
+  ),
+);

@@ -37,6 +37,9 @@ export default function AllProjects() {
         "w-full min-h-[50dvh] grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start"
       }
     >
+      {projects?.map((project: Project) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
       {isPending && (
         <Suspense fallback={null}>
           {Array.from({ length: 3 }).map((_, i) => (
@@ -44,9 +47,6 @@ export default function AllProjects() {
           ))}
         </Suspense>
       )}
-      {projects?.map((project: Project) => (
-        <ProjectCard key={project.id} project={project} />
-      ))}
     </div>
   );
 }

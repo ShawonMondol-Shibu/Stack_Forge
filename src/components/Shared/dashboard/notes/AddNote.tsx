@@ -2,15 +2,10 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import { Label } from "@/components/ui/label";
-import { ChevronDown, Plus } from "@animateicons/react/lucide";
+import { Plus } from "@animateicons/react/lucide";
 import React from "react";
 import NoteForm from "./NoteForm";
 interface pageType {

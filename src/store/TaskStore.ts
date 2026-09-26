@@ -1,5 +1,6 @@
 import { taskType } from "@/lib/types/task-type";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface UseTaskStore {
   tasks: taskType[];
@@ -17,9 +18,18 @@ const filterTasks = (tasks: taskType[]) => ({
   todoTasks: tasks.filter((t) => t.status === "todo"),
 });
 
-export const useTaskStore = create<UseTaskStore>((set) => ({
-  ...filterTasks([]),
-  setTask: (tasks) => set(filterTasks(tasks)),
-  removeTask: (id) =>
-    set((state) => filterTasks(state.tasks.filter((task) => task.id !== id))),
-}));
+export const useTaskStore = create<UseTaskStore>()(
+  persist(
+    (set) => ({
+      ...filterTasks([]),
+      setTask: (tasks) => set(filterTasks(tasks)),
+      removeTask: (id) =>
+        set((state) =>
+          filterTasks(state.tasks.filter((task) => task.id !== id)),
+        ),
+    }),
+    {
+      name: "stackforge-tasks",
+    },
+  ),
+);

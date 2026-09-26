@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Share } from "lucide-react";
+import { Share } from "lucide-react";
 
 import {
   Avatar,
@@ -28,6 +28,7 @@ import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectStore } from "@/store/useProjectStore";
 import { useProfileStore } from "@/store/ProfileStore";
 import { profileQuery } from "@/hooks/queries/use-profile";
+import ProfileForm from "./ProfileForm";
 
 const tabsList = [
   { name: "About", value: "about" },
@@ -42,12 +43,8 @@ export default function ProfileHeader() {
   const { projects } = useProjectStore();
   const { setProfile } = useProfileStore();
 
-  const {
-    data: profile,
-    isLoading,
-    isError,
-    error,
-  } = profileQuery.GetMyProfile()
+  const { data: profile, isLoading: isProfileLoading } =
+    profileQuery.GetMyProfile();
 
   // Sync state cleanly via React lifecycle
   useEffect(() => {
@@ -56,13 +53,13 @@ export default function ProfileHeader() {
     }
   }, [profile, setProfile]);
 
-  if (isLoading) {
-    return <div>Loading profile...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading profile...</div>;
+  // }
 
-  if (isError) {
-    return <div>{error?.message || "Failed to load profile"}</div>;
-  }
+  // if (isError) {
+  //   return <div>{error?.message || "Failed to load profile"}</div>;
+  // }
 
   const userInfo = [
     { label: "Repositories", value: 24 },
@@ -95,9 +92,7 @@ export default function ProfileHeader() {
         <CardTitle>{profile?.fullName || "Full name"}</CardTitle>
         <CardAction>
           <ButtonGroup>
-            <Button variant={"outline"} size={"sm"}>
-              <Pencil className="size-4 mr-1" /> Edit
-            </Button>
+            <ProfileForm profile={profile} isLoading={isProfileLoading} />
             <Button size={"sm"}>
               <Share className="size-4 mr-1" /> Share
             </Button>

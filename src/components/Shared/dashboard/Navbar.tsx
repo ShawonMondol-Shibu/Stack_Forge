@@ -7,14 +7,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Bell,
+  // Bell,
   BriefcaseBusiness,
-  CalendarRange,
+  // CalendarRange,
   ClipboardList,
   FolderOpen,
   LayoutDashboard,
   MessagesSquare,
-  Newspaper,
+  // Newspaper,
   NotebookPen,
   SlidersVertical,
   User,
@@ -23,12 +23,12 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
-import { authClient } from "@/lib/auth-client";
 import { profileQuery } from "@/hooks/queries/use-profile";
+import { HandleLogout } from "@/lib/Logout";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -52,90 +52,93 @@ const navLinks = [
 export function NavbarLeft() {
   const pathName = usePathname();
   return (
-        <DropdownMenu>
-          <DropdownMenuTrigger className={""}>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className={
-                "p-2 border-2 rounded-full bg-background/20 backdrop-blur-xs shadow-xl"
-              }
+    <DropdownMenu>
+      <DropdownMenuTrigger className={""}>
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className={
+            "p-2 border-2 rounded-full bg-background/20 backdrop-blur-xs shadow-xl"
+          }
+        >
+          <Image
+            src={"/logo.svg"}
+            alt={"logo_image"}
+            width={40}
+            height={20}
+            className="aspect-square drop-shadow-primary/50 drop-shadow-md"
+          />
+        </motion.div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className={"bg-background/80 backdrop-blur-xs"}>
+        {navLinks.map((nav, i) => (
+          <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <DropdownMenuItem
+              className={cn(
+                pathName == nav.url &&
+                  "bg-primary text-accent shadow-primary/50 shadow-lg",
+                "group hover:bg-primary! hover:text-accent! cursor-pointer",
+              )}
+              render={<Link href={nav.url} />}
             >
-              <Image src={'/logo.svg'} alt={'logo_image'} width={40} height={20} className="aspect-square drop-shadow-primary/50 drop-shadow-md"/>
-            </motion.div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className={"bg-background/80 backdrop-blur-xs"}>
-            {navLinks.map((nav, i) => (
-              <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                <DropdownMenuItem
+              {nav.icon && (
+                <nav.icon
+                  size={50}
                   className={cn(
-                    pathName == nav.url &&
-                      "bg-primary text-accent shadow-primary/50 shadow-lg",
-                    "group hover:bg-primary! hover:text-accent!",
+                    pathName == nav.url && "text-white!",
+                    "text-primary drop-shadow-primary/50 drop-shadow-lg group-hover:text-accent",
                   )}
-                  render={<Link href={nav.url} />}
-                >
-                  {nav.icon && (
-                    <nav.icon
-                      size={50}
-                      className={cn(
-                        pathName == nav.url && "text-white!",
-                        "text-primary drop-shadow-primary/50 drop-shadow-lg group-hover:text-accent",
-                      )}
-                    />
-                  )}
-                  {nav.label}
-                </DropdownMenuItem>
-              </motion.div>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-    
+                />
+              )}
+              {nav.label}
+            </DropdownMenuItem>
+          </motion.div>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
-
-
 export function NavbarRight() {
-  const router = useRouter();
-  const {data:profile}= profileQuery.GetMyProfile()
+  const { data: profile } = profileQuery.GetMyProfile();
+
   return (
     <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="flex items-center gap-2 w-fit"
-      >
-        <ModeToggle/>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className={"p-1 border-2 rounded-full shadow-xl"}
-            >
-              <Avatar size={"lg"}>
-                <AvatarImage
-                  src={ profile?.avatarUrl ||
-                    "https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
-                  }
-                  alt={profile?.fullName || "user_image"}
-                />
-                <AvatarFallback>{profile?.fullName}</AvatarFallback>
-              </Avatar>
-            </motion.div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
-            </motion.div>
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-              <DropdownMenuItem variant="destructive" onClick={()=>{
-                authClient.signOut()
-                router.push('/login')
-              }}>Logout</DropdownMenuItem>
-            </motion.div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </motion.div>
-  )
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      className="flex items-center gap-2 w-fit"
+    >
+      <ModeToggle />
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className={"p-1 border-2 rounded-full shadow-xl"}
+          >
+            <Avatar size={"lg"}>
+              <AvatarImage
+                src={
+                  profile?.avatarUrl ||
+                  "https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
+                }
+                alt={profile?.fullName || "user_image"}
+              />
+              <AvatarFallback>{profile?.fullName}</AvatarFallback>
+            </Avatar>
+          </motion.div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
+          </motion.div>
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <DropdownMenuItem variant="destructive" onClick={HandleLogout}>
+              Logout
+            </DropdownMenuItem>
+          </motion.div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </motion.div>
+  );
 }
