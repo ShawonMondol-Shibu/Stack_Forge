@@ -42,7 +42,7 @@ export default function Page() {
       }
     >
       <Tabs className={"lg:col-span-5 gap-6"}>
-        <ProjectHeader />
+        <ProjectHeader className="mb-10 md:mb-0" />
         <CommonFilter
           searchPlaceholder="Search projects..."
           selectPlaceholder="Tech Stack"

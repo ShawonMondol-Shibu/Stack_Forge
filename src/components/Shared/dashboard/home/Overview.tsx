@@ -27,7 +27,7 @@ export default function Overview() {
   return (
     <section className={"space-y-1"}>
       <h1 className={"text-xl font-bold"}>Overview</h1>
-      <ItemGroup className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4!">
+      <ItemGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center justify-center gap-4!">
         {overViewData.map((data, i) => (
           <OverviewItem key={i} data={data} />
         ))}

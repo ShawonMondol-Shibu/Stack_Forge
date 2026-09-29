@@ -11,8 +11,9 @@ import {
   LayoutGridIcon,
   ListIcon,
 } from "@animateicons/react/lucide";
+import { cn } from "@/lib/utils";
 
-export default function ProjectHeader() {
+export default function ProjectHeader({className}: {className?:string}) {
   const { projects } = useProjectStore();
   const triggersData = [
     { label: "All Projects", value: "allProjects" },
@@ -22,7 +23,7 @@ export default function ProjectHeader() {
     { label: "Archived", value: "archived" },
   ];
   return (
-    <header className="space-y-4 w-full border-b">
+    <header className={cn("space-y-4 w-full border-b", className)}>
       <div className="flex items-center justify-between">
         <div className={"flex items-center gap-2 text-3xl font-bold"}>
           <span className={"px-2 pt-2 bg-primary/20 rounded-md text-primary"}>
@@ -53,7 +54,7 @@ export default function ProjectHeader() {
         </p>
       </div>
 
-      <TabsList variant={"line"}>
+      <TabsList variant={"line"} className={'flex-wrap gap-6'}>
         {triggersData.map((trigger, i) => (
           <TabsTrigger key={i} value={trigger.value}>
             {trigger.label}

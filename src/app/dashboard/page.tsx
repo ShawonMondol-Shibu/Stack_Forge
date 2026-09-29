@@ -22,19 +22,19 @@ export default function Page() {
     <main className="space-y-6 w-full container mx-auto ">
       <div
         className={
-          "grid md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 items-start gap-6"
+          "grid md:grid-cols-6 lg:grid-cols-10 xl:grid-cols-12 items-start gap-6"
         }
       >
-        <section className="md:col-span-4 lg:col-span-6 xl:col-span-9 space-y-4 w-full">
+        <section className="md:col-span-4 lg:col-span-7 xl:col-span-9 space-y-4 w-full">
           <Greetings />
           <QuickActions />
           <Overview />
-          <div className="grid grid-cols-2 items-start gap-4">
+          <div className="grid xl:grid-cols-2 items-start gap-4">
             <GithubActivitiy />
             <TodaysTask />
           </div>
 
-          <div className="grid grid-cols-4 items-start justify-start gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 items-start justify-start gap-4">
             <RecentNotes />
             <RecentProjects />
             <ContinueWorking />
@@ -44,7 +44,7 @@ export default function Page() {
 
         <aside
           className={
-            "w-full md:col-span-2 lg:col-span-2  xl:col-span-3 grid gap-4 lg:top-6"
+            "w-full md:col-span-2 lg:col-span-3  xl:col-span-3 grid gap-4 lg:top-6"
           }
         >
           <PortfolioCard />
