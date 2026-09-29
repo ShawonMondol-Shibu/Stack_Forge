@@ -33,7 +33,7 @@ const chartConfig = {
 
 export default function WeeklyProductivity() {
   return (
-    <Card size={"sm"}>
+    <Card size={"sm"} className="w-full">
       <CardHeader className={"flex items-center justify-between"}>
         <CardTitle>Weekly Productivity</CardTitle>
         <small className={"text-muted-foreground"}>May 22 - May 28</small>

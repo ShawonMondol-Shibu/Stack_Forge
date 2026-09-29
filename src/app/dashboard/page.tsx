@@ -13,26 +13,19 @@ import RecentProjects from "@/components/Shared/dashboard/home/RecentProjects";
 import TodaysTask from "@/components/Shared/dashboard/tasks/TodaysTask";
 import WeeklyProductivity from "@/components/Shared/dashboard/WeeklyProductivity";
 import React from "react";
-// import { useQuery } from "@tanstack/react-query";
-// import { getAllProjects } from "@/hooks/queries/use-projects";
-// import useTechStack from "@/hooks/queries/useTechStack";
-// import { useProjectStore } from "@/store/useProjectStore";
-// import { useTechStackStore } from "@/store/TechStackStore";
-// import { useTaskStore } from "@/store/TaskStore";
-// import { useSkillsQuery } from "@/hooks/queries/use-skills";
-// import useSkillsStore from "@/store/useSkillsStore";
-// import { TaskQuery } from "@/hooks/queries/use-task";
-// import { noteQuery } from "@/hooks/queries/use-note";
-// import { useNoteStore } from "@/store/useNoteStore";
-// import { toast } from "@/components/ui/toast";
+
 import { InitialLoad } from "@/lib/initialLoad";
 
 export default function Page() {
-  InitialLoad()
+  InitialLoad();
   return (
     <main className="space-y-6 w-full container mx-auto ">
-      <div className={"grid grid-cols-10 items-start gap-6"}>
-        <div className="col-span-8 space-y-4">
+      <div
+        className={
+          "grid md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 items-start gap-6"
+        }
+      >
+        <section className="md:col-span-4 lg:col-span-6 xl:col-span-9 space-y-4 w-full">
           <Greetings />
           <QuickActions />
           <Overview />
@@ -47,10 +40,13 @@ export default function Page() {
             <ContinueWorking />
             <Feed />
           </div>
-          
-        </div>
+        </section>
 
-        <aside className={"col-span-2 grid gap-4 lg:sticky lg:top-6"}>
+        <aside
+          className={
+            "w-full md:col-span-2 lg:col-span-2  xl:col-span-3 grid gap-4 lg:top-6"
+          }
+        >
           <PortfolioCard />
           <WeeklyProductivity />
           <NextUp />

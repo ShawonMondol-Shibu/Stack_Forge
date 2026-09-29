@@ -5,9 +5,9 @@ import { useTaskStore } from "@/store/TaskStore";
 import { useNoteStore } from "@/store/useNoteStore";
 import useSkillsStore from "@/store/useSkillsStore";
 import { useTechStackStore } from "@/store/TechStackStore";
-import { authClient } from "./auth-client";
+import { authClient } from "../../lib/auth-client";
 
-export const HandleLogout = () => {
+export const useLogout = () => {
   const router = useRouter();
   const { setProfile } = useProfileStore();
   const { setProjects } = useProjectStore();
@@ -16,12 +16,19 @@ export const HandleLogout = () => {
   const { setSkills } = useSkillsStore();
   const { setTechStack } = useTechStackStore();
 
-  authClient.signOut();
-  setProfile({});
-  setProjects([]);
-  setTask([]);
-  setNotes([]);
-  setSkills({});
-  setTechStack([]);
-  router.push("/login");
+  return async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          setProfile({});
+          setProjects([]);
+          setTask([]);
+          setNotes([]);
+          setSkills({});
+          setTechStack([]);
+          router.push("/login");
+        },
+      },
+    });
+  };
 };

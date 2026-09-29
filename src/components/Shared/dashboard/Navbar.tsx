@@ -28,7 +28,9 @@ import Image from "next/image";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { FaGithub } from "react-icons/fa";
 import { profileQuery } from "@/hooks/queries/use-profile";
-import { HandleLogout } from "@/lib/Logout";
+import { useLogout } from "@/components/Shared/Logout";
+import UseSession from "../UseSession";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -101,7 +103,8 @@ export function NavbarLeft() {
 
 export function NavbarRight() {
   const { data: profile } = profileQuery.GetMyProfile();
-
+  const { data: session } = UseSession();
+  const handleLogout = useLogout();
   return (
     <motion.div
       initial={{ scale: 0 }}
@@ -109,6 +112,14 @@ export function NavbarRight() {
       className="flex items-center gap-2 w-fit"
     >
       <ModeToggle />
+      {
+        !session?.session ? <Button
+                variant="default"
+                render={<Link href={"login"} />}
+              >
+                Login
+              </Button>
+              :  
       <DropdownMenu>
         <DropdownMenuTrigger>
           <motion.div
@@ -133,12 +144,13 @@ export function NavbarRight() {
             <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
           </motion.div>
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-            <DropdownMenuItem variant="destructive" onClick={HandleLogout}>
-              Logout
-            </DropdownMenuItem>
+              <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+                Logout
+              </DropdownMenuItem>
           </motion.div>
         </DropdownMenuContent>
       </DropdownMenu>
+      }
     </motion.div>
   );
 }

@@ -56,7 +56,7 @@ export default function QuickActions() {
     <section className="space-y-1">
       <h1 className="text-xl font-bold">Quick Actions</h1>
       <ItemGroup
-        className={"grid grid-cols-5 items-center justify-center gap-4"}
+        className={"grid grid-cols-4 items-center justify-center gap-4!"}
       >
         {actionData.map((data, i) => (
           <Dialog key={i}>

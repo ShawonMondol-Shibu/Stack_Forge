@@ -13,7 +13,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 
 export default function Messages() {
   return (
-    <Card size={"sm"} className={"w-xs gap-1"}>
+    <Card size={"sm"} className={"w-full gap-1"}>
       <CardHeader>
         <CardTitle className="text-xl">Messages</CardTitle>
         <CardAction>

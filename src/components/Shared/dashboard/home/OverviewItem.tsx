@@ -11,7 +11,7 @@ interface OverviewItemType {
 
 export default function OverviewItem({ data }: { data: OverviewItemType }) {
   return (
-    <Item variant={"outline"} size={"xs"} className={" w-50 shadow-black/5 shadow-lg"}>
+    <Item variant={"outline"} size={"xs"} className={" w-full shadow-black/5 shadow-lg"}>
       <ItemContent className={"relative"}>
         <small className={"font-medium"}>{data?.name}</small>
         <ItemTitle className={"text-xl font-bold"}>{data?.total}</ItemTitle>
