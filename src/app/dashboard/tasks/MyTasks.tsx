@@ -10,7 +10,7 @@ export default function MyTasks() {
   return (
     // MY Tasks...
     <section>
-      <ItemGroup>
+      <ItemGroup className="overflow-scroll">
         {tasks?.map((task, i) => (
           <TaskCard key={i} data={task} />
         ))}

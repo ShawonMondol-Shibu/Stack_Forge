@@ -47,8 +47,6 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
     mutate(id);
   };
 
-  
-
   return (
     <Card className="w-full pt-0">
       <MotionDiv>
@@ -100,19 +98,23 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
             {project.description}
           </CardDescription>
 
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          <div className="mt-3 flex items-center gap-2 line-clamp-1">
             {projectTechStacks.length > 0 ? (
               projectTechStacks.map((stack) => (
                 <Badge key={stack.id} variant="outline" className="gap-2">
                   {stack?.image && (
+                    <span className="w-3 h-3">
+
                     <Image
                       src={stack?.image}
                       alt={stack.name}
                       width={12}
                       height={12}
-                    />
+                      className="w-full object-cover aspect-square"
+                      />
+                      </span>
                   )}
-                  {stack.name}
+                  <small>{stack.name}</small>
                 </Badge>
               ))
             ) : (
@@ -134,7 +136,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
             <Eye size={12} /> 612
           </div>
 
-          <span>Updated {project.updatedAt}</span>
+          <span className="line-clamp-1">Updated {project.updatedAt}</span>
         </CardFooter>
       </MotionDiv>
     </Card>

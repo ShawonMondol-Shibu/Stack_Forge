@@ -19,7 +19,7 @@ import { InitialLoad } from "@/lib/initialLoad";
 export default function Page() {
   InitialLoad();
   return (
-    <main className="space-y-6 w-full container mx-auto ">
+    <main className="space-y-6 container mx-auto ">
       <div
         className={
           "grid md:grid-cols-6 lg:grid-cols-10 xl:grid-cols-12 items-start gap-6"

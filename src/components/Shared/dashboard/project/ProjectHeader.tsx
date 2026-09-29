@@ -32,7 +32,7 @@ export default function ProjectHeader({className}: {className?:string}) {
           <h1>Projects</h1>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 overflow-x-scroll">
           <ButtonGroup>
             <Button variant={"default"} size={"icon-sm"}>
               <LayoutGridIcon />{" "}

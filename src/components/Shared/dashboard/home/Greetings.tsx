@@ -27,7 +27,7 @@ export default function Greetings() {
     { day: "Saturday", desktop: 186, mobile: 80 },
   ];
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4">
+    <div className="grid grid-cols-2 items-start justify-between gap-4">
       <div>
         <h1 className={"text-2xl font-bold font-[lato]"}>Good Evening, Shibu 👋</h1>
 
@@ -37,7 +37,7 @@ export default function Greetings() {
         </div>
       </div>
 
-      <Card size={"sm"} className={"w-md p-0"}>
+      <Card size={"sm"} className={"w-full p-0"}>
         <CardContent className="flex flex-wrap items-center justify-between gap-6">
           <div className={"flex flex-col items-center justify-center"}>
             <CardTitle className={"text-xl"}>🔥21</CardTitle>
