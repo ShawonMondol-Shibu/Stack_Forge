@@ -99,7 +99,7 @@ export default function Page() {
               alt="Developer working at a laptop"
               width={640}
               height={480}
-              className="relative aspect-[4/3] w-full rounded-2xl object-cover shadow-lg"
+              className="relative aspect-4/3 w-full rounded-2xl object-cover shadow-lg"
               priority
             />
             <div className="absolute -bottom-5 -left-5 rounded-2xl border border-border bg-background p-4 shadow-lg sm:-left-8">
@@ -126,7 +126,7 @@ export default function Page() {
             alt="A developer project preview"
             width={900}
             height={620}
-            className="aspect-[4/3] w-full rounded-2xl object-cover"
+            className="aspect-4/3 w-full rounded-2xl object-cover"
           />
         </div>
         <div>
