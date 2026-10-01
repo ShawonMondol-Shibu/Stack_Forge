@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { Code, Folder, Globe, Users } from "@animateicons/react/lucide";
 import Link from "next/link";
 import MotionDiv from "../../MotionDiv";
+import Image from "next/image";
 
 export default function Header() {
   const count = [
@@ -30,8 +31,17 @@ export default function Header() {
               "bg-primary/5 text-muted-foreground text-xs border-primary/20 shadow-md shadow-primary/10 font-cursive font-bold p-3"
             }
           >
-            🔥
-             Welcome to
+            <span className={"w-8 h-11 overflow-hidden"}>
+
+            <Image
+              src="/fire.gif"
+              alt="fire_image"
+              width={40}
+              height={40}
+              className="object-fill aspect-square"
+              />
+              </span>
+            Welcome to
             StackForge
           </Badge>
           <p className={"text-7xl uppercase font-semibold"}>
