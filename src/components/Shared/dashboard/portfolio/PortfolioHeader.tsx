@@ -12,6 +12,7 @@ import { useProfileStore } from "@/store/ProfileStore";
 import { Github } from "@animateicons/react/huge";
 import {
   ArrowUp,
+  Calendar,
   Code,
   Eye,
   FolderClosed,
@@ -21,12 +22,17 @@ import {
   Twitter,
   Users,
 } from "@animateicons/react/lucide";
-import { LucideIcon, LucideProps } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import PortfolioCodeBlock from "./PortfolioCodeBlock";
+import useSkillsStore from "@/store/useSkillsStore";
+import { useTechStackStore } from "@/store/TechStackStore";
 
 export default function PortfolioHeader() {
   const { profile } = useProfileStore();
+  const { techStacks } = useTechStackStore();
+  const { skills } = useSkillsStore();
+  const mySkills = techStacks.filter((stack:{id:string, image:string, name:string}) => skills?.techStack?.includes(stack.id));
   const socialLinks: { url: string; icon: React.FC<{size?: number}> }[] = [
     { url: "//github.com", icon: Github },
     { url: "//linkedin.com", icon: Linkedin  },
@@ -42,8 +48,8 @@ export default function PortfolioHeader() {
   return (
     <header className=" ">
       <Card className={"p-0 gap-y-0"}>
-      <CardContent className="grid grid-cols-1 lg:grid-cols-6 items-start justify-center gap-6 p-8 bg-linear-to-r from-transparent via-primary/50  rounded-3xl">
-        <div className="col-span-1 lg:col-span-2 flex flex-col w-full items-center gap-6">
+      <CardContent className="grid grid-cols-1 lg:grid-cols-8 items-start justify-center gap-6 p-8 bg-linear-to-r from-transparent via-primary/50  rounded-3xl">
+        <div className="col-span-2 flex flex-col w-full items-center gap-6">
           <Avatar className={"w-46 h-46"}>
             <AvatarImage src={profile?.avatarUrl || ""} alt={""} />
             <AvatarFallback>User Image</AvatarFallback>
@@ -61,27 +67,34 @@ export default function PortfolioHeader() {
           </div>
         </div>
 
-        <div className="col-span-1 lg:col-span-3 space-y-2 relative min-h-60">
-          <h1 className="text-5xl font-bold">Hi, I&apos;m Shibu Mondol 👋</h1>
-          <h3 className="text-2xl font-medium text-muted-foreground">Full Stack Developer</h3>
+        <div className="col-span-3 space-y-2 relative min-h-60">
+          <h1 className="text-4xl font-bold">Hi, I&apos;m {profile?.fullName || "full name"} 👋</h1>
+          <h3 className="text-2xl font-medium text-muted-foreground">{profile?.headline || "Role"}</h3>
           <p className="text-base text-muted-foreground ">
-            I build modern, scalable web applications with Next.js, NestJS and
-            PostgreSQL. Passionate about clean code, great UI, and solving real
-            world problems.
+           {profile?.bio || "There's no bio available."}
           </p>
-          <div className="flex items-center justify-start gap-4 absolute bottom-0">
+          <div className="flex items-center justify-start gap-2 text-xs bottom-0">
             <address className="flex items-center gap-2">
-              <MapPin size={16} /> <span>Dhaka, Bangladesh</span>
+              <MapPin size={16} /> <span>{profile?.location || "Location not specified"}</span>
             </address>
             <Separator orientation="vertical" className={"border-primary "} />
-            <Link href={""}>shibumondol.dev</Link>
+            <Link href={profile?.website || ""} target="_blank" rel="noopener noreferrer">
+              {profile?.website || "No website available."}
+            </Link>
+            <Separator orientation="vertical" className={"border-primary "} />
+            <span>
+              <Calendar size={16}/> {profile?.availability === "busy" ? "Busy right now" : profile?.availability === "open" ? "Available for work" : "Unavailable for work"}
+            </span>
           </div>
         </div>
+
+
+        <PortfolioCodeBlock className="col-span-3" profile={profile || undefined} skills={mySkills} />
       </CardContent>
-      <Card className="w-full bg-background mx-auto border-0 shadow-none">
-        <CardContent className="grid grid-cols-2 lg:grid-cols-4 items-center justify-start gap-4 space-x-20">
+      <div className="w-full bg-transparent mx-auto rounded-3xl p-2 border-0 shadow-none">
+        <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-start gap-4 ">
           {portfolioStatus.map((status) => (
-            <div key={status.title} className="flex items-center gap-4">
+            <div key={status.title} className="flex items-center gap-4 p-2 border rounded-2xl bg-primary/5 border-primary/20">
               <span className="p-4 bg-primary/20 text-primary rounded-2xl">
                 <status.icon size={28} />
               </span>
@@ -96,8 +109,11 @@ export default function PortfolioHeader() {
               </div>
             </div>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+      
+
+      
 
       </Card>
 
