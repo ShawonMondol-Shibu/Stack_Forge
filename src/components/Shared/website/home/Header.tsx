@@ -13,17 +13,13 @@ import Image from "next/image";
 export default function Header() {
   const count = [
     { value: "12K+", label: "Developers", icon: Users },
-    { value: "5K", label: "Projects",icon: Folder },
+    { value: "5K", label: "Projects", icon: Folder },
     { value: "1K", label: "Github Repos", icon: Code },
     { value: "120", label: "Countries", icon: Globe },
   ];
   return (
     <>
-      <header
-        className={
-          "w-full flex items-center justify-between gap-10"
-        }
-      >
+      <header className={"w-full flex items-center justify-between gap-10"}>
         <div className={"w-full flex flex-col gap-4 items-start"}>
           <Badge
             variant="default"
@@ -32,17 +28,15 @@ export default function Header() {
             }
           >
             <span className={"w-8 h-11 overflow-hidden"}>
-
-            <Image
-              src="/fire.gif"
-              alt="fire_image"
-              width={40}
-              height={40}
-              className="object-fill aspect-square"
+              <Image
+                src="/fire.gif"
+                alt="fire_image"
+                width={40}
+                height={40}
+                className="object-fill aspect-square"
               />
-              </span>
-            Welcome to
-            StackForge
+            </span>
+            Welcome to StackForge
           </Badge>
           <p className={"text-7xl uppercase font-semibold"}>
             Top <span className={"text-primary"}>Developers</span>
@@ -54,20 +48,20 @@ export default function Header() {
             grow your career.
           </p>
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-            <Link href={'/dashboard'}>
-            <Button variant={"default"} className={"bg-primary"} size={"lg"}>
-              Get Started <ArrowRight/>
-            </Button>
+            <Link href={"/dashboard"}>
+              <Button variant={"default"} className={"bg-primary"} size={"lg"}>
+                Get Started <ArrowRight />
+              </Button>
             </Link>
             <Link href={"/devs"}>
-            <Button
-              variant={"outline"}
-              size={"lg"}
-              className={" ml-4 border-primary text-primary"}
+              <Button
+                variant={"outline"}
+                size={"lg"}
+                className={" ml-4 border-primary text-primary"}
               >
-              Explore Developers
-            </Button>
-              </Link>
+                Explore Developers
+              </Button>
+            </Link>
           </motion.div>
 
           <div
@@ -78,23 +72,24 @@ export default function Header() {
             {count.map((item, index) => (
               <div
                 key={index}
-               className="flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-2"
               >
                 <div className="p-4 bg-primary/10 rounded-xl flex items-center">
-
-                <item.icon className="text-primary size-5 fill-primary"/>
+                  <item.icon className="text-primary size-5 fill-primary" />
                 </div>
-                <span className={"flex flex-col items-center justify-center gap-1 "}>
-                <h3 className={"text-xl font-bold"}>{item.value}</h3>
-                <p className={"text-xs"}>{item.label}</p>
+                <span
+                  className={"flex flex-col items-center justify-center gap-1 "}
+                >
+                  <h3 className={"text-xl font-bold"}>{item.value}</h3>
+                  <p className={"text-xs"}>{item.label}</p>
                 </span>
               </div>
             ))}
           </div>
         </div>
-        
+
         <MotionDiv className="w-full border-x">
-        <HomeCarousel />
+          <HomeCarousel />
         </MotionDiv>
       </header>
     </>

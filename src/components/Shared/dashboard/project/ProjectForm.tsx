@@ -32,7 +32,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(2, { message: "Enter a description of your project" }),
-  techStack: z.array(z.string()),
+  techStack: z.array(z.string()).min(1, { message: "Select at least one technology" }),
 });
 
 export default function ProjectForm() {

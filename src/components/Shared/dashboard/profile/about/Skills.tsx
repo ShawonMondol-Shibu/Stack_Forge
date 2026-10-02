@@ -27,12 +27,14 @@ import AddSkill from "./skills/AddSkills";
 import useTechStack from "@/hooks/queries/useTechStack";
 import { useSkillsQuery } from "@/hooks/queries/use-skills";
 import useSkillsStore from "@/store/useSkillsStore";
+import { usePathname } from "next/navigation";
 
 const DISPLAY_LIMIT = 12;
 
 export default function Skills() {
-  const {setTechStack} = useTechStackStore();
+  const { setTechStack } = useTechStackStore();
   const { setSkills } = useSkillsStore();
+  const pathName = usePathname();
 
   // Query 1: User's enabled skill IDs
   const {
@@ -80,7 +82,7 @@ export default function Skills() {
           {/* <Button size="icon-sm" variant="ghost" aria-label="Edit skills">
             <Pencil className="h-4 w-4" />
           </Button> */}
-          <AddSkill />
+          {pathName === "/dashboard/profile" && <AddSkill />}
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -145,7 +147,7 @@ export default function Skills() {
             Total skills selected: {mySkills.length}
           </p>
         ) : (
-          <AddSkill />
+          pathName === "/dashboard/profile" && <AddSkill />
         )}
       </CardFooter>
     </Card>

@@ -1,20 +1,25 @@
 import FeaturedProjects from "@/components/Shared/dashboard/portfolio/FeaturedProjects";
 import PortfolioHeader from "@/components/Shared/dashboard/portfolio/PortfolioHeader";
+import Skills from "@/components/Shared/dashboard/profile/about/Skills";
 import React from "react";
 
 export default function Page() {
   return (
     <main>
-      <div className={"grid grid-cols-12 gap-6"}>
-        <div className={"col-span-9"}>
+      <div className={"grid  gap-6"}>
+        <div className={"col-span-9 space-y-6"}>
           <PortfolioHeader />
           <section>
             <FeaturedProjects />
           </section>
-        </div>
-        <aside className="border col-span-3">
+          <section className={"w-full grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-4"}>
+            <Skills/>
 
-        </aside>
+          </section>
+        </div>
+        {/* <aside className="border col-span-3">
+
+        </aside> */}
       </div>
     </main>
   );
