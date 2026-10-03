@@ -66,7 +66,7 @@ export default function Header() {
 
           <div
             className={
-              "w-full flex gap-4 items-center justify-between mt-4 pt-12 border-t-2 border-primary/20"
+              "w-full flex flex-wrap md:flex-nowrap gap-4 items-center justify-between mt-4 pt-12 border-t-2 border-primary/20"
             }
           >
             {count.map((item, index) => (

@@ -16,6 +16,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import MotionDiv from "../MotionDiv";
 import { ModeToggle } from "@/components/ToggleTheme";
@@ -23,8 +24,6 @@ import { profileQuery } from "@/hooks/queries/use-profile";
 import { useProfileStore } from "@/store/ProfileStore";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { authClient } from "@/lib/auth-client";
-import { useQuery } from "@tanstack/react-query";
 import { useLogout } from "../Logout";
 import UseSession from "../UseSession";
 
@@ -40,7 +39,7 @@ export default function Navbar() {
   const { setProfile } = useProfileStore();
   const handleLogout = useLogout();
 
-  const {data:session}= UseSession();
+  const { data: session } = UseSession();
 
   const pathName = usePathname();
   useEffect(() => {
@@ -51,19 +50,22 @@ export default function Navbar() {
   return (
     <nav
       className={
-        "fixed w-full max-w-7xl top-5 left-[50%] translate-x-[-50%] flex gap-6 items-center justify-between p-1 bg-background/80 backdrop-blur-sm  rounded-full z-30"
+        "fixed w-full max-w-7xl top-5 left-[50%] translate-x-[-50%] flex gap-4 md:gap-6 items-center justify-between p-1 bg-background/80 backdrop-blur-sm rounded-full z-30 px-2 md:px-4"
       }
     >
-      <Link href={"/"} className={""}>
-        <Image
-          src={"/logo.svg"}
-          alt={"logo_image"}
-          width={60}
-          height={40}
-          className={"ml-2 drop-shadow-primary/50 drop-shadow-lg"}
-        />
-      </Link>
-      <MotionDiv className={"flex gap-4 items-center uppercase"}>
+      <div className="flex items-center gap-2">
+        <Link href={"/"} className={""}>
+          <Image
+            src={"/logo.svg"}
+            alt={"logo_image"}
+            width={60}
+            height={40}
+            className={"ml-1 md:ml-2 drop-shadow-primary/50 drop-shadow-lg"}
+          />
+        </Link>
+      </div>
+
+      <MotionDiv className={"hidden md:flex gap-4 items-center uppercase"}>
         {navLinks.map((nav) => (
           <Link
             key={nav.name}
@@ -96,19 +98,33 @@ export default function Navbar() {
           </Link>
         ) : (
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar size={"lg"} className={""}>
-                <AvatarImage
-                  src={
-                    profile?.avatarUrl ||
-                    "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
-                  }
-                  alt=""
-                />
-                <AvatarFallback>profile</AvatarFallback>
-              </Avatar>
+            <DropdownMenuTrigger asChild>
+              <button className="rounded-full focus:outline-none">
+                <Avatar size={"lg"} className={""}>
+                  <AvatarImage
+                    src={
+                      profile?.avatarUrl ||
+                      "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
+                    }
+                    alt=""
+                  />
+                  <AvatarFallback>profile</AvatarFallback>
+                </Avatar>
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" side="bottom" className="z-50">
+              <div className="md:hidden flex flex-col">
+                {navLinks.map((nav) => (
+                  <DropdownMenuItem
+                    key={nav.name}
+                    className={"cursor-pointer"}
+                    render={<Link href={nav.url} />}
+                  >
+                    {nav.name}
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator className="md:hidden" />
+              </div>
               <DropdownMenuItem
                 className={"cursor-pointer"}
                 render={<Link href={"/dashboard"} />}
@@ -117,7 +133,7 @@ export default function Navbar() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className={"cursor-pointer"}
-                render={<Link href={"/settings"} target="_blank" />}
+                render={<Link href={"/settings"} />}
               >
                 Settings
               </DropdownMenuItem>
