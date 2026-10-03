@@ -98,19 +98,19 @@ export default function Navbar() {
           </Link>
         ) : (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="rounded-full focus:outline-none">
-                <Avatar size={"lg"} className={""}>
-                  <AvatarImage
-                    src={
-                      profile?.avatarUrl ||
-                      "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
-                    }
-                    alt=""
-                  />
-                  <AvatarFallback>profile</AvatarFallback>
-                </Avatar>
-              </button>
+              <DropdownMenuTrigger render={
+              <button className="rounded-full focus:outline-none"/>
+            }>
+              <Avatar size={"lg"} className={""}>
+                <AvatarImage
+                  src={
+                    profile?.avatarUrl ||
+                    "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
+                  }
+                  alt=""
+                />
+                <AvatarFallback>profile</AvatarFallback>
+              </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" side="bottom" className="z-50">
               <div className="md:hidden flex flex-col">
