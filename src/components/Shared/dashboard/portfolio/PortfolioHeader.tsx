@@ -67,10 +67,10 @@ export default function PortfolioHeader() {
           </div>
         </div>
 
-        <div className="col-span-3 space-y-2 relative min-h-60">
+        <div className="col-span-3 space-y-2 relative">
           <h1 className="text-4xl font-bold">Hi, I&apos;m {profile?.fullName || "full name"} 👋</h1>
           <h3 className="text-2xl font-medium text-muted-foreground">{profile?.headline || "Role"}</h3>
-          <p className="text-base text-muted-foreground ">
+          <p className="text-base text-muted-foreground min-h-28">
            {profile?.bio || "There's no bio available."}
           </p>
           <div className="flex items-center justify-start gap-2 text-xs bottom-0">

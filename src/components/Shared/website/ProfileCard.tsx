@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 export default function ProfileCard({ profile }: { profile: UserProfile }) {
   const [isFollow, setIsFollow] = useState(false);
-  const { fullName, headline, avatarUrl, id } = profile;
+  
   const randomImage =
     "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80";
   return (
@@ -29,24 +29,24 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
           <CardHeader className={"p-1 pb-0 "}>
             <div>
               <Image
-                src={avatarUrl || randomImage}
-                alt={fullName || "profile_image"}
+                src={profile?.avatarUrl as string}
+                alt={profile?.fullName || "profile_image"}
                 width={500}
                 height={500}
                 className={
-                  "rounded-3xl w-full h-40 aspect-square  object-cover"
+                  "rounded-3xl w-full h-40 aspect-square object-cover"
                 }
               />
             </div>
           </CardHeader>
           <CardContent className="space-y-1 pt-0">
-            <Link href={`/devs/${id}`}>
+            <Link href={`/devs/${profile?.id}`}>
             <CardTitle className="flex items-center gap-1.5  font-bold tracking-tight">
-              <span className="truncate capitalize">{fullName}</span>
+              <span className="truncate capitalize">{profile?.fullName}</span>
               <BadgeCheck className="h-5 w-5 shrink-0 text-primary fill-primary/10" />
             </CardTitle>
             <p className="line-clamp-2 text-sm text-muted-foreground">
-              {headline}
+              {profile?.headline}
             </p>
             </Link>
           </CardContent>

@@ -28,7 +28,7 @@ import MotionDiv from "../../MotionDiv";
 import { queryKeys } from "@/lib/Query-keys";
 import { usePathname } from "next/navigation";
 
-export default function ProjectCard({ project }: { project: ProjectType }) {
+export default function ProjectCard({ project }: { project?: ProjectType }) {
   const { mutate, isPending } = useDeleteProject();
   const pathName = usePathname();
 
@@ -42,7 +42,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
   });
 
   const projectTechStacks = techStacks.filter((stack) =>
-    project.techStack.includes(stack.id),
+    project?.techStack.includes(stack.id),
   );
 
   const handleDelete = (id: string) => {
@@ -54,8 +54,8 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
       <MotionDiv>
         <div className="relative">
           <Image
-            src={project.image || "/brain.jpg"}
-            alt={project.name}
+            src={project?.image || "/brain.jpg"}
+            alt={project?.name || "project_image"}
             width={300}
             height={200}
             className="w-full object-cover"
@@ -79,7 +79,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
                   variant="destructive"
                   size="sm"
                   disabled={isPending}
-                  onClick={() => handleDelete(project.id)}
+                  onClick={() => handleDelete(project?.id as string)}
                 >
                   {isPending ? (
                     <LoaderIcon />
@@ -96,9 +96,9 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
         </div>
 
         <CardContent className="p-2">
-          <CardTitle>{project.name}</CardTitle>
+          <CardTitle>{project?.name || "Project Name"}</CardTitle>
           <CardDescription className="line-clamp-2">
-            {project.description}
+            {project?.description || "Project Description"}
           </CardDescription>
 
           <div className="mt-2 flex flex-wrap items-center gap-0.5 line-clamp-2 h-12">
@@ -143,7 +143,7 @@ export default function ProjectCard({ project }: { project: ProjectType }) {
                 </div>
 
                 <span className="line-clamp-1">
-                  Updated {project.updatedAt}
+                  Updated {project?.updatedAt}
                 </span>
               </>
             ) : null}

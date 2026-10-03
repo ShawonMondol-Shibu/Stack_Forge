@@ -33,11 +33,11 @@ export function HomeCarousel() {
   return (
     <Carousel
       plugins={[autoplay]}
-      className="w-full min-h-96 mx-auto p-6"
+      className="w-full min-h-96 mx-auto"
       onMouseEnter={() => autoplay.stop()}
       onMouseLeave={() => autoplay.reset()}
     >
-      <CarouselContent>
+      <CarouselContent className="mx-auto">
         {profiles?.map((profile) =>
           profile.id ? (
             <ProfileCarouselItem
@@ -45,12 +45,12 @@ export function HomeCarousel() {
               profile={profile}
               techStack={techStack}
             />
-          ) : null,
+          ) : null
         )}
       </CarouselContent>
 
-      <CarouselPrevious className={''}/>
-      <CarouselNext />
+      <CarouselPrevious className={'absolute left-2 md:left-0 '}/>
+      <CarouselNext className={"absolute right-2 md:right-0"} />
     </Carousel>
   );
 }
@@ -72,8 +72,8 @@ function ProfileCarouselItem({
 
   return (
     <MotionDiv className="w-full mx-auto">
-    <CarouselItem key={profile.id} className="p-4">
-        <Card size="sm" className="shadow-lg p-0 w-96 mx-auto">
+    <CarouselItem key={profile.id} className="p-0 md:px-4 lg:px-6 xl:px-8">
+        <Card size="sm" className=" p-0 w-full mx-auto">
           <CardContent className="p-0 pb-10">
             <Image
               src={

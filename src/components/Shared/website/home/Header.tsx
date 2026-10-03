@@ -19,7 +19,7 @@ export default function Header() {
   ];
   return (
     <>
-      <header className={"w-full flex items-center justify-between gap-10"}>
+      <header className={"w-full flex flex-col lg:flex-row items-center justify-between gap-10"}>
         <div className={"w-full flex flex-col gap-4 items-start"}>
           <Badge
             variant="default"
@@ -27,18 +27,18 @@ export default function Header() {
               "bg-primary/5 text-muted-foreground text-xs border-primary/20 shadow-md shadow-primary/10 font-cursive font-bold p-3"
             }
           >
-            <span className={"w-8 h-11 overflow-hidden"}>
+            <span className={"w-8 h-12 overflow-hidden"}>
               <Image
                 src="/fire.gif"
                 alt="fire_image"
-                width={40}
-                height={40}
-                className="object-fill aspect-square"
+                width={30}
+                height={30}
+                className="object-contain aspect-square"
               />
             </span>
             Welcome to StackForge
           </Badge>
-          <p className={"text-7xl uppercase font-semibold"}>
+          <p className={"text-5xl md:text-7xl uppercase font-semibold"}>
             Top <span className={"text-primary"}>Developers</span>
           </p>
           <p className={"text-3xl"}>in Stack forge</p>
@@ -88,7 +88,7 @@ export default function Header() {
           </div>
         </div>
 
-        <MotionDiv className="w-full border-x">
+        <MotionDiv className="w-full mx-auto md:border-x">
           <HomeCarousel />
         </MotionDiv>
       </header>

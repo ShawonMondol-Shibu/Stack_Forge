@@ -7,8 +7,8 @@ export default function Newsletter() {
   return (
     <div className="w-full mt-20 ">
       <Card className={"bg-primary/5 w-full px-4 py-6 shadow-none"}>
-        <CardContent className={" flex gap-4 items-center justify-between"}>
-          <div className="flex items-center gap-6">
+        <CardContent className={" flex flex-col md:flex-row gap-4 items-center justify-between"}>
+          <div className="flex flex-col md:flex-row items-center gap-6">
             <span className="p-4 border rounded-2xl text-primary ">
               <RocketIcon size={50} />
             </span>

@@ -1,3 +1,7 @@
+import PortfolioPage from "@/app/dashboard/portfolio/PortfolioPage";
+import PortfolioExperience from "@/components/Shared/dashboard/portfolio/PortfolioExperience";
+import PortfolioHeader from "@/components/Shared/dashboard/portfolio/PortfolioHeader";
+import Skills from "@/components/Shared/dashboard/profile/about/Skills";
 import ProfileEducations from "@/components/Shared/website/profile/ProfileEducations";
 import ProfileExperience from "@/components/Shared/website/profile/ProfileExperience";
 import ProfileGithub from "@/components/Shared/website/profile/ProfileGithub";
@@ -9,15 +13,8 @@ import React from "react";
 export default async function Page({params}: { params : Promise<{id:string}>}) {
   const {id} = await params;
   return (
-    <main className={"py-10 px-4 md:px-8 grid justify-center"}>
-      <div className={"w-full max-w-4xl space-y-10"}>
-        <ProfilePage id={id} />
-        <ProfileSkills id={id} />
-        <ProfileEducations id={id}/>
-        <ProfileExperience id={id}/>
-        <ProfileProjects id={id}/>
-        <ProfileGithub id={id}/>
-      </div>
+    <main className={" px-4"}>
+      <PortfolioPage />
     </main>
   );
 }
