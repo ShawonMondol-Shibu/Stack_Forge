@@ -13,7 +13,6 @@ export default function NotFound() {
           404
         </span>
           <span>the page is not found</span>
-        
 
         <Button onClick={() => router.back()}>Go Back</Button>
       </div>

@@ -6,13 +6,13 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+  }) {
+  
   return (
-        <div className="w-full max-w-7xl mx-auto h-dvh px-6">
-          <Navbar />
-          <div className="my-20 py-10">{children}</div>
-          <Footer />
-        </div>
-      
+    <div className="w-full max-w-7xl mx-auto h-dvh px-6">
+      <Navbar />
+      <div className="my-20 py-10">{children}</div>
+      <Footer />
+    </div>
   );
 }

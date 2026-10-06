@@ -1,11 +1,14 @@
+"use client";
 import FeaturedDevelopers from "@/components/Shared/website/home/FeaturedDevelopers";
 import Header from "@/components/Shared/website/home/Header";
 import Newsletter from "@/components/Shared/website/home/Newsletter";
 import SuccessStories from "@/components/Shared/website/home/SuccessStories";
 import TrandingProjects from "@/components/Shared/website/home/TrandingProjects";
+import { InitialLoad } from "@/lib/initialLoad";
 import React from "react";
 
 export default function Page() {
+  InitialLoad()
   return (
     <main className={"w-full  mx-auto flex flex-col items-center  gap-10"}>
       <Header />

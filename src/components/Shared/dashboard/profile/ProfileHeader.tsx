@@ -136,8 +136,8 @@ export default function ProfileHeader() {
           </ItemContent>
         </Item>
       </CardContent>
-      <CardFooter className="gap-6">
-        <TabsList variant={"line"}>
+      <CardFooter className="flex-wrap pb-8">
+        <TabsList variant={"line"} className={"flex-wrap"}>
           {tabsList.map((list, i) => (
             <TabsTrigger key={i} value={list.value}>
               {list.name}

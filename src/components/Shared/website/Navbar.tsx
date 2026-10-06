@@ -98,9 +98,9 @@ export default function Navbar() {
           </Link>
         ) : (
           <DropdownMenu>
-              <DropdownMenuTrigger render={
-              <button className="rounded-full focus:outline-none"/>
-            }>
+            <DropdownMenuTrigger
+              render={<button className="rounded-full focus:outline-none" />}
+            >
               <Avatar size={"lg"} className={""}>
                 <AvatarImage
                   src={
