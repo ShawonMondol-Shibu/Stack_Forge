@@ -11,7 +11,7 @@ import { useProjectStore } from "@/store/useProjectStore";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
-  const addProject = useProjectStore((state) => state.addProject);
+  const { addProject } = useProjectStore();
 
   return useMutation({
     mutationFn: (data: CreateProjectPayload) => projectsService.create(data),
@@ -47,9 +47,7 @@ export const useCreateProject = () => {
 
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
-  const updateProjectInStore = useProjectStore(
-    (state) => state.updateProjectInStore
-  );
+  const { updateProjectInStore } = useProjectStore();
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProjectPayload }) =>
@@ -84,9 +82,7 @@ export const useUpdateProject = () => {
 
 export const useDeleteProject = () => {
   const queryClient = useQueryClient();
-  const removeProjectFromStore = useProjectStore(
-    (state) => state.removeProjectFromStore
-  );
+  const { removeProjectFromStore } = useProjectStore();
 
   return useMutation({
     mutationFn: (id: string) => projectsService.delete(id),

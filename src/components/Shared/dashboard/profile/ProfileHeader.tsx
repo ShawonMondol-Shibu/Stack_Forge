@@ -18,26 +18,26 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useProjectStore } from "@/store/useProjectStore";
 import { useProfileStore } from "@/store/ProfileStore";
 import { profileQuery } from "@/hooks/queries/use-profile";
 import ProfileForm from "./ProfileForm";
 
-const tabsList = [
-  { name: "About", value: "about" },
-  { name: "Repository", value: "repos" },
-  { name: "Projects", value: "projects" },
-  { name: "Activity", value: "activity" },
-  { name: "Achievements", value: "achievements" },
-  { name: "Notes", value: "notes" },
-];
+// const tabsList = [
+//   { name: "About", value: "about" },
+//   { name: "Repository", value: "repos" },
+//   { name: "Projects", value: "projects" },
+//   { name: "Activity", value: "activity" },
+//   { name: "Achievements", value: "achievements" },
+//   { name: "Notes", value: "notes" },
+// ];
 
 export default function ProfileHeader() {
   const { projects } = useProjectStore();
@@ -136,7 +136,7 @@ export default function ProfileHeader() {
           </ItemContent>
         </Item>
       </CardContent>
-      <CardFooter className="flex-wrap pb-8">
+      {/*<CardFooter className="flex-wrap pb-8">
         <TabsList variant={"line"} className={"flex-wrap"}>
           {tabsList.map((list, i) => (
             <TabsTrigger key={i} value={list.value}>
@@ -144,7 +144,7 @@ export default function ProfileHeader() {
             </TabsTrigger>
           ))}
         </TabsList>
-      </CardFooter>
+      </CardFooter>*/}
     </Card>
   );
 }

@@ -1,13 +1,16 @@
 import { toast } from "@/components/ui/toast";
 import { queryKeys } from "@/lib/Query-keys";
-import { UpdateSkillPayload, type CreateSkillPayload } from "@/lib/types/skill-type";
+import {
+  UpdateSkillPayload,
+  type CreateSkillPayload,
+} from "@/lib/types/skill-type";
 import { skillService } from "@/services/skill.service";
 import useSkillsStore from "@/store/useSkillsStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateSkill = () => {
   const queryClient = useQueryClient();
-  const {setSkills} = useSkillsStore();
+  const { setSkills } = useSkillsStore();
 
   return useMutation({
     mutationFn: (data: CreateSkillPayload) => skillService.addSkill(data),
@@ -38,10 +41,11 @@ export const useCreateSkill = () => {
 
 export const useUpdateSkill = () => {
   const queryClient = useQueryClient();
-  const updateSkillInStore = useSkillsStore((state) => state.updateSkillInStore);
+  const { updateSkillInStore } = useSkillsStore();
 
   return useMutation({
-    mutationFn: ({id, data}: {id: string, data: UpdateSkillPayload}) => skillService.updateSkill(id, data),
+    mutationFn: ({ id, data }: { id: string; data: UpdateSkillPayload }) =>
+      skillService.updateSkill(id, data),
     onError: (err) => {
       toast.add({
         type: "error",
@@ -61,10 +65,9 @@ export const useUpdateSkill = () => {
   });
 };
 
-
 export const useDeleteSkill = () => {
   const queryClient = useQueryClient();
-  const removeSkillFromStore = useSkillsStore((state) => state.removeSkillFromStore);
+  const { removeSkillFromStore } = useSkillsStore();
 
   return useMutation({
     mutationFn: (id: string) => skillService.deleteSkill(id),

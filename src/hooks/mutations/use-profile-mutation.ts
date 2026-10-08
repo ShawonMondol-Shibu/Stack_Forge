@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateProfile = () => {
   const queryClient = useQueryClient();
-  const setProfile = useProfileStore((state) => state.setProfile);
+  const {setProfile} = useProfileStore();
 
   return useMutation({
     mutationFn: (data: UpdateProfileData) => profileService.createProfile(data),
@@ -33,7 +33,7 @@ export const useCreateProfile = () => {
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
-  const setProfile = useProfileStore((state) => state.setProfile);
+  const {setProfile} = useProfileStore();
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProfileData }) =>

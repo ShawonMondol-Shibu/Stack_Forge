@@ -15,7 +15,7 @@ export const queryKeys = {
 
   skills: {
     all: ["all-skills"] as const,
-    getOne:(id: string)=> ["skills", id] as const
+    getOne: (id: string) => ["skills", id] as const,
   },
 
   techStacks: {
@@ -23,10 +23,18 @@ export const queryKeys = {
   },
 
   profile: {
-    me: ["me"] as const,
+    me: ["my-profile"] as const,
     allProfiles: ["all-profiles"] as const,
     profile: (id: string) => ["profile", id] as const,
     update: (id: string) => ["update-profile", id] as const,
+  },
+
+  experiences: {
+    me: ["my-experience"] as const,
+    getOne: (id?: string) => ["experience", id] as const,
+    profileExperience: (id?: string) => ["profileExperiences", id] as const,
+    update: (id?: string) => ["update-experience", id] as const,
+    delete: (id?: string) => ["delete-experience", id] as const,
   },
 
   notes: {
