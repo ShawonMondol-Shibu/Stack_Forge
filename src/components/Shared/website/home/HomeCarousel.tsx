@@ -33,11 +33,12 @@ export function HomeCarousel() {
   return (
     <Carousel
       plugins={[autoplay]}
-      className="w-full min-h-96 mx-auto"
+      opts={{ align: "start", loop: true }}
+      className="mx-auto min-h-96 w-full"
       onMouseEnter={() => autoplay.stop()}
       onMouseLeave={() => autoplay.reset()}
     >
-      <CarouselContent className="mx-auto">
+      <CarouselContent className="-ml-0">
         {profiles?.map((profile) =>
           profile.id ? (
             <ProfileCarouselItem
@@ -45,12 +46,12 @@ export function HomeCarousel() {
               profile={profile}
               techStack={techStack}
             />
-          ) : null
+          ) : null,
         )}
       </CarouselContent>
 
-      <CarouselPrevious className={'absolute left-2 md:left-0 '}/>
-      <CarouselNext className={"absolute right-2 md:right-0"} />
+      <CarouselPrevious className="absolute left-2 md:left-0" />
+      <CarouselNext className="absolute right-2 md:right-0" />
     </Carousel>
   );
 }
@@ -68,41 +69,48 @@ function ProfileCarouselItem({
 
   const skillIds = new Set(data?.techStack);
   const userSkills = techStack?.filter((stack) => skillIds.has(stack.id));
-  console.log(data);
 
   return (
-    <MotionDiv className="w-full mx-auto">
-    <CarouselItem key={profile.id} className="p-0 md:px-4 lg:px-6 xl:px-8">
-        <Card size="sm" className=" p-0 w-full mx-auto">
-          <CardContent className="p-0 pb-10">
+    <CarouselItem className="basis-full p-0 md:px-4 lg:px-6 xl:px-8">
+      <MotionDiv className="mx-auto w-full">
+        <Card size="sm" className="relative mx-auto w-full p-0">
+          <CardContent className="relative p-0 pb-10">
             <Image
               src={
-                profile?.avatarUrl ||
-                `https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80`
+                profile.avatarUrl ||
+                "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
               }
-              alt={"Carousel Image"}
+              alt={`${profile.fullName || "Profile"} profile image`}
               width={400}
               height={400}
-              className="rounded-md w-full min-h-96 aspect-square object-cover"
+              sizes="(max-width: 640px) 100vw, 80vw"
+              className="aspect-square min-h-80 w-full rounded-md object-cover sm:min-h-96"
             />
-            <div className="absolute w-full bottom-0 bg-linear-to-b from-transparent from-5%  via-accent/80 via-30% to-accent to-70%  p-4 py-6 flex flex-col items-start justify-center gap-2">
-                <Badge variant="secondary">Fullstack Developer</Badge>
-                <CardTitle className={"text-2xl font-bold flex items-center "}>
-                  Shawon Mondol Shibu{" "}
-                  <BadgeCheck className=" fill-primary stroke-accent size-5" />
-                </CardTitle>
-                <MotionDiv className="flex flex-wrap gap-3 items-center justify-start mt-4 ">
-                  {userSkills?.map((skill) => 
-                  skill.image?
-                  (
-                    <motion.img key={skill.id} src={skill.image} alt={skill.name} width={28} height={28} initial={{ scale: 0 }} animate={{ scale: 1 }} />
-                  ):null)}
-                </MotionDiv>
+            <div className="absolute bottom-0 flex w-full flex-col items-start justify-center gap-2 bg-linear-to-b from-transparent from-5% via-accent/80 via-30% to-accent to-70% p-4 py-6">
+              <Badge variant="secondary">Fullstack Developer</Badge>
+              <CardTitle className="flex flex-wrap items-center gap-1 break-words text-2xl font-bold">
+                {profile.fullName || "Full name"}
+                <BadgeCheck className="size-5 shrink-0 fill-primary stroke-accent" />
+              </CardTitle>
+              <MotionDiv className="mt-4 flex flex-wrap items-center justify-start gap-3">
+                {userSkills?.map((skill) =>
+                  skill.image ? (
+                    <motion.img
+                      key={skill.id}
+                      src={skill.image}
+                      alt={skill.name}
+                      width={28}
+                      height={28}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                    />
+                  ) : null,
+                )}
+              </MotionDiv>
             </div>
           </CardContent>
         </Card>
+      </MotionDiv>
     </CarouselItem>
-
-    </MotionDiv>
   );
 }

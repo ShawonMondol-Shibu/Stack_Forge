@@ -116,11 +116,11 @@ export default function ProfileHeader() {
           variant={"outline"}
           className="mt-4 bg-background outline-primary"
         >
-          <ItemContent className="grid grid-cols-2 items-center justify-center gap-x-2 gap-y-3 sm:grid-cols-3 md:grid-cols-6">
+          <ItemContent className="grid grid-cols-2 items-center justify-center gap-x-0 gap-y-3 sm:grid-cols-3 md:grid-cols-6">
             {userInfo.map((info, i) => (
               <div
                 key={i}
-                className="w-full min-w-0 text-center border-x border-primary/20 "
+                className="w-full min-w-0 text-center border-x-2 border-primary/50 "
               >
                 <h3 className="text-sm font-bold sm:text-base">{info.value}</h3>
                 <p className="text-xs text-muted-foreground sm:text-sm">

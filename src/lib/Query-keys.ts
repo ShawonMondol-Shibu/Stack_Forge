@@ -37,6 +37,12 @@ export const queryKeys = {
     delete: (id?: string) => ["delete-experience", id] as const,
   },
 
+  educations: {
+    me: ["my-educations"] as const,
+    getOne: (id: string) => ["education", id] as const,
+    byUser: (userId: string) => ["user-educations", userId] as const,
+  },
+
   notes: {
     all: ["all-notes"] as const,
     getOne: (id?: string) => ["note", id] as const,
