@@ -93,7 +93,7 @@ export default function Page() {
             type: "success",
             title: "User Login",
           });
-          router.push("/");
+          router.push("/dashboard/profile");
         },
         onError: (err) => {
           setIsLoading(false);

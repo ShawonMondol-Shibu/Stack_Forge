@@ -38,7 +38,7 @@ import { LoaderCircle } from "lucide-react";
 import { Toaster } from "@/components/ui/toast";
 
 const skillSchema = z.object({
-  techStack: z.array(z.string()).min(1, "At least one skill is required"),
+  techStack: z.array(z.string()),
 });
 export default function AddSkills() {
   const anchor = useComboboxAnchor();

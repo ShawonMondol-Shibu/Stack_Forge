@@ -1,59 +1,77 @@
+import { LoaderCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemFooter,
-  ItemGroup,
-  ItemHeader,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item";
-import { GraduationCap } from "lucide-react";
-import React from "react";
+import { educationQuery } from "@/hooks/queries/use-education";
 
-export default function ProfileEducations({id}:{id:string}) {
+function formatDate(value: string) {
+  return new Date(`${value.slice(0, 10)}T00:00:00`).toLocaleDateString(
+    undefined,
+    { month: "short", year: "numeric" },
+  );
+}
+
+export default function ProfileEducations({ id }: { id: string }) {
+  const { data: educations, isPending, isError } = educationQuery.GetByUser(id);
+  const publicEducations = educations?.filter(
+    (education) => education.isPublic,
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-xl">Education:</CardTitle>
+    <Card className="gap-3 border-0 bg-transparent px-0 py-0 shadow-none ring-0">
+      <CardHeader className="px-0 pt-0">
+        <div>
+          <p className="text-xs font-semibold uppercase text-primary">
+            Learning
+          </p>
+          <CardTitle className="mt-1 text-2xl">Education</CardTitle>
+        </div>
       </CardHeader>
-      <CardContent className={"px-8"}>
-        <ItemGroup className="flex flex-row flex-wrap gap-4 justify-start">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <Item
-              key={i}
-              variant={"muted"}
-              className="flex-1 hover:shadow-lg transition-all duration-300 ease-in"
-            >
-              <ItemHeader className={"justify-start"}>
-                <ItemMedia>
-                  <GraduationCap />
-                </ItemMedia>
-                <ItemTitle className="text-base">
-                  Kishoreganj Polytechnic Instute
-                </ItemTitle>
-              </ItemHeader>
-              <ItemContent className="pl-8">
-                <ItemDescription>
-                  Diploma in Computer Engineering
-                </ItemDescription>
-                <ItemFooter>
-                  <div className="pl-8">
-                    <ul>
-                      <li>Semester: 1</li>
-                      <li>Passing Year: 2025</li>
-                    </ul>
-                    <ul>
-                      <li></li>
-                      <li>Result: 4.00</li>
-                    </ul>
-                  </div>
-                </ItemFooter>
-              </ItemContent>
-            </Item>
-          ))}
-        </ItemGroup>
+      <CardContent className="px-0">
+        {isPending ? (
+          <div className="flex min-h-20 items-center justify-center">
+            <LoaderCircle className="size-5 animate-spin text-muted-foreground" />
+          </div>
+        ) : isError ? (
+          <p role="alert" className="text-sm text-destructive">
+            Could not load education.
+          </p>
+        ) : publicEducations?.length ? (
+          <ul className="divide-y divide-border">
+            {publicEducations.map((education) => (
+              <li
+                key={education.id}
+                className="space-y-1 py-4 first:pt-0 last:pb-0"
+              >
+                <h3 className="font-semibold">
+                  {education.degree}
+                  {education.fieldOfStudy ? `, ${education.fieldOfStudy}` : ""}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {education.institutionName}
+                  {education.location ? ` · ${education.location}` : ""}
+                </p>
+                <p className="text-xs capitalize text-muted-foreground">
+                  {education.startDate ? formatDate(education.startDate) : ""}
+                  {education.startDate ? " - " : ""}
+                  {education.isCurrent
+                    ? "Present"
+                    : education.endDate
+                      ? formatDate(education.endDate)
+                      : education.status.replaceAll("_", " ")}
+                  {education.gradeValue ? ` · ${education.gradeValue}` : ""}
+                </p>
+                {education.description && (
+                  <p className="whitespace-pre-line text-sm text-muted-foreground">
+                    {education.description}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No public education listed.
+          </p>
+        )}
       </CardContent>
     </Card>
   );

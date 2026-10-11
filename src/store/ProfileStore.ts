@@ -3,7 +3,7 @@ import { UserProfile } from "@/lib/types/profile-type";
 import { persist } from "zustand/middleware";
 
 export interface ProfileStoreType {
-  profile: UserProfile | null;
+  profile: UserProfile ;
   setProfile: (profile: UserProfile) => void;
 }
 

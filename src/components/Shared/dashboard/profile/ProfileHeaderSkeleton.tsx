@@ -6,7 +6,7 @@ export default function ProfileHeaderSkeleton() {
   return (
     <Card
       size="sm"
-      className="min-h-80 w-full pt-0"
+      className="min-h-80 w-full pt-0 bg-background shadow-none border-none"
       aria-busy="true"
       aria-label="Loading profile"
     >

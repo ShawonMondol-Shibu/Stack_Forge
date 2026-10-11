@@ -43,6 +43,13 @@ export const queryKeys = {
     byUser: (userId: string) => ["user-educations", userId] as const,
   },
 
+  follows: {
+    following: ["my-following"] as const,
+    followers: ["my-followers"] as const,
+    userFollowers: (userId: string) => ["user-followers", userId] as const,
+    userFollowing: (userId: string) => ["user-following", userId] as const,
+  },
+
   notes: {
     all: ["all-notes"] as const,
     getOne: (id?: string) => ["note", id] as const,

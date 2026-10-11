@@ -16,6 +16,7 @@ export const experienceQuery = {
       queryKey: queryKeys.experiences.profileExperience(id),
       queryFn: async () => experienceService.getProfileExperiences(id),
       select: (res) => res.data,
+      enabled: Boolean(id),
     });
   },
 };

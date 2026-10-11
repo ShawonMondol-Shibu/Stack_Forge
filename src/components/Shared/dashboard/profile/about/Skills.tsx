@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
 
@@ -31,7 +31,7 @@ import { usePathname } from "next/navigation";
 
 const DISPLAY_LIMIT = 12;
 
-export default function Skills() {
+export default function Skills({ userId }: { userId?: string }) {
   const { setTechStack } = useTechStackStore();
   const { setSkills } = useSkillsStore();
   const pathName = usePathname();
@@ -41,7 +41,12 @@ export default function Skills() {
     data: skills,
     isLoading: isSkillsLoading,
     isError: isSkillsError,
-  } = useSkillsQuery.GetMySkills();
+  } = useSkillsQuery.GetMySkills(!userId);
+  const {
+    data: profileSkills,
+    isLoading: isProfileSkillsLoading,
+    isError: isProfileSkillsError,
+  } = useSkillsQuery.GetSkillsById(userId ?? "");
 
   // Query 2: Master tech stack database catalog
   const {
@@ -51,7 +56,7 @@ export default function Skills() {
   } = useTechStack();
 
   // Update store conditionally without triggering extra re-renders during render cycles
-  useMemo(() => {
+  useEffect(() => {
     if (techStacks && techStacks.length > 0) {
       setTechStack(techStacks);
     }
@@ -61,54 +66,65 @@ export default function Skills() {
   }, [techStacks, setTechStack, skills, setSkills]);
 
   // O(N + M) Lookup Optimization via Set indexing
+  const selectedSkills = userId ? profileSkills : skills;
   const mySkills = useMemo(() => {
-    if (!skills || !techStacks) return [];
-    const skillSet = new Set(skills.techStack || []);
+    if (!selectedSkills || !techStacks) return [];
+    const skillSet = new Set(selectedSkills.techStack || []);
     return techStacks.filter((stack) => skillSet.has(stack.id));
-  }, [skills, techStacks]);
+  }, [selectedSkills, techStacks]);
 
-  const isLoading = isSkillsLoading || isTechLoading;
-  const isError = isSkillsError || isTechError;
+  const isLoading =
+    (userId ? isProfileSkillsLoading : isSkillsLoading) || isTechLoading;
+  const isError =
+    (userId ? isProfileSkillsError : isSkillsError) || isTechError;
   const hasMoreSkills = mySkills.length > DISPLAY_LIMIT;
   const visibleSkills = hasMoreSkills
     ? mySkills.slice(0, DISPLAY_LIMIT)
     : mySkills;
 
   return (
-    <Card className="min-h-64 gap-2">
-      <CardHeader>
-        <CardTitle>Skills</CardTitle>
+    <Card
+      className={
+        userId
+          ? "gap-3 border-0 bg-transparent px-0 py-0 shadow-none ring-0"
+          : "min-h-64 gap-2"
+      }
+    >
+      <CardHeader className={userId ? "px-0 pt-0" : undefined}>
+        <CardTitle className={userId ? "text-2xl" : undefined}>
+          {userId ? "Technical toolkit" : "Skills"}
+        </CardTitle>
         <CardAction>
           {/* <Button size="icon-sm" variant="ghost" aria-label="Edit skills">
             <Pencil className="h-4 w-4" />
           </Button> */}
-          {pathName === "/dashboard/profile" && <AddSkill />}
+          {skills && <AddSkill />}
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className={userId ? "px-0" : undefined}>
         {isLoading ? (
-          <div className="flex min-h-40 w-full items-center justify-center">
+          <div className="flex min-h-24 w-full items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : isError ? (
-          <div className="flex min-h-40 w-full items-center justify-center">
+          <div className="flex min-h-24 w-full items-center justify-center">
             <p className="text-sm text-destructive">
               Failed to load skills configuration.
             </p>
           </div>
         ) : visibleSkills.length === 0 ? (
-          <div className="flex min-h-40 w-full items-center justify-center">
+          <div className="flex min-h-16 w-full items-center justify-center">
             <p className="text-sm text-muted-foreground">No skills selected.</p>
           </div>
         ) : (
-          <ItemGroup className="flex flex-col gap-4">
+          <ItemGroup className="flex flex-col gap-3">
             <div className="flex flex-row flex-wrap items-center gap-2">
               {visibleSkills.map((skill) => (
                 <MotionDiv key={skill.id}>
                   <Item
                     variant="outline"
                     size="xs"
-                    className="w-fit gap-1.5 p-2"
+                    className="w-fit gap-1.5 rounded-md border-border/70 bg-background/50 px-2.5 py-1.5"
                   >
                     {skill.image && (
                       <ItemMedia>
@@ -141,15 +157,17 @@ export default function Skills() {
           </ItemGroup>
         )}
       </CardContent>
-      <CardFooter>
-        {mySkills.length > 0 ? (
-          <p className="text-sm text-muted-foreground">
-            Total skills selected: {mySkills.length}
-          </p>
-        ) : (
-          pathName === "/dashboard/profile" && <AddSkill />
-        )}
-      </CardFooter>
+      {!userId && (
+        <CardFooter>
+          {mySkills.length > 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Total skills selected: {mySkills.length}
+            </p>
+          ) : (
+            pathName === "/dashboard/profile" && <AddSkill />
+          )}
+        </CardFooter>
+      )}
     </Card>
   );
 }

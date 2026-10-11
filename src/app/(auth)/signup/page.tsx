@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import * as z from "zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Please enter you name" }),
@@ -22,6 +23,7 @@ const formSchema = z.object({
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,6 +62,8 @@ export default function Page() {
             type: "success",
             title: "User Created",
           });
+          setIsLoading(false);
+          router.push("/dashboard");
         },
         onError: (err) => {
           setIsLoading(false);

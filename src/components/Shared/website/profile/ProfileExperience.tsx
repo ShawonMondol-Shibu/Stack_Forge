@@ -1,49 +1,65 @@
-/* eslint-disable react/no-unescaped-entities */
+import { LoaderCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Item,
-  ItemContent,
-  ItemGroup,
-  ItemHeader,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item";
-import { BriefcaseBusiness } from "lucide-react";
-import React from "react";
+import { experienceQuery } from "@/hooks/queries/use-experience";
 
-export default function ProfileExperience({id}:{id:string}) {
+function formatDate(value: string) {
+  return new Date(value.slice(0, 10) + "T00:00:00").toLocaleDateString(
+    undefined,
+    { month: "short", year: "numeric" },
+  );
+}
+
+export default function ProfileExperience({ id }: { id: string }) {
+  const {
+    data: experiences,
+    isPending,
+    isError,
+  } = experienceQuery.GetByProfile(id);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className={"text-xl"}>Experience:</CardTitle>
+        <CardTitle className="text-xl">Experience</CardTitle>
       </CardHeader>
       <CardContent>
-        <ItemGroup>
-          {Array.from({ length: 1 }).map((_, i) => (
-            <Item key={i} variant={"outline"}>
-              <ItemHeader>
-                <div className={"flex items-center gap-2"}>
-                  <ItemMedia>
-                    <BriefcaseBusiness />
-                  </ItemMedia>
-                  <ItemTitle className={"text-base"}>
-                    MERN Stack Developer{" "}
-                    <small>
-                      <span>Internship</span>
-                    </small>
-                  </ItemTitle>
-                </div>
-              </ItemHeader>
-              <ItemContent>
-                <ItemTitle>Full Stack Development ("MERN")</ItemTitle>
-                <address>
-                  Daisy Garden, House 14 (Level-5), Block A, Banasree, Dhaka
-                </address>
-                <p>Duration: 2024 4 months</p>
-              </ItemContent>
-            </Item>
-          ))}
-        </ItemGroup>
+        {isPending ? (
+          <div className="flex min-h-20 items-center justify-center">
+            <LoaderCircle className="size-5 animate-spin text-muted-foreground" />
+          </div>
+        ) : isError ? (
+          <p role="alert" className="text-sm text-destructive">
+            Could not load experience.
+          </p>
+        ) : experiences?.length ? (
+          <ul className="divide-y divide-border">
+            {experiences.map((experience) => (
+              <li
+                key={experience.id}
+                className="space-y-1 py-4 first:pt-0 last:pb-0"
+              >
+                <h3 className="font-semibold">{experience.position}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {experience.company}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {formatDate(experience.startDate)} -{" "}
+                  {experience.isCurrent
+                    ? "Present"
+                    : experience.endDate
+                      ? formatDate(experience.endDate)
+                      : "End date unknown"}
+                </p>
+                {experience.description && (
+                  <p className="whitespace-pre-line text-sm text-muted-foreground">
+                    {experience.description}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground">No experience listed.</p>
+        )}
       </CardContent>
     </Card>
   );

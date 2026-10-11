@@ -26,6 +26,7 @@ import { Item, ItemContent } from "@/components/ui/item";
 import { useProjectStore } from "@/store/useProjectStore";
 import { useProfileStore } from "@/store/ProfileStore";
 import { profileQuery } from "@/hooks/queries/use-profile";
+import { followQuery } from "@/hooks/queries/use-follow";
 import ProfileForm from "./ProfileForm";
 import ProfileHeaderSkeleton from "./ProfileHeaderSkeleton";
 
@@ -34,8 +35,24 @@ export default function ProfileHeader() {
   const { setProfile } = useProfileStore();
 
   const { data: profile, isPending } = profileQuery.GetMyProfile();
+  const {
+    data: followers,
+    isPending: isFollowersPending,
+    isError: isFollowersError,
+  } = followQuery.GetUserFollowers(profile?.userId ?? "");
+  const {
+    data: following,
+    isPending: isFollowingPending,
+    isError: isFollowingError,
+  } = followQuery.GetUserFollowing(profile?.userId ?? "");
 
   const profileView = profile?.viewCount ?? 0;
+  const formatCount = (
+    count: number | undefined,
+    pending: boolean,
+    error: boolean,
+  ) =>
+    pending ? "..." : error ? "—" : new Intl.NumberFormat().format(count ?? 0);
 
   // Sync state cleanly via React lifecycle
   useEffect(() => {
@@ -51,8 +68,22 @@ export default function ProfileHeader() {
   const userInfo = [
     { label: "Repositories", value: 24 },
     { label: "Projects", value: projects.length },
-    { label: "Followers", value: 803 },
-    { label: "Following", value: 128 },
+    {
+      label: "Followers",
+      value: formatCount(
+        followers?.length,
+        isFollowersPending,
+        isFollowersError,
+      ),
+    },
+    {
+      label: "Following",
+      value: formatCount(
+        following?.length,
+        isFollowingPending,
+        isFollowingError,
+      ),
+    },
     { label: "Profile View", value: profileView },
     { label: "Achievements", value: 16 },
   ];

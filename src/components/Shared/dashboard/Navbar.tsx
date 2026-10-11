@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Home,
   // Bell,
   BriefcaseBusiness,
   // CalendarRange,
@@ -33,6 +34,7 @@ import UseSession from "../UseSession";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
+  { url: "/", label: "Home", icon: Home },
   { url: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { url: "/dashboard/profile", label: "Profile", icon: User },
   {

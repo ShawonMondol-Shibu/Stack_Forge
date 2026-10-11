@@ -1,122 +1,198 @@
 "use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { ExternalLink, MapPin, Share2, UsersRound } from "lucide-react";
 import {
   Avatar,
   AvatarBadge,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useProfileStore } from "@/store/ProfileStore";
-import { Github } from "@animateicons/react/huge";
-import {
-  ArrowUp,
-  Calendar,
-  Code,
-  Eye,
-  FolderClosed,
-  Globe,
-  Linkedin,
-  MapPin,
-  Twitter,
-  Users,
-} from "@animateicons/react/lucide";
-import Link from "next/link";
-import React from "react";
+import type { UserProfile } from "@/lib/types/profile-type";
+import { useSkillsQuery } from "@/hooks/queries/use-skills";
+import { followQuery } from "@/hooks/queries/use-follow";
+import useTechStack from "@/hooks/queries/useTechStack";
 import PortfolioCodeBlock from "./PortfolioCodeBlock";
-import useSkillsStore from "@/store/useSkillsStore";
-import { useTechStackStore } from "@/store/TechStackStore";
 
-export default function PortfolioHeader() {
-  const { profile } = useProfileStore();
-  const { techStacks } = useTechStackStore();
-  const { skills } = useSkillsStore();
-  const mySkills = techStacks.filter((stack: { id: string, image: string, name: string }) => skills?.techStack?.includes(stack.id));
-  const socialLinks: { url: string; icon: React.FC<{ size?: number }> }[] = [
-    { url: "//github.com", icon: Github },
-    { url: "//linkedin.com", icon: Linkedin },
-    { url: "//x.com", icon: Twitter },
-    { url: "//google.com", icon: Globe },
-  ];
-  const portfolioStatus = [
-    { title: "projects", value: 24, avarage: 20, icon: FolderClosed },
-    { title: "repositories", value: 24, avarage: 20, icon: Code },
-    { title: "profile views", value: 24, avarage: 20, icon: Eye },
-    { title: "followers", value: 24, avarage: 20, icon: Users },
-  ];
+export default function PortfolioHeader({
+  profile,
+  isReadOnly = false,
+}: {
+  profile?: UserProfile;
+  isReadOnly?: boolean;
+}) {
+  const [copied, setCopied] = useState(false);
+  const { data: skillConfig } = useSkillsQuery.GetSkillsById(
+    profile?.userId ?? "",
+  );
+  const { data: techStacks = [] } = useTechStack();
+  const {
+    data: followers,
+    isPending: isFollowersPending,
+    isError: isFollowersError,
+  } = followQuery.GetUserFollowers(profile?.userId ?? "");
+  const {
+    data: following,
+    isPending: isFollowingPending,
+    isError: isFollowingError,
+  } = followQuery.GetUserFollowing(profile?.userId ?? "");
+  const selectedSkillIds = new Set(skillConfig?.techStack ?? []);
+  const skills = techStacks.filter((stack) => selectedSkillIds.has(stack.id));
+  const websiteHref = profile?.website
+    ? /^https?:\/\//.test(profile.website)
+      ? profile.website
+      : `https://${profile.website}`
+    : null;
+  const initials = (profile?.fullName || "Developer")
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  const sharePortfolio = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.prompt("Copy this portfolio link", window.location.href);
+    }
+  };
+
   return (
-    <header className=" ">
-      <Card className={"p-0 gap-y-0"}>
-        <CardContent className="grid grid-cols-1 lg:grid-cols-8 items-start justify-center gap-6 p-8 bg-linear-to-r from-transparent via-primary/50  rounded-3xl">
-          <div className="col-span-2 flex flex-col w-full items-center gap-6">
-            <Avatar className={"w-46 h-46"}>
-              <AvatarImage src={profile?.avatarUrl || ""} alt={""} />
-              <AvatarFallback>User Image</AvatarFallback>
-              <AvatarBadge className={"bottom-4 right-5"} />
-            </Avatar>
-            <div className="flex items-center justify-center gap-2">
-              {socialLinks.map((social, i) => (
-                social.url && <Link key={i} href={social.url}>
-                  <Button variant={"outline"} size={"icon-lg"}>
-                    {" "}
-                    <social.icon size={20} />
-                  </Button>
-                </Link>
-              ))}
-            </div>
+    <header className="border-b border-border/70 pb-8 sm:pb-10">
+      <div className="grid gap-8 pt-4 sm:pt-8 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-center lg:gap-12">
+        <div className="min-w-0">
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase text-muted-foreground">
+              Portfolio
+            </span>
+            {profile?.availability && (
+              <Badge
+                variant={
+                  profile.availability === "open" ? "secondary" : "outline"
+                }
+                className="capitalize"
+              >
+                {profile.availability === "open"
+                  ? "Open to opportunities"
+                  : profile.availability.replaceAll("_", " ")}
+              </Badge>
+            )}
           </div>
 
-          <div className="col-span-3 space-y-2 relative">
-            <h1 className="text-4xl font-bold">Hi, I&apos;m {profile?.fullName || "full name"} 👋</h1>
-            <h3 className="text-2xl font-medium text-muted-foreground">{profile?.headline || "Role"}</h3>
-            <p className="text-base text-muted-foreground min-h-28">
-              {profile?.bio || "There's no bio available."}
+          <h1 className="max-w-4xl wrap-break-word text-4xl font-semibold leading-tight sm:text-5xl">
+            {profile?.fullName || "Developer portfolio"}
+          </h1>
+          {profile?.headline && (
+            <p className="mt-3 max-w-3xl text-xl text-muted-foreground sm:text-2xl">
+              {profile.headline}
             </p>
-            <div className="flex items-center justify-start gap-2 text-xs bottom-0">
-              <address className="flex items-center gap-2">
-                <MapPin size={16} /> <span>{profile?.location || "Location not specified"}</span>
-              </address>
-              <Separator orientation="vertical" className={"border-primary "} />
-              <Link href={profile?.website || ""} target="_blank" rel="noopener noreferrer">
-                {profile?.website || "No website available."}
-              </Link>
-              <Separator orientation="vertical" className={"border-primary "} />
-              <span>
-                <Calendar size={16} /> {profile?.availability === "busy" ? "Busy right now" : profile?.availability === "open" ? "Available for work" : "Unavailable for work"}
+          )}
+          {profile?.bio && (
+            <p className="mt-5 max-w-2xl whitespace-pre-line text-base leading-7 text-muted-foreground">
+              {profile.bio}
+            </p>
+          )}
+
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+            {profile?.location && (
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="size-4" />
+                {profile.location}
               </span>
+            )}
+            {websiteHref && (
+              <a
+                href={websiteHref}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground underline-offset-4 hover:underline"
+              >
+                Website <ExternalLink className="size-3.5" />
+              </a>
+            )}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 border-y border-border/70 py-3">
+            <div className="flex items-center gap-2">
+              <UsersRound className="size-4 text-primary" aria-hidden="true" />
+              <span className="font-semibold text-foreground">
+                {isFollowersPending
+                  ? "..."
+                  : isFollowersError
+                    ? "—"
+                    : new Intl.NumberFormat().format(followers?.length ?? 0)}
+              </span>
+              <span className="text-sm text-muted-foreground">Followers</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <UsersRound
+                className="size-4 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <span className="font-semibold text-foreground">
+                {isFollowingPending
+                  ? "..."
+                  : isFollowingError
+                    ? "—"
+                    : new Intl.NumberFormat().format(following?.length ?? 0)}
+              </span>
+              <span className="text-sm text-muted-foreground">Following</span>
             </div>
           </div>
 
-
-          <PortfolioCodeBlock className="col-span-3" profile={profile || undefined} skills={mySkills} />
-        </CardContent>
-        <div className="w-full bg-transparent mx-auto rounded-3xl p-2 border-0 shadow-none">
-          <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-start gap-4 ">
-            {portfolioStatus.map((status) => (
-              <div key={status.title} className="flex items-center gap-4 p-2 border rounded-2xl bg-primary/5 border-primary/20">
-                <span className="p-4 bg-primary/20 text-primary rounded-2xl">
-                  <status.icon size={28} />
-                </span>
-                <div className="flex flex-col">
-                  <span className="text-xl font-bold">{status.value}</span>
-                  <span className="inline-block capitalize text-xs">
-                    {status.title}
-                  </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-green-500">
-                    <ArrowUp size={14} /> {status.avarage}%
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {websiteHref && (
+              <Button
+                render={
+                  <a href={websiteHref} target="_blank" rel="noreferrer" />
+                }
+              >
+                Visit website <ExternalLink data-icon="inline-end" />
+              </Button>
+            )}
+            <Button variant="outline" onClick={sharePortfolio}>
+              <Share2 data-icon="inline-start" />
+              {copied ? "Link copied" : "Share portfolio"}
+            </Button>
+            {!isReadOnly && (
+              <Button
+                variant="outline"
+                render={<Link href="/dashboard/profile" />}
+              >
+                Edit profile
+              </Button>
+            )}
           </div>
         </div>
 
+        <div className="relative mx-auto w-full max-w-64 lg:max-w-none">
+          <div className="absolute -right-3 -top-3 size-16 border-r-2 border-t-2 border-primary" />
+          <Avatar className="aspect-4/5 h-auto w-full rounded-md bg-muted">
+            <AvatarImage
+              src={profile?.avatarUrl || undefined}
+              alt={profile?.fullName || "Profile portrait"}
+              className="object-cover"
+            />
+            <AvatarFallback className="rounded-md text-4xl font-semibold">
+              {initials}
+            </AvatarFallback>
+            <AvatarBadge className="bottom-3 right-3 size-4 border-2 border-background" />
+          </Avatar>
+          <div className="absolute -bottom-2 -left-2 h-12 w-1.5 bg-primary" />
+        </div>
+      </div>
 
-
-
-      </Card>
-
+      <PortfolioCodeBlock
+        className="mt-8 max-w-2xl"
+        profile={profile}
+        skills={skills}
+      />
     </header>
   );
 }

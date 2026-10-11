@@ -22,6 +22,7 @@ export const profileQuery = {
       queryKey: queryKeys.profile.profile(id),
       queryFn: async () => profileService.getProfileById(id),
       select: (data) => data.data,
+      enabled: Boolean(id),
     });
   },
 };
