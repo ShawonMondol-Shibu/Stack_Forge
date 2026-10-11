@@ -127,6 +127,12 @@ export default function Navbar() {
               </div>
               <DropdownMenuItem
                 className={"cursor-pointer"}
+                render={<Link href={"/dashboard/profile"} />}
+              >
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className={"cursor-pointer"}
                 render={<Link href={"/dashboard"} />}
               >
                 Dashboard

@@ -12,12 +12,19 @@ import {
 } from "@/components/ui/card";
 import { educationMutation } from "@/hooks/mutations/use-education-mutation";
 import { educationQuery } from "@/hooks/queries/use-education";
+import type {
+  CreateEducationData,
+  EducationRecord,
+} from "@/lib/types/education";
 import { useEducationStore } from "@/store/useEducationStore";
 import EducationItem from "./EducationItem";
 import EducationForm from "./EducationForm";
 
 export default function Education() {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [educationToEdit, setEducationToEdit] = useState<
+    EducationRecord | undefined
+  >();
   const {
     data: fetchedEducations,
     isPending,
@@ -28,6 +35,10 @@ export default function Education() {
   const setEducations = useEducationStore((state) => state.setEducations);
   const { mutate: createEducation, isPending: isCreating } =
     educationMutation.CreateEducation();
+  const { mutate: updateEducation, isPending: isUpdating } =
+    educationMutation.UpdateEducation();
+  const { mutate: deleteEducation, isPending: isDeleting } =
+    educationMutation.DeleteEducation();
   const fetchedSnapshot = useRef<string | null>(null);
 
   useEffect(() => {
@@ -44,6 +55,30 @@ export default function Education() {
     (first, second) => first.displayOrder - second.displayOrder,
   );
 
+  const openCreateForm = () => {
+    setEducationToEdit(undefined);
+    setIsFormOpen(true);
+  };
+
+  const openEditForm = (education: EducationRecord) => {
+    setEducationToEdit(education);
+    setIsFormOpen(true);
+  };
+
+  const handleSubmit = (data: CreateEducationData) => {
+    const onSuccess = () => {
+      setIsFormOpen(false);
+      setEducationToEdit(undefined);
+    };
+
+    if (educationToEdit) {
+      updateEducation({ id: educationToEdit.id, data }, { onSuccess });
+      return;
+    }
+
+    createEducation(data, { onSuccess });
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -52,7 +87,7 @@ export default function Education() {
           Educations
         </CardTitle>
         <CardAction>
-          <Button type="button" size="sm" onClick={() => setIsFormOpen(true)}>
+          <Button type="button" size="sm" onClick={openCreateForm}>
             <Plus data-icon="inline-start" />
             Add
           </Button>
@@ -73,21 +108,24 @@ export default function Education() {
         ) : (
           <ul className="divide-y divide-border">
             {sortedEducations.map((education) => (
-              <EducationItem key={education.id} education={education} />
+              <EducationItem
+                key={education.id}
+                education={education}
+                onEdit={() => openEditForm(education)}
+                onDelete={() => deleteEducation(education.id)}
+                isDeleting={isDeleting}
+              />
             ))}
           </ul>
         )}
       </CardContent>
 
       <EducationForm
+        education={educationToEdit}
         open={isFormOpen}
         onOpenChange={setIsFormOpen}
-        isSubmitting={isCreating}
-        onSubmit={(data) =>
-          createEducation(data, {
-            onSuccess: () => setIsFormOpen(false),
-          })
-        }
+        isSubmitting={isCreating || isUpdating}
+        onSubmit={handleSubmit}
       />
     </Card>
   );

@@ -11,13 +11,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { CreateEducationData } from "@/lib/types/education";
+import type {
+  CreateEducationData,
+  EducationRecord,
+} from "@/lib/types/education";
 import EducationFormCheckboxField from "./EducationFormCheckboxField";
 import EducationFormSelectField from "./EducationFormSelectField";
 import EducationFormTextField from "./EducationFormTextField";
 import EducationFormTextareaField from "./EducationFormTextareaField";
 import {
-  defaultEducationFormValues,
   educationStatusOptions,
   educationSchema,
   educationTypeOptions,
@@ -29,6 +31,29 @@ interface EducationFormProps {
   onOpenChange: (open: boolean) => void;
   onSubmit: (education: CreateEducationData) => void;
   isSubmitting: boolean;
+  education?: EducationRecord;
+}
+
+function getFormValues(education?: EducationRecord): EducationFormValues {
+  return {
+    educationType: education?.educationType ?? "degree",
+    institutionName: education?.institutionName ?? "",
+    institutionUrl: education?.institutionUrl ?? "",
+    institutionLogoUrl: education?.institutionLogoUrl ?? "",
+    location: education?.location ?? "",
+    degree: education?.degree ?? "",
+    fieldOfStudy: education?.fieldOfStudy ?? "",
+    startDate: education?.startDate?.slice(0, 10) ?? "",
+    endDate: education?.endDate?.slice(0, 10) ?? "",
+    isCurrent: education?.isCurrent ?? false,
+    status: education?.status ?? "completed",
+    gradeValue: education?.gradeValue ?? "",
+    gradeScale: education?.gradeScale ?? "",
+    description: education?.description ?? "",
+    activities: education?.activities ?? "",
+    isPublic: education?.isPublic ?? true,
+    displayOrder: education?.displayOrder ?? 0,
+  };
 }
 
 function nullableValue(value: string) {
@@ -40,16 +65,17 @@ export default function EducationForm({
   onOpenChange,
   onSubmit,
   isSubmitting,
+  education,
 }: EducationFormProps) {
   const form = useForm<EducationFormValues>({
     resolver: zodResolver(educationSchema),
-    defaultValues: defaultEducationFormValues,
+    defaultValues: getFormValues(education),
   });
   const isCurrent = useWatch({ control: form.control, name: "isCurrent" });
 
   useEffect(() => {
-    if (open) form.reset(defaultEducationFormValues);
-  }, [form, open]);
+    if (open) form.reset(getFormValues(education));
+  }, [education, form, open]);
 
   const handleSubmit = (values: EducationFormValues) => {
     onSubmit({
@@ -77,9 +103,13 @@ export default function EducationForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Add education</DialogTitle>
+          <DialogTitle>
+            {education ? "Edit education" : "Add education"}
+          </DialogTitle>
           <DialogDescription>
-            Add an education entry to your profile.
+            {education
+              ? "Update this education entry."
+              : "Add an education entry to your profile."}
           </DialogDescription>
         </DialogHeader>
 
@@ -200,7 +230,13 @@ export default function EducationForm({
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Adding..." : "Add education"}
+              {isSubmitting
+                ? education
+                  ? "Saving..."
+                  : "Adding..."
+                : education
+                  ? "Save changes"
+                  : "Add education"}
             </Button>
           </div>
         </form>
