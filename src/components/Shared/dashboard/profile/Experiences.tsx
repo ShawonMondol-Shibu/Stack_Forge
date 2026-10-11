@@ -81,7 +81,7 @@ export const Experiences = () => {
             onClick={openCreateForm}
           >
             <Plus data-icon="inline-start" />
-            Add experience
+            Add
           </Button>
         </CardAction>
       </CardHeader>

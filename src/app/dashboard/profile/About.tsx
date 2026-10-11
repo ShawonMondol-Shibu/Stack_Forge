@@ -8,12 +8,19 @@ import React from 'react'
 
 export default function About() {
   return (
-    <div className={" grid grid-cols-1 lg:grid-cols-2 gap-2 items-start justify-center"}>
-        <AboutMe/>
-        <Skills/>
-      <Experiences/>
-      <PinnedProjects />
-      <GithubActivitiy/>
-    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+  {/* Left Column */}
+  <div className="flex flex-col gap-4">
+    <AboutMe />
+    <Experiences />
+    <GithubActivitiy />
+  </div>
+
+  {/* Right Column */}
+  <div className="flex flex-col gap-4">
+    <Skills />
+    <PinnedProjects />
+  </div>
+</div>
   )
 }

@@ -10,9 +10,20 @@ export interface UserProfile {
   website?: string | null;
   avatarUrl?: string | null;
   coverUrl?: string | null;
+  viewCount?: number | null;
+  viewedProfile?: string[];
   availability?: AvailabilityStatus;
   createdAt?: string;
   updatedAt?: string;
 }
 
-export interface UpdateProfileData { profile: Partial<Omit<UserProfile, "id" | "userId" | "createdAt" | "updatedAt">> }
+export interface UpdateProfileData {
+  fullName: string;
+  headline?: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+  avatarUrl?: string;
+  coverUrl?: string;
+  availability: AvailabilityStatus;
+}

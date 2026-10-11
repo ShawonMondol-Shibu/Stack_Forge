@@ -18,33 +18,23 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Item, ItemContent } from "@/components/ui/item";
-// import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useProjectStore } from "@/store/useProjectStore";
 import { useProfileStore } from "@/store/ProfileStore";
 import { profileQuery } from "@/hooks/queries/use-profile";
 import ProfileForm from "./ProfileForm";
 
-// const tabsList = [
-//   { name: "About", value: "about" },
-//   { name: "Repository", value: "repos" },
-//   { name: "Projects", value: "projects" },
-//   { name: "Activity", value: "activity" },
-//   { name: "Achievements", value: "achievements" },
-//   { name: "Notes", value: "notes" },
-// ];
-
 export default function ProfileHeader() {
   const { projects } = useProjectStore();
   const { setProfile } = useProfileStore();
 
-  const { data: profile, isLoading: isProfileLoading } =
-    profileQuery.GetMyProfile();
+  const { data: profile } = profileQuery.GetMyProfileSuspense();
+
+  const profileView = profile?.viewCount ?? 0;
 
   // Sync state cleanly via React lifecycle
   useEffect(() => {
@@ -53,20 +43,12 @@ export default function ProfileHeader() {
     }
   }, [profile, setProfile]);
 
-  // if (isLoading) {
-  //   return <div>Loading profile...</div>;
-  // }
-
-  // if (isError) {
-  //   return <div>{error?.message || "Failed to load profile"}</div>;
-  // }
-
   const userInfo = [
     { label: "Repositories", value: 24 },
     { label: "Projects", value: projects.length },
     { label: "Followers", value: 803 },
     { label: "Following", value: 128 },
-    { label: "Profile View", value: 1.5 },
+    { label: "Profile View", value: profileView },
     { label: "Achievements", value: 16 },
   ];
 
@@ -78,21 +60,24 @@ export default function ProfileHeader() {
           alt={"profile_cover-image"}
           width={800}
           height={600}
-          className={"w-full h-48 object-cover"}
+          className={"h-32 w-full object-cover sm:h-48"}
         />
-        <div className={"absolute -bottom-14 left-5"}>
-          <Avatar className={"size-30"}>
+        <div className={"absolute -bottom-10 left-4 sm:-bottom-14 sm:left-5"}>
+          <Avatar className={"size-20 sm:size-30"}>
             <AvatarImage src={profile?.avatarUrl || ""} />
             <AvatarFallback>{"profile picture"}</AvatarFallback>
             <AvatarBadge className="bottom-3 right-4" />
           </Avatar>
         </div>
       </div>
-      <CardHeader className="ml-36">
-        <CardTitle>{profile?.fullName || "Full name"}</CardTitle>
-        <CardAction>
+      <CardHeader className="ml-0 grid-cols-1 pt-12 sm:ml-36 sm:grid-cols-[1fr_auto] sm:pt-0">
+        <CardTitle className="min-w-0 wrap-break-word">
+          {profile?.fullName || "Full name"}
+        </CardTitle>
+        <CardAction className="col-start-1 row-start-2 justify-self-start sm:col-start-2 sm:row-start-1 sm:justify-self-end">
           <ButtonGroup>
-            <ProfileForm profile={profile} isLoading={isProfileLoading} />
+            {/*Profile Form Added*/}
+            <ProfileForm profile={profile} />
             <Button size={"sm"}>
               <Share className="size-4 mr-1" /> Share
             </Button>
@@ -100,22 +85,25 @@ export default function ProfileHeader() {
         </CardAction>
       </CardHeader>
       <CardContent className="mt-1">
-        <div className="ml-30">
-          <h3 className="font-semibold">
+        <div className="ml-0 min-w-0 sm:ml-30">
+          <h3 className="wrap-break-word font-semibold">
             {profile?.headline || "Full Stack Developer"}
           </h3>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
             <address className="not-italic">
               {profile?.location || "Dhaka, Bangladesh"}
             </address>
             <Link
               href={`https://${profile?.website || "shawonmondolshibu.vercel.app"}`}
               target="_blank"
+              className="min-w-0 break-all"
             >
               {profile?.website || "shawonmondolshibu.vercel.app"}
             </Link>
           </div>
-          <CardDescription className="mt-2">{profile?.bio}</CardDescription>
+          <CardDescription className="mt-2 wrap-break-word">
+            {profile?.bio}
+          </CardDescription>
         </div>
 
         <Item
@@ -123,28 +111,18 @@ export default function ProfileHeader() {
           variant={"outline"}
           className="mt-4 bg-background outline-primary"
         >
-          <ItemContent className="grid grid-cols-6 items-center justify-center">
+          <ItemContent className="grid grid-cols-2 items-center justify-center gap-x-2 gap-y-3 sm:grid-cols-3 md:grid-cols-6">
             {userInfo.map((info, i) => (
-              <div
-                key={i}
-                className="w-full border-primary not-last:border-r-2 text-center"
-              >
-                <h3 className="text-base font-bold">{info.value}</h3>
-                <p className="text-sm text-muted-foreground">{info.label}</p>
+              <div key={i} className="w-full min-w-0 text-center border-x border-primary/20 ">
+                <h3 className="text-sm font-bold sm:text-base">{info.value}</h3>
+                <p className="text-xs text-muted-foreground sm:text-sm">
+                  {info.label}
+                </p>
               </div>
             ))}
           </ItemContent>
         </Item>
       </CardContent>
-      {/*<CardFooter className="flex-wrap pb-8">
-        <TabsList variant={"line"} className={"flex-wrap"}>
-          {tabsList.map((list, i) => (
-            <TabsTrigger key={i} value={list.value}>
-              {list.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </CardFooter>*/}
     </Card>
   );
 }

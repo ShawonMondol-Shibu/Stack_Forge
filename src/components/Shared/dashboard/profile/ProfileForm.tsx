@@ -25,7 +25,6 @@ import { z } from "zod";
 
 const profileSchema = z.object({
   id: z.string(),
-  userId: z.string(),
   fullName: z.string().trim().min(2, "Enter your full name"),
   headline: z.string().trim(),
   bio: z.string().trim(),
@@ -41,13 +40,12 @@ const profileSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 function isValidOptionalUrl(value: string) {
-  return value === "" || z.url().safeParse(value).success;
+  return value === "" || z.string().url().safeParse(value).success;
 }
 
 function getDefaultValues(profile?: UserProfile): ProfileFormValues {
   return {
     id: profile?.id ?? "",
-    userId: profile?.userId ?? "",
     fullName: profile?.fullName ?? "",
     headline: profile?.headline ?? "",
     bio: profile?.bio ?? "",
@@ -85,30 +83,29 @@ export default function ProfileForm({
 
   const onSubmit = (values: ProfileFormValues) => {
     const data = {
-      profile: {
-        fullName: values.fullName,
-        headline: values.headline,
-        bio: values.bio,
-        location: values.location,
-        website: values.website || null,
-        avatarUrl: values.avatarUrl || null,
-        coverUrl: values.coverUrl || null,
-        availability: values.availability,
-      },
+      fullName: values.fullName,
+      headline: values.headline,
+      bio: values.bio,
+      location: values.location,
+      website: values.website,
+      avatarUrl: values.avatarUrl,
+      coverUrl: values.coverUrl,
+      availability: values.availability,
     };
 
-    const onSuccess = () => setOpen(false);
+    const options = {
+      onSuccess: () => setOpen(false),
+    };
+
     if (profile?.id) {
-      updateProfile({ id: profile.id, data }, { onSuccess });
+      updateProfile({ id: profile.id, data }, options);
     } else {
-      createProfile(data, { onSuccess });
+      createProfile(data, options);
     }
   };
 
   const readOnlyFields = [
     { name: "id" as const, label: "Profile ID" },
-    { name: "userId" as const, label: "User ID" },
-    { name: "createdAt" as const, label: "Created" },
     { name: "updatedAt" as const, label: "Last updated" },
   ];
 
@@ -119,11 +116,11 @@ export default function ProfileForm({
       >
         {profile?.id ? (
           <>
-            <Pencil className="mr-1 size-4" /> Edit profile
+            <Pencil className="mr-1 size-4" /> Edit
           </>
         ) : (
           <>
-            <Plus className="mr-1 size-4" /> Create profile
+            <Plus className="mr-1 size-4" /> Create
           </>
         )}
       </DialogTrigger>

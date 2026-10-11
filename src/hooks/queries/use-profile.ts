@@ -1,10 +1,17 @@
 import { queryKeys } from "@/lib/Query-keys";
 import { profileService } from "@/services/profile.service";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 export const profileQuery = {
   GetMyProfile: () => {
     return useQuery({
+      queryKey: queryKeys.profile.me,
+      queryFn: async () => profileService.getMyProfile(),
+      select: (data) => data.data,
+    });
+  },
+  GetMyProfileSuspense: () => {
+    return useSuspenseQuery({
       queryKey: queryKeys.profile.me,
       queryFn: async () => profileService.getMyProfile(),
       select: (data) => data.data,
