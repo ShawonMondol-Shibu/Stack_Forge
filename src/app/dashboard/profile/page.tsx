@@ -1,26 +1,11 @@
 import ProfileHeader from "@/components/Shared/dashboard/profile/ProfileHeader";
-// import { Tabs, TabsContent } from "@/components/ui/tabs";
-import React, { Suspense } from "react";
+import React from "react";
 import About from "./About";
-// import Repositories from "./Repositories";
-// import Projects from "./Projects";
-// import Activity from "./Activity";
-// import Achievements from "./Achievements";
-// import Notes from "./Notes";
+
 import ProfileStats from "@/components/Shared/dashboard/profile/ProfileStats";
 import ContributionActivity from "@/components/Shared/dashboard/profile/ContributionActivity";
 import ProfileCompletion from "@/components/Shared/dashboard/profile/ProfileCompletion";
 import QuickLinks from "@/components/Shared/dashboard/profile/QuickLinks";
-import ProfileHeaderSkeleton from "@/components/Shared/dashboard/profile/ProfileHeaderSkeleton";
-
-// const tabsContent = [
-//   { page: <About />, value: "about" },
-//   { page: <Repositories />, value: "repos" },
-//   { page: <Projects />, value: "projects" },
-//   { page: <Activity />, value: "activity" },
-//   { page: <Achievements />, value: "achievements" },
-//   { page: <Notes />, value: "notes" },
-// ];
 
 export default function Page() {
   return (
@@ -30,14 +15,7 @@ export default function Page() {
       }
     >
       <section className={"space-y-2 lg:col-span-4 mx-auto w-full"}>
-        <Suspense fallback={<ProfileHeaderSkeleton />}>
-          <ProfileHeader />
-        </Suspense>
-        {/*{tabsContent.map((content, i) => (
-          <TabsContent key={i} value={content.value} className={"w-full"}>
-            {content.page}
-          </TabsContent>
-        ))}*/}
+        <ProfileHeader />
         <About />
       </section>
 

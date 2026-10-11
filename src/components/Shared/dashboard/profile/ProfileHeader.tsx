@@ -27,12 +27,13 @@ import { useProjectStore } from "@/store/useProjectStore";
 import { useProfileStore } from "@/store/ProfileStore";
 import { profileQuery } from "@/hooks/queries/use-profile";
 import ProfileForm from "./ProfileForm";
+import ProfileHeaderSkeleton from "./ProfileHeaderSkeleton";
 
 export default function ProfileHeader() {
   const { projects } = useProjectStore();
   const { setProfile } = useProfileStore();
 
-  const { data: profile } = profileQuery.GetMyProfileSuspense();
+  const { data: profile, isPending } = profileQuery.GetMyProfile();
 
   const profileView = profile?.viewCount ?? 0;
 
@@ -42,6 +43,10 @@ export default function ProfileHeader() {
       setProfile(profile);
     }
   }, [profile, setProfile]);
+
+  if (isPending) {
+    return <ProfileHeaderSkeleton />;
+  }
 
   const userInfo = [
     { label: "Repositories", value: 24 },
@@ -113,7 +118,10 @@ export default function ProfileHeader() {
         >
           <ItemContent className="grid grid-cols-2 items-center justify-center gap-x-2 gap-y-3 sm:grid-cols-3 md:grid-cols-6">
             {userInfo.map((info, i) => (
-              <div key={i} className="w-full min-w-0 text-center border-x border-primary/20 ">
+              <div
+                key={i}
+                className="w-full min-w-0 text-center border-x border-primary/20 "
+              >
                 <h3 className="text-sm font-bold sm:text-base">{info.value}</h3>
                 <p className="text-xs text-muted-foreground sm:text-sm">
                   {info.label}
