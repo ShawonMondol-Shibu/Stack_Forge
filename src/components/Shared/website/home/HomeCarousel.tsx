@@ -38,7 +38,7 @@ export function HomeCarousel() {
       onMouseEnter={() => autoplay.stop()}
       onMouseLeave={() => autoplay.reset()}
     >
-      <CarouselContent className="-ml-0">
+      <CarouselContent className="ml-0">
         {profiles?.map((profile) =>
           profile.id ? (
             <ProfileCarouselItem
@@ -88,7 +88,7 @@ function ProfileCarouselItem({
             />
             <div className="absolute bottom-0 flex w-full flex-col items-start justify-center gap-2 bg-linear-to-b from-transparent from-5% via-accent/80 via-30% to-accent to-70% p-4 py-6">
               <Badge variant="secondary">Fullstack Developer</Badge>
-              <CardTitle className="flex flex-wrap items-center gap-1 break-words text-2xl font-bold">
+              <CardTitle className="flex flex-wrap items-center gap-1 wrap-break-word text-2xl font-bold">
                 {profile.fullName || "Full name"}
                 <BadgeCheck className="size-5 shrink-0 fill-primary stroke-accent" />
               </CardTitle>
