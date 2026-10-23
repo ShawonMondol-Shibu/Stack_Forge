@@ -23,7 +23,7 @@ import { motion } from "motion/react";
 export function HomeCarousel() {
   const { data: profiles } = profileQuery.GetAllProfiles();
   const { data: techStack } = useTechStack();
-  const [autoplay] = React.useState(() =>
+  const [autoplay] = React.useState(() => 
     Autoplay({
       delay: 2000,
       stopOnInteraction: true,
@@ -109,6 +109,7 @@ function ProfileCarouselItem({
               </MotionDiv>
             </div>
           </CardContent>
+          
         </Card>
       </MotionDiv>
     </CarouselItem>
