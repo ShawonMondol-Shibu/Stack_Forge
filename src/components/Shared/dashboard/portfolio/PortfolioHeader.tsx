@@ -54,8 +54,9 @@ export default function PortfolioHeader({
     .toUpperCase();
 
   const sharePortfolio = async () => {
+      const url = `${window.location.origin}/devs/${profile.id}`;
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(url);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
