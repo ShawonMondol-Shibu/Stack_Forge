@@ -52,8 +52,8 @@ export default function FeaturedProjects({
         )}
       </div>
       {isPending ? (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {[0, 1].map((item) => (
+        <div className="grid gap-4 sm:grid-cols-4">
+          {[0, 1,2,3].map((item) => (
             <div
               key={item}
               className="aspect-[1.35] animate-pulse rounded-md bg-muted"
@@ -65,7 +65,7 @@ export default function FeaturedProjects({
           Could not load projects.
         </p>
       ) : featuredProjects.length ? (
-        <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:gap-4">
+        <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:gap-4">
           {featuredProjects.map((project, index) => {
             const projectSkills = techStacks.filter((stack) =>
               project.techStack.includes(stack.id),
