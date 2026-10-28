@@ -93,7 +93,7 @@ function ProfileCard({ profile }: { profile: UserProfile }) {
       </CardHeader>
 
       <CardContent className="space-y-1 pt-0">
-        <Link href={`/devs/${profile?.id}`}>
+        <Link href={`/devs/${profile?.id}`} prefetch={false}>
           <CardTitle className="flex items-center gap-1.5 font-bold tracking-tight">
             <span className="truncate capitalize">{profile?.fullName}</span>
             <BadgeCheck className="h-5 w-5 shrink-0 text-primary fill-primary/10" />

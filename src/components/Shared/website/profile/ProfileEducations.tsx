@@ -1,6 +1,7 @@
 import { LoaderCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { educationQuery } from "@/hooks/queries/use-education";
+import { memo } from "react";
 
 function formatDate(value: string) {
   return new Date(`${value.slice(0, 10)}T00:00:00`).toLocaleDateString(
@@ -9,14 +10,14 @@ function formatDate(value: string) {
   );
 }
 
-export default function ProfileEducations({ id }: { id: string }) {
+function ProfileEducations({ id }: { id: string }) {
   const { data: educations, isPending, isError } = educationQuery.GetByUser(id);
   const publicEducations = educations?.filter(
     (education) => education.isPublic,
   );
 
   return (
-    <Card className="gap-3 border-0 bg-transparent px-0 py-0 shadow-none ring-0">
+    <Card className="gap-3 border-0 rounded-none bg-transparent px-0 py-0 shadow-none ring-0">
       <CardHeader className="px-0 pt-0">
         <div>
           <p className="text-xs font-semibold uppercase text-primary">
@@ -76,3 +77,6 @@ export default function ProfileEducations({ id }: { id: string }) {
     </Card>
   );
 }
+
+
+export default memo(ProfileEducations);

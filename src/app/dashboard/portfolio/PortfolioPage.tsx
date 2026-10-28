@@ -47,6 +47,7 @@ export default function PortfolioPage({ id }: { id?: string }) {
           <PortfolioExperience id={profile?.id ?? id ?? ""} />
           {profile?.userId && <ProfileEducations id={profile.userId} />}
         </div>
+        
         <div className="grid min-w-0 gap-8">
           <Skills userId={id ? profile?.userId : undefined} />
           <PortfolioGithub website={profile?.website} />

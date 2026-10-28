@@ -86,7 +86,7 @@ export default function Skills({ userId }: { userId?: string }) {
     <Card
       className={
         userId
-          ? "gap-3 border-0 bg-transparent px-0 py-0 shadow-none ring-0"
+          ? "gap-3 border-0 rounded-none bg-transparent px-0 py-0 shadow-none ring-0"
           : "min-h-64 gap-2"
       }
     >

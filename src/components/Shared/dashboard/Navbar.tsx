@@ -114,45 +114,42 @@ export function NavbarRight() {
       className="flex items-center gap-2 w-fit"
     >
       <ModeToggle />
-      {
-        !session?.session ? <Button
-                variant="default"
-                render={<Link href={"login"} />}
-              >
-                Login
-              </Button>
-              :  
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className={"p-1 border-2 rounded-full shadow-xl"}
-          >
-            <Avatar size={"lg"}>
-              <AvatarImage
-                src={
-                  profile?.avatarUrl ||
-                  "https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
-                }
-                alt={profile?.fullName || "user_image"}
-              />
-              <AvatarFallback>{profile?.fullName}</AvatarFallback>
-            </Avatar>
-          </motion.div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-            <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
-          </motion.div>
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+      {!session?.session ? (
+        <Button variant="default" render={<Link href={"login"} />}>
+          Login
+        </Button>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className={"p-1 border-2 rounded-full shadow-xl"}
+            >
+              <Avatar size={"lg"}>
+                <AvatarImage
+                  src={
+                    profile?.avatarUrl ||
+                    "https://randomimageurl.com/assets/images/local/20260103_0546_Comical%20Canine%20Antics_simple_compose_01ke21r3vdecq8wy9eq7gpz3f0_compressed_q80.jpeg"
+                  }
+                  alt={profile?.fullName || "user_image"}
+                />
+                <AvatarFallback>{profile?.fullName}</AvatarFallback>
+              </Avatar>
+            </motion.div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+              <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
+            </motion.div>
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
               <DropdownMenuItem variant="destructive" onClick={handleLogout}>
                 Logout
               </DropdownMenuItem>
-          </motion.div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      }
+            </motion.div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </motion.div>
   );
 }

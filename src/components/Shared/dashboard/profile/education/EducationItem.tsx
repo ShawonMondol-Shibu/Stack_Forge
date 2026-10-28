@@ -41,7 +41,7 @@ export default function EducationItem({
   return (
     <li className="py-4 first:pt-0 last:pb-0">
       <div className="flex min-w-0 items-start gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className="flex size-10 shrink-0 items-center justify-center  bg-primary/10 text-primary">
           <GraduationCap className="size-5" aria-hidden="true" />
         </div>
 
