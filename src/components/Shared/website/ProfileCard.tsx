@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -7,96 +10,88 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
-import { UserProfile } from "@/lib/types/profile-type";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Check, Plus, UserPlus, Users } from "lucide-react";
-import Link from "next/link";
+import { UserProfile } from "@/lib/types/profile-type";
 import { cn } from "@/lib/utils";
 import { followMutation } from "@/hooks/mutations/use-follow-mutation";
-import { followQuery } from "@/hooks/queries/use-follow";
+import { followQuery, useIsFollowing } from "@/hooks/queries/use-follow";
 import UseSession from "@/components/Shared/UseSession";
 
-export default function ProfileCard({ profile }: { profile: UserProfile }) {
-  const targetUserId = profile.userId ?? "";
-  const { data: session } = UseSession();
+// Local file: public/default-avatar.png
+const DEFAULT_AVATAR = "/default-avatar.png";
 
-  // ডাটাবেস বা সার্ভার থেকে চেক করা ইউজারকে ফলো করা আছে কিনা
+// Module level e ekbar-i banano hoy, protita card render e noton object lage na
+const compactNumber = new Intl.NumberFormat("en", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+function ProfileCard({ profile }: { profile: UserProfile }) {
+  const targetUserId = profile.userId ?? "";
+
+  const { data: session } = UseSession();
+  const currentUserId = session?.user?.id;
+  const isLoggedIn = Boolean(currentUserId);
+  const isSelf = currentUserId === targetUserId;
+
+  // Shudhu true/false, logged out hole request-i jabe na
   const {
-    data: followingData,
-    isPending: isFollowingPending,
+    data: isServerFollowing = false,
+    isLoading: isFollowingLoading,
     isError: isFollowingError,
-  } = followQuery.GetFollowing();
+  } = useIsFollowing(targetUserId, isLoggedIn);
+
   const { data: followersData } = followQuery.GetUserFollowers(targetUserId);
   const { data: targetFollowingData } =
     followQuery.GetUserFollowing(targetUserId);
 
-  const { mutate: follow, isPending: isFollowing } = followMutation.Follow();
+  const { mutate: follow, isPending: isFollowing } =
+    followMutation.Follow(currentUserId);
   const { mutate: unfollow, isPending: isUnfollowing } =
-    followMutation.Unfollow();
+    followMutation.Unfollow(currentUserId);
 
-  const isServerFollowing = Boolean(
-    followingData?.some((item) => item.followingId === targetUserId),
-  );
   const [optimisticFollow, setOptimisticFollow] = useState<boolean | null>(
     null,
   );
   const isFollow = optimisticFollow ?? isServerFollowing;
-
-  const isSelf = session?.user?.id === targetUserId;
   const isMutating = isFollowing || isUnfollowing;
 
-  const numberFormat = new Intl.NumberFormat("en", {
-    notation: "compact",
-    maximumFractionDigits: 1,
-  });
+  // Disabled condition ekbar-i, handler ar button duto jaygay same
+  const isDisabled =
+    !targetUserId ||
+    !isLoggedIn ||
+    isSelf ||
+    isFollowingLoading ||
+    isFollowingError ||
+    isMutating;
+
+  const resetOptimistic = () => setOptimisticFollow(null);
 
   const handleFollowToggle = () => {
-    if (
-      !targetUserId ||
-      isSelf ||
-      isMutating ||
-      isFollowingPending ||
-      isFollowingError
-    ) {
-      return;
-    }
+    if (isDisabled) return;
 
     if (isFollow) {
       setOptimisticFollow(false);
-      unfollow(targetUserId, {
-        onError: () => setOptimisticFollow(null),
-        onSuccess: () => setOptimisticFollow(null),
-      });
+      unfollow(targetUserId, { onSettled: resetOptimistic });
     } else {
       setOptimisticFollow(true);
-      follow(
-        { followingId: targetUserId },
-        {
-          onError: () => setOptimisticFollow(null),
-          onSuccess: () => setOptimisticFollow(null),
-        },
-      );
+      follow({ followingId: targetUserId }, { onSettled: resetOptimistic });
     }
   };
 
   return (
-    <Card
-      className={
-        "w-full pt-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out"
-      }
-    >
-      <CardHeader className={"p-1 pb-0 "}>
-        <div>
-          <Image
-            src={profile?.avatarUrl as string}
-            alt={profile?.fullName || "profile_image"}
-            width={500}
-            height={500}
-            className={"rounded-3xl w-full h-40 aspect-square object-cover"}
-          />
-        </div>
+    <Card className="w-full pt-0 hover:shadow-xl hover:-translate-y-1 transition-[transform,box-shadow] duration-300 ease-in-out">
+      <CardHeader className="p-1 pb-0">
+        <Image
+          src={profile?.avatarUrl || DEFAULT_AVATAR}
+          alt={profile?.fullName || "profile_image"}
+          width={500}
+          height={500}
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
+          className="rounded-3xl w-full h-40 object-cover"
+        />
       </CardHeader>
+
       <CardContent className="space-y-1 pt-0">
         <Link href={`/devs/${profile?.id}`}>
           <CardTitle className="flex items-center gap-1.5 font-bold tracking-tight">
@@ -109,21 +104,21 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
         </Link>
       </CardContent>
 
-      <CardFooter className={"items-start justify-between gap-4"}>
+      <CardFooter className="items-start justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-1 text-xs font-semibold text-foreground">
-              <Users size={14} className=" text-muted-foreground" />
-              <span>{numberFormat.format(followersData?.length ?? 0)}</span>
+              <Users size={14} className="text-muted-foreground" />
+              <span>{compactNumber.format(followersData?.length ?? 0)}</span>
             </div>
             <span className="text-xs text-muted-foreground">Followers</span>
           </div>
 
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-1 text-xs font-semibold text-foreground">
-              <UserPlus size={14} className=" text-muted-foreground" />
+              <UserPlus size={14} className="text-muted-foreground" />
               <span>
-                {numberFormat.format(targetFollowingData?.length ?? 0)}
+                {compactNumber.format(targetFollowingData?.length ?? 0)}
               </span>
             </div>
             <span className="text-xs text-muted-foreground">Following</span>
@@ -131,32 +126,20 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
         </div>
 
         <Button
-          variant={"outline"}
-          size={"sm"}
+          variant="outline"
+          size="sm"
           onClick={handleFollowToggle}
-          disabled={
-            !targetUserId ||
-            !session?.user?.id ||
-            isSelf ||
-            isFollowingPending ||
-            isFollowingError ||
-            isMutating
-          }
+          disabled={isDisabled}
           aria-pressed={isFollow}
-          className={cn(!isFollow ? "border-primary text-primary" : "")}
+          className={cn(!isFollow && "border-primary text-primary")}
         >
           {isFollow ? (
             <>
-              <Check /> {isUnfollowing ? "Unfollowing..." : "Unfollow"}
+              <Check /> Unfollow
             </>
           ) : (
             <>
-              {isFollowingPending
-                ? "Checking..."
-                : isFollowing
-                  ? "Connecting..."
-                  : "Connect"}{" "}
-              <Plus />
+              {isFollowingLoading ? "Checking..." : "Connect"} <Plus />
             </>
           )}
         </Button>
@@ -164,3 +147,5 @@ export default function ProfileCard({ profile }: { profile: UserProfile }) {
     </Card>
   );
 }
+
+export default memo(ProfileCard);
