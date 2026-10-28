@@ -9,17 +9,44 @@ import { Code, Folder, Globe, Users } from "@animateicons/react/lucide";
 import Link from "next/link";
 import MotionDiv from "../../MotionDiv";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { apiService } from "@/lib/api-routes/apis";
+import { ApiResponse } from "@/lib/types/api";
+import { useProjectStore } from "@/store/useProjectStore";
+
+interface countItems {
+  value: number | string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 export default function Header() {
-  const count = [
-    { value: "12K+", label: "Developers", icon: Users },
-    { value: "5K", label: "Projects", icon: Folder },
+  const { data: totalUsers } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () =>
+      apiService<ApiResponse<number>>({
+        method: "GET",
+        endpoint: "/users/stats",
+      }),
+    select: (res) => res.data ?? 0, // number
+  });
+
+  const { projects } = useProjectStore();
+
+  const count: countItems[] = [
+    { value: totalUsers ?? 0, label: "Developers", icon: Users },
+    { value: projects.length, label: "Projects", icon: Folder },
     { value: "1K", label: "Github Repos", icon: Code },
     { value: "120", label: "Countries", icon: Globe },
   ];
+
   return (
     <>
-      <header className={"w-full flex flex-col lg:flex-row items-center justify-between gap-10"}>
+      <header
+        className={
+          "w-full flex flex-col lg:flex-row items-center justify-between gap-10"
+        }
+      >
         <div className={"w-full flex flex-col gap-4 items-start"}>
           <Badge
             variant="default"

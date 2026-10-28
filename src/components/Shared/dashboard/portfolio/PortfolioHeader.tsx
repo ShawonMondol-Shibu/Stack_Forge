@@ -54,7 +54,7 @@ export default function PortfolioHeader({
     .toUpperCase();
 
   const sharePortfolio = async () => {
-      const url = `${window.location.origin}/devs/${profile.id}`;
+      const url = `${window.location.origin}/devs/${profile?.id}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
