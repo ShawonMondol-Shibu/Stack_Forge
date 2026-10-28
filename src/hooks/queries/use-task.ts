@@ -8,6 +8,7 @@ export const TaskQuery = {
       queryKey: queryKeys.tasks.all,
       queryFn: async () => taskService.getAll(),
       select: (data) => data.data,
+      staleTime: 1000 * 60 * 5, // 5 minutes cache retention
     });
   },
 
@@ -16,6 +17,7 @@ export const TaskQuery = {
       queryKey: queryKeys.tasks.getOne(id),
       queryFn: async () => taskService.getById(id),
       select: (data) => data.data,
+      staleTime: 1000 * 60 * 5, // 5 minutes cache retention
     });
   },
 };

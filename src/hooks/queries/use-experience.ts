@@ -8,6 +8,7 @@ export const experienceQuery = {
       queryKey: queryKeys.experiences.me,
       queryFn: experienceService.getMy,
       select: (res) => res.data,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   },
 

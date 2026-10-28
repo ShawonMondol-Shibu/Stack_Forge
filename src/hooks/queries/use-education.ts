@@ -8,6 +8,7 @@ export const educationQuery = {
       queryKey: queryKeys.educations.me,
       queryFn: educationService.getMy,
       select: (response) => response.data,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     }),
 
   GetByUser: (userId: string) =>
@@ -16,6 +17,7 @@ export const educationQuery = {
       queryFn: () => educationService.getByUser(userId),
       select: (response) => response.data,
       enabled: Boolean(userId),
+      staleTime: 1000 * 60 * 5, // 5 minutes
     }),
 
   GetOne: (id: string) =>
@@ -24,5 +26,6 @@ export const educationQuery = {
       queryFn: () => educationService.getOne(id),
       select: (response) => response.data,
       enabled: Boolean(id),
+      staleTime: 1000 * 60 * 5, // 5 minutes
     }),
 };

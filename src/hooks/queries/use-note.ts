@@ -9,7 +9,6 @@ export const noteQuery = {
       queryFn: async () => noteService.getAll(),
       select: res=> res.data ?? [] ,
       staleTime: 1000 * 60 * 5
-
     });
   },
 
@@ -18,7 +17,7 @@ export const noteQuery = {
         queryKey: queryKeys.notes.getOne(id),
         queryFn: async ()=> noteService.getOne(id),
         select: res=> res.data,
-        
+        enabled: Boolean(id),
     })
   }
 };
