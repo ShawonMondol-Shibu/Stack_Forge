@@ -1,5 +1,6 @@
 // POST /follows aar DELETE /follows/:id er `data` (follows table er raw row)
 export interface FollowRecord {
+  id: string;
   followerId: string;
   followingId: string;
   createdAt: string;
