@@ -1,7 +1,6 @@
 "use client";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
@@ -21,11 +20,12 @@ import {
 import MotionDiv from "../MotionDiv";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { profileQuery } from "@/hooks/queries/use-profile";
-import { useProfileStore } from "@/store/ProfileStore";
+// import { useProfileStore } from "@/store/ProfileStore";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useLogout } from "../Logout";
 import UseSession from "../UseSession";
+import { memo } from "react";
 
 const navLinks = [
   { name: "Home", url: "/" },
@@ -34,19 +34,20 @@ const navLinks = [
   { name: "Contact", url: "/contact" },
 ];
 
-export default function Navbar() {
-  const { data: profile } = profileQuery.GetMyProfile();
-  const { setProfile } = useProfileStore();
+function Navbar() {
+  const { data: session } = UseSession();
+  const { data: profile } = profileQuery.GetMyProfile(
+    Boolean(session?.session),
+  );
+  // const { setProfile } = useProfileStore();
   const handleLogout = useLogout();
 
-  const { data: session } = UseSession();
-
   const pathName = usePathname();
-  useEffect(() => {
-    if (profile) {
-      setProfile(profile);
-    }
-  }, [profile, setProfile]);
+  // useEffect(() => {
+  //   if (profile) {
+  //     setProfile(profile);
+  //   }
+  // }, [profile, setProfile]);
   return (
     <nav
       className={
@@ -60,6 +61,7 @@ export default function Navbar() {
             alt={"logo_image"}
             width={60}
             height={40}
+            priority
             className={"ml-1 md:ml-2 drop-shadow-primary/50 drop-shadow-lg"}
           />
         </Link>
@@ -80,7 +82,7 @@ export default function Navbar() {
         ))}
         <div>
           <InputGroup className="group  border-primary/50 outline-primary shadow-primary">
-            <InputGroupInput className="w-0 group-hover:w-full transition-all duration-500 ease-in-out" />
+            <InputGroupInput className="w-0 group-hover:w-40 focus:w-40 transition-[width] duration-500 ease-in-out" />
             <InputGroupAddon align={"inline-end"}>
               <InputGroupButton>
                 <Search />
@@ -103,11 +105,8 @@ export default function Navbar() {
             >
               <Avatar size={"lg"} className={""}>
                 <AvatarImage
-                  src={
-                    profile?.avatarUrl ||
-                    "https://images.unsplash.com/photo-1575454723382-16899c8ae4e1?ixid=M3w4MjcwNjd8MHwxfHNlYXJjaHwxMTd8fGthd2FpaSUyMGdpcmx8ZW58MHx8fHwxNzg1MjMzNTQ1fDA&ixlib=rb-4.1.0&fit=max&q=80"
-                  }
-                  alt=""
+                  src={profile?.avatarUrl || "/default-avatar.png"}
+                  alt={profile?.fullName || "User"}
                 />
                 <AvatarFallback>profile</AvatarFallback>
               </Avatar>
@@ -157,3 +156,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
+
+
+export default memo(Navbar);

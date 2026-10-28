@@ -6,5 +6,7 @@ export default function UseSession() {
     queryKey: ["user-session"],
     queryFn: async () => authClient.getSession(),
     select: (data) => data.data,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false, // Disable refetch on window focus
   });
 }
