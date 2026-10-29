@@ -33,6 +33,7 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Enter a description of your project" }),
   techStack: z.array(z.string()).min(1, { message: "Select at least one technology" }),
+  image: z.string().optional(),
 });
 
 export default function ProjectForm() {
@@ -68,6 +69,23 @@ export default function ProjectForm() {
               id={field.name}
               aria-invalid={fieldState.invalid}
               placeholder="Enter project name..."
+              autoComplete="off"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+      <Controller
+        name="image"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Project Image</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              placeholder="Enter project image URL..."
               autoComplete="off"
             />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

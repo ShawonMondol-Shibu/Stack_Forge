@@ -14,6 +14,7 @@ export type Project = {
   techStack: string[];
 
   image: string | null;
+  pin: boolean;
 
   createdAt: string;
   updatedAt: string;
@@ -30,6 +31,7 @@ export type CreateProjectPayload = {
   description?: string;
   techStack: string[];
   image?: string;
+  pin?: boolean;
 };
 
 export type UpdateProjectPayload = Partial<CreateProjectPayload>;

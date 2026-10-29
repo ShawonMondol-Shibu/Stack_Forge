@@ -26,16 +26,21 @@ import {
 import Image from "next/image";
 import React from "react";
 import { GoRepoForked } from "react-icons/go";
-import { useDeleteProject } from "@/hooks/mutations/use-project-mutation";
+import {
+  useDeleteProject,
+  useUpdateProject,
+} from "@/hooks/mutations/use-project-mutation";
 import { useQuery } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-routes/apis";
 import { TechStackItem } from "@/lib/types/techStack-type";
 import MotionDiv from "../../MotionDiv";
 import { queryKeys } from "@/lib/Query-keys";
 import { usePathname } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 export default function ProjectCard({ project }: { project?: ProjectType }) {
   const { mutate, isPending } = useDeleteProject();
+  const { mutate: updateMutate } = useUpdateProject();
   const pathName = usePathname();
 
   const { data: techStacks = [] } = useQuery({
@@ -55,6 +60,16 @@ export default function ProjectCard({ project }: { project?: ProjectType }) {
     mutate(id);
   };
 
+  const handlePin = () => {
+    // Implement pin/unpin functionality here
+    updateMutate(
+      { id: project?.id as string, data: { pin: !project?.pin } },
+      { onSuccess: () => {
+        toast.add({type: "success", title: `Project ${project?.pin ? "unpinned" : "pinned"} successfully!`});
+      } },
+    );
+  };
+
   return (
     <Card className="w-full pt-0">
       <MotionDiv>
@@ -63,8 +78,9 @@ export default function ProjectCard({ project }: { project?: ProjectType }) {
             variant="secondary"
             size="icon-sm"
             className="absolute top-4 left-4"
+            onClick={handlePin}
           >
-            {true ? (
+            {project?.pin ? (
               <PinOff size={16} />
             ) : (
               <Pin size={16} className="text-muted-foreground" />

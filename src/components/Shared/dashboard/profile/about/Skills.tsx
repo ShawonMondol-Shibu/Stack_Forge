@@ -98,7 +98,7 @@ export default function Skills({ userId }: { userId?: string }) {
           {/* <Button size="icon-sm" variant="ghost" aria-label="Edit skills">
             <Pencil className="h-4 w-4" />
           </Button> */}
-          {skills && <AddSkill />}
+          {pathName === "/dashboard/profile" && skills && <AddSkill />}
         </CardAction>
       </CardHeader>
       <CardContent className={userId ? "px-0" : undefined}>
