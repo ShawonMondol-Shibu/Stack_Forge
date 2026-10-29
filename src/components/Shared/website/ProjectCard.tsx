@@ -23,6 +23,7 @@ import {
 import { Project as ProjectType } from "@/lib/types/project-type";
 import { useDeleteProject } from "@/hooks/mutations/use-project-mutation";
 import useTechStack from "@/hooks/queries/useTechStack";
+import { cn } from "@/lib/utils";
 import MotionDiv from "../MotionDiv";
 
 // Module level e ekbar-i banano hoy
@@ -38,12 +39,19 @@ const formatDate = (value?: string) => {
   return Number.isNaN(date.getTime()) ? "" : dateFormatter.format(date);
 };
 
-function ProjectCard({ project }: { project?: ProjectType }) {
+type ProjectCardProps = {
+  project?: ProjectType;
+  /** Edit/delete menu dekhabe kina. Na dile path (/dashboard/projects) dekhe thik hoy. */
+  isOwner?: boolean;
+  /** Dile like button dekhabe. Parent session check ar mutation handle kore. */
+  onToggleLike?: (project: ProjectType) => void;
+};
+
+function ProjectCard({ project, isOwner, onToggleLike }: ProjectCardProps) {
   const { mutate, isPending } = useDeleteProject();
   const pathName = usePathname();
-  const isOwnerView = pathName === "/dashboard/projects";
+  const isOwnerView = isOwner ?? pathName === "/dashboard/projects";
 
-  // Tech stack list shob card e same, tai ekta shared hook (ekbar-i request, cache shared)
   const { data: techStacks } = useTechStack();
 
   const projectTechStacks = useMemo(() => {
@@ -51,9 +59,9 @@ function ProjectCard({ project }: { project?: ProjectType }) {
     return (techStacks ?? []).filter((stack) => ids.has(stack.id));
   }, [techStacks, project?.techStack]);
 
-  // Trending API theke ashe; dashboard er normal list e na-o thakte pare
   const totalLikes = project?.totalLikes;
   const recentLikes = project?.recentLikes ?? 0;
+  const liked = Boolean(project?.likedByMe);
   const author = project?.author;
   const updatedAt = formatDate(project?.updatedAt);
 
@@ -108,7 +116,10 @@ function ProjectCard({ project }: { project?: ProjectType }) {
           {author ? (
             <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
               <Avatar size="sm">
-                <AvatarImage src={author.image || "/default-avatar.png"} alt="" />
+                <AvatarImage
+                  src={author.image || "/default-avatar.png"}
+                  alt=""
+                />
                 <AvatarFallback>
                   {author.name?.charAt(0).toUpperCase() ?? "U"}
                 </AvatarFallback>
@@ -150,12 +161,26 @@ function ProjectCard({ project }: { project?: ProjectType }) {
         </CardContent>
 
         <CardFooter className="flex-col items-start gap-2">
-          {/* Fake number (202/48/612) soriye real data dekhano hoyeche */}
           {totalLikes !== undefined || updatedAt ? (
             <div className="flex w-full flex-wrap items-center justify-between gap-2 text-[10px] text-muted-foreground">
               {totalLikes !== undefined ? (
                 <div className="flex items-center gap-1">
-                  <Star size={12} />
+                  {onToggleLike && project ? (
+                    <button
+                      type="button"
+                      onClick={() => onToggleLike(project)}
+                      aria-pressed={liked}
+                      aria-label={liked ? "Unlike project" : "Like project"}
+                      className="rounded-full p-1 transition-colors hover:bg-accent focus-visible:outline-2"
+                    >
+                      <Star
+                        size={14}
+                        className={cn(liked && "fill-primary text-primary")}
+                      />
+                    </button>
+                  ) : (
+                    <Star size={12} />
+                  )}
                   <span>{compactNumber.format(totalLikes)}</span>
                   {recentLikes > 0 ? (
                     <span className="text-primary">
