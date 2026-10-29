@@ -15,6 +15,13 @@ export const projectsService = {
     });
   },
 
+  // Public, login lage na
+  getTrending: (limit = 10) => {
+    return apiService<ApiResponse<Project[]>>({
+      endpoint: `/projects/trending?limit=${limit}`,
+    });
+  },
+
   getById: (id: string) => {
     return apiService<ApiResponse<Project>>({
       endpoint: `/projects/${id}`,
@@ -29,10 +36,7 @@ export const projectsService = {
     });
   },
 
-  update: (
-    id: string,
-    data: UpdateProjectPayload,
-  ) => {
+  update: (id: string, data: UpdateProjectPayload) => {
     return apiService<ApiResponse<Project>>({
       endpoint: `/projects/${id}`,
       method: "PATCH",
@@ -43,6 +47,20 @@ export const projectsService = {
   delete: (id: string) => {
     return apiService<ApiResponse<{ id: string }>>({
       endpoint: `/projects/${id}`,
+      method: "DELETE",
+    });
+  },
+
+  like: (id: string) => {
+    return apiService<ApiResponse<{ id: string }>>({
+      endpoint: `/projects/${id}/like`,
+      method: "POST",
+    });
+  },
+
+  unlike: (id: string) => {
+    return apiService<ApiResponse<{ id: string }>>({
+      endpoint: `/projects/${id}/like`,
       method: "DELETE",
     });
   },

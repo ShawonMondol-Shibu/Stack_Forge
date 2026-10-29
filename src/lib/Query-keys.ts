@@ -1,16 +1,16 @@
 export const queryKeys = {
-  projects: {
-    all: ["all-projects"] as const,
-    getOne: (id: string) => ["projects", id] as const,
-    update: (id: string) => ["update-project", id] as const,
-    delete: (id: string) => ["delete-project", id] as const,
+  profile: {
+    me: ["my-profile"] as const,
+    allProfiles: ["all-profiles"] as const,
+    profile: (id: string) => ["profile", id] as const,
+    update: (id: string) => ["update-profile", id] as const,
   },
 
-  tasks: {
-    all: ["all-tasks"] as const,
-    getOne: (id: string) => ["task", id] as const,
-    update: (id: string) => ["update-task", id] as const,
-    delete: (id: string) => ["delete-task", id] as const,
+  follows: {
+    following: ["my-following"] as const,
+    followers: ["my-followers"] as const,
+    userFollowers: (userId: string) => ["user-followers", userId] as const,
+    userFollowing: (userId: string) => ["user-following", userId] as const,
   },
 
   skills: {
@@ -20,13 +20,6 @@ export const queryKeys = {
 
   techStacks: {
     all: ["all-techstacks"] as const,
-  },
-
-  profile: {
-    me: ["my-profile"] as const,
-    allProfiles: ["all-profiles"] as const,
-    profile: (id: string) => ["profile", id] as const,
-    update: (id: string) => ["update-profile", id] as const,
   },
 
   experiences: {
@@ -43,11 +36,19 @@ export const queryKeys = {
     byUser: (userId: string) => ["user-educations", userId] as const,
   },
 
-  follows: {
-    following: ["my-following"] as const,
-    followers: ["my-followers"] as const,
-    userFollowers: (userId: string) => ["user-followers", userId] as const,
-    userFollowing: (userId: string) => ["user-following", userId] as const,
+  projects: {
+    all: ["all-projects"] as const,
+    getOne: (id: string) => ["projects", id] as const,
+    update: (id: string) => ["update-project", id] as const,
+    delete: (id: string) => ["delete-project", id] as const,
+    trending: ["projects", "trending"] as const,
+  },
+
+  tasks: {
+    all: ["all-tasks"] as const,
+    getOne: (id: string) => ["task", id] as const,
+    update: (id: string) => ["update-task", id] as const,
+    delete: (id: string) => ["delete-task", id] as const,
   },
 
   notes: {

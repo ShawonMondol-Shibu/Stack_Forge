@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <div className="w-full max-w-7xl mx-auto h-dvh px-6">
       <Navbar />
-      <div className="my-20 py-10">{children}</div>
+      <div className="my-20 py-10 min-h-dvh">{children}</div>
       <Footer />
     </div>
   );
