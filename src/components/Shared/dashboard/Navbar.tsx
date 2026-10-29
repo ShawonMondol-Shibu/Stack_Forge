@@ -119,7 +119,7 @@ export function NavbarRight() {
           Login
         </Button>
       ) : (
-        <DropdownMenu>
+        <DropdownMenu  >
           <DropdownMenuTrigger>
             <motion.div
               initial={{ scale: 0 }}
@@ -138,7 +138,7 @@ export function NavbarRight() {
               </Avatar>
             </motion.div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent align={"end"}>
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
               <DropdownMenuItem>{profile?.fullName}</DropdownMenuItem>
             </motion.div>

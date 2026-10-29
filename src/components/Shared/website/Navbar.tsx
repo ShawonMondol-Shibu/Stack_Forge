@@ -20,7 +20,6 @@ import {
 import MotionDiv from "../MotionDiv";
 import { ModeToggle } from "@/components/ToggleTheme";
 import { profileQuery } from "@/hooks/queries/use-profile";
-// import { useProfileStore } from "@/store/ProfileStore";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useLogout } from "../Logout";
@@ -34,20 +33,18 @@ const navLinks = [
   { name: "Contact", url: "/contact" },
 ];
 
+const dropdownLinks = [
+  { name: "Profile", url: "/dashboard/profile" },
+  { name: "Dashboard", url: "/dashboard" },
+  { name: "Settings", url: "/settings" },
+];
+
 function Navbar() {
   const { data: session } = UseSession();
-  const { data: profile } = profileQuery.GetMyProfile(
-    Boolean(session?.session),
-  );
-  // const { setProfile } = useProfileStore();
+  const { data: profile } = profileQuery.GetMyProfile(Boolean(session?.session));
   const handleLogout = useLogout();
-
   const pathName = usePathname();
-  // useEffect(() => {
-  //   if (profile) {
-  //     setProfile(profile);
-  //   }
-  // }, [profile, setProfile]);
+
   return (
     <nav
       className={
@@ -124,24 +121,16 @@ function Navbar() {
                 ))}
                 <DropdownMenuSeparator className="md:hidden" />
               </div>
-              <DropdownMenuItem
-                className={"cursor-pointer"}
-                render={<Link href={"/dashboard/profile"} />}
-              >
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className={"cursor-pointer"}
-                render={<Link href={"/dashboard"} />}
-              >
-                Dashboard
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className={"cursor-pointer"}
-                render={<Link href={"/settings"} />}
-              >
-                Settings
-              </DropdownMenuItem>
+              {dropdownLinks.map((link) => (
+                <DropdownMenuItem
+                  key={link.name}
+                  className={"cursor-pointer"}
+                  render={<Link href={link.url} />}
+                >
+                  {link.name}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 variant="destructive"
                 className={"cursor-pointer"}
@@ -156,7 +145,5 @@ function Navbar() {
     </nav>
   );
 }
-
-
 
 export default memo(Navbar);
