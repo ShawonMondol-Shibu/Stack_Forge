@@ -23,7 +23,7 @@ import {
 import { Project as ProjectType } from "@/lib/types/project-type";
 import { useDeleteProject } from "@/hooks/mutations/use-project-mutation";
 import useTechStack from "@/hooks/queries/useTechStack";
-import MotionDiv from "../../MotionDiv";
+import MotionDiv from "../MotionDiv";
 
 // Module level e ekbar-i banano hoy
 const compactNumber = new Intl.NumberFormat("en", {

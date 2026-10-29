@@ -3,7 +3,7 @@ import FeaturedDevelopers from "@/components/Shared/website/home/FeaturedDevelop
 import Header from "@/components/Shared/website/home/Header";
 import Newsletter from "@/components/Shared/website/home/Newsletter";
 import SuccessStories from "@/components/Shared/website/home/SuccessStories";
-import TrandingProjects from "@/components/Shared/website/home/TrandingProjects";
+import TrandingProjects from "@/components/Shared/website/home/TrendingProjects";
 import { InitialLoad } from "@/lib/initialLoad";
 import React from "react";
 
