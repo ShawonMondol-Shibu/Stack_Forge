@@ -1,9 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  type QueryClient,
+} from "@tanstack/react-query";
 
 import { projectsService } from "@/services/project.service";
 import { queryKeys } from "@/lib/Query-keys";
+import type { ApiResponse } from "@/lib/types/api";
 import type {
   CreateProjectPayload,
+  Project,
   UpdateProjectPayload,
 } from "@/lib/types/project-type";
 import { toast } from "@/components/ui/toast";
@@ -124,42 +130,68 @@ export const useDeleteProject = () => {
   });
 };
 
-export const useLikeProject = () => {
+type TrendingCache = ApiResponse<Project[]>;
+
+// Cache e thaka shob trending list e ekta project er like state + count bodlay
+const patchTrending = (
+  queryClient: QueryClient,
+  projectId: string,
+  liked: boolean,
+) => {
+  const delta = liked ? 1 : -1;
+  queryClient.setQueriesData<TrendingCache>(
+    { queryKey: queryKeys.projects.trending },
+    (old) =>
+      old && {
+        ...old,
+        data: old.data.map((p) =>
+          p.id === projectId
+            ? {
+                ...p,
+                likedByMe: liked,
+                totalLikes: Math.max((p.totalLikes ?? 0) + delta, 0),
+                recentLikes: Math.max((p.recentLikes ?? 0) + delta, 0),
+              }
+            : p,
+        ),
+      },
+  );
+};
+
+// Like/unlike er common optimistic logic: button sathe sathe bodlay,
+// error hole purono state e ferot jay. Success e refetch kori na,
+// tai like dile card trending list e jaygay boshe thake, lafiye ne.
+const useLikeMutation = (liked: boolean) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => projectsService.like(id),
+    mutationFn: (id: string) =>
+      liked ? projectsService.like(id) : projectsService.unlike(id),
 
-    onError: (err) => {
-      toast.add({
-        type: "error",
-        title: err.message || "Failed to like project",
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({
+        queryKey: queryKeys.projects.trending,
       });
+      const snapshots = queryClient.getQueriesData<TrendingCache>({
+        queryKey: queryKeys.projects.trending,
+      });
+      patchTrending(queryClient, id, liked);
+      return { snapshots };
     },
 
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.projects.trending,
-      }),
+    onError: (err, _id, context) => {
+      context?.snapshots.forEach(([key, data]) =>
+        queryClient.setQueryData(key, data),
+      );
+      toast.add({
+        type: "error",
+        title:
+          err.message ||
+          (liked ? "Failed to like project" : "Failed to unlike project"),
+      });
+    },
   });
 };
 
-export const useUnlikeProject = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (id: string) => projectsService.unlike(id),
-
-    onError: (err) => {
-      toast.add({
-        type: "error",
-        title: err.message || "Failed to unlike project",
-      });
-    },
-
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.projects.trending,
-      }),
-  });
-};
+export const useLikeProject = () => useLikeMutation(true);
+export const useUnlikeProject = () => useLikeMutation(false);
