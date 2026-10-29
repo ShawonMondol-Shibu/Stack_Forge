@@ -21,6 +21,7 @@ export type Project = {
   // Shudhu GET /projects/trending e ashe, tai optional
   totalLikes?: number;
   recentLikes?: number;
+  likedByMe?: boolean;
   author?: ProjectAuthor;
 };
 
