@@ -11,7 +11,8 @@ import { useProjectStore } from "@/store/useProjectStore";
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
-  const { addProject } = useProjectStore();
+  // Selector: action gulo stable, tai store bodlale ei hook er component re-render hoy na
+  const addProject = useProjectStore((state) => state.addProject);
 
   return useMutation({
     mutationFn: (data: CreateProjectPayload) => projectsService.create(data),
@@ -31,6 +32,9 @@ export const useCreateProject = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.all,
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects.trending,
+      });
 
       const id = toast.add({
         type: "success",
@@ -47,7 +51,9 @@ export const useCreateProject = () => {
 
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
-  const { updateProjectInStore } = useProjectStore();
+  const updateProjectInStore = useProjectStore(
+    (state) => state.updateProjectInStore,
+  );
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProjectPayload }) =>
@@ -71,6 +77,9 @@ export const useUpdateProject = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.getOne(variables.id),
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects.trending,
+      });
 
       toast.add({
         type: "success",
@@ -82,7 +91,9 @@ export const useUpdateProject = () => {
 
 export const useDeleteProject = () => {
   const queryClient = useQueryClient();
-  const { removeProjectFromStore } = useProjectStore();
+  const removeProjectFromStore = useProjectStore(
+    (state) => state.removeProjectFromStore,
+  );
 
   return useMutation({
     mutationFn: (id: string) => projectsService.delete(id),
@@ -102,10 +113,53 @@ export const useDeleteProject = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.projects.all,
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects.trending,
+      });
 
       toast.add({
         title: res?.message || "Project deleted successfully",
       });
     },
+  });
+};
+
+export const useLikeProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => projectsService.like(id),
+
+    onError: (err) => {
+      toast.add({
+        type: "error",
+        title: err.message || "Failed to like project",
+      });
+    },
+
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects.trending,
+      }),
+  });
+};
+
+export const useUnlikeProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => projectsService.unlike(id),
+
+    onError: (err) => {
+      toast.add({
+        type: "error",
+        title: err.message || "Failed to unlike project",
+      });
+    },
+
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.projects.trending,
+      }),
   });
 };
