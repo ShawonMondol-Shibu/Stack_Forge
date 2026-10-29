@@ -16,7 +16,13 @@ import {
 } from "@/components/ui/popover";
 import { Project as ProjectType } from "@/lib/types/project-type";
 import { Edit, Eye, Star } from "lucide-react";
-import { LoaderIcon, MenuIcon, Trash } from "@animateicons/react/lucide";
+import {
+  LoaderIcon,
+  MenuIcon,
+  Pin,
+  PinOff,
+  Trash,
+} from "@animateicons/react/lucide";
 import Image from "next/image";
 import React from "react";
 import { GoRepoForked } from "react-icons/go";
@@ -53,6 +59,17 @@ export default function ProjectCard({ project }: { project?: ProjectType }) {
     <Card className="w-full pt-0">
       <MotionDiv>
         <div className="relative">
+          <Button
+            variant="secondary"
+            size="icon-sm"
+            className="absolute top-4 left-4"
+          >
+            {true ? (
+              <PinOff size={16} />
+            ) : (
+              <Pin size={16} className="text-muted-foreground" />
+            )}
+          </Button>
           <Image
             src={project?.image || "/brain.jpg"}
             alt={project?.name || "project_image"}
