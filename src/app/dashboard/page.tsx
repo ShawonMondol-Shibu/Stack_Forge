@@ -14,10 +14,9 @@ import TodaysTask from "@/components/Shared/dashboard/tasks/TodaysTask";
 import WeeklyProductivity from "@/components/Shared/dashboard/WeeklyProductivity";
 import React from "react";
 
-import { InitialLoad } from "@/hooks/initialLoad";
 
 export default function Page() {
-  InitialLoad();
+ 
   return (
     <main className="space-y-6 container mx-auto ">
       <div
