@@ -14,7 +14,7 @@ import TodaysTask from "@/components/Shared/dashboard/tasks/TodaysTask";
 import WeeklyProductivity from "@/components/Shared/dashboard/WeeklyProductivity";
 import React from "react";
 
-import { InitialLoad } from "@/lib/initialLoad";
+import { InitialLoad } from "@/hooks/initialLoad";
 
 export default function Page() {
   InitialLoad();

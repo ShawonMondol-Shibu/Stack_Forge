@@ -22,8 +22,8 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 export default function PortfolioCard() {
-  const { setProfile } = useProfileStore();
-  const { projects } = useProjectStore();
+  const  setProfile  = useProfileStore(state=> state.setProfile);
+  const projects  = useProjectStore(state=> state.projects);
   const { data: profile } = profileQuery.GetMyProfile();
   useEffect(() => {
     if (profile) {
@@ -33,7 +33,7 @@ export default function PortfolioCard() {
   const subData = [
     { value: projects.length, label: "Projects" },
     { value: 18, label: "Repos" },
-    { value: 832, label: "Followers" },
+    { value: profile?.viewCount || 0, label: "Followers" },
   ];
   return (
     <Card size="sm" className={"w-full bg-background"}>

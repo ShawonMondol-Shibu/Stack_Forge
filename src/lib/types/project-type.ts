@@ -15,6 +15,8 @@ export type Project = {
 
   image: string | null;
   pin: boolean;
+  liveLink: string | null;
+  githubLink: string | null;
 
   createdAt: string;
   updatedAt: string;
@@ -31,6 +33,8 @@ export type CreateProjectPayload = {
   description?: string;
   techStack: string[];
   image?: string;
+  liveLink?: string;
+  githubLink?: string;
   pin?: boolean;
 };
 
