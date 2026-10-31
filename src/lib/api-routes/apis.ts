@@ -1,7 +1,7 @@
-export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:5000";
 
 if (!apiUrl) {
-  throw new Error("NEXT_PUBLIC_BACKEND_API_URL is not defined");
+  throw new Error("NEXT_PUBLIC_BACKEND_URL is not defined");
 }
 
 export type ApiMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
