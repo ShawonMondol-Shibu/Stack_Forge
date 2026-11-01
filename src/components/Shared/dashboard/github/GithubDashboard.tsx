@@ -1,13 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import { GitHubCalendar } from "react-github-calendar";
 import {
   Activity,
   ArrowUpRight,
   GitBranch,
-  Github,
   GitFork,
   Globe2,
   MapPin,
@@ -17,32 +17,26 @@ import {
   Star,
   Users,
 } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
-import { githubService } from "@/services/github.service";
+import { toast } from "@/components/ui/toast";
+import { useGithubDashboard } from "@/hooks/queries/use-github";
+import { eventLabel, formatRelativeDate } from "@/lib/github";
 import type { GithubActivity, GithubRepository } from "@/lib/types/github";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-function formatRelativeDate(value: string) {
-  const diff = Date.now() - new Date(value).getTime();
-  const minutes = Math.max(1, Math.floor(diff / 60000));
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  if (days < 30) return `${days}d ago`;
-  return new Date(value).toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-  });
-}
-
-function eventLabel(event: GithubActivity) {
-  return event.type
-    .replace(/Event$/, "")
-    .replace(/([a-z])([A-Z])/g, "$1 $2");
+function MetricCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
+  return (
+    <Card className="shadow-none">
+      <CardContent className="flex items-center justify-between p-5">
+        <div><p className="text-xs text-muted-foreground">{label}</p><p className="mt-1 text-2xl font-semibold tracking-tight">{value.toLocaleString()}</p></div>
+        <div className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">{icon}</div>
+      </CardContent>
+    </Card>
+  );
 }
 
 function RepositoryCard({ repository }: { repository: GithubRepository }) {
@@ -64,10 +58,20 @@ function RepositoryCard({ repository }: { repository: GithubRepository }) {
               {repository.fullName}
             </p>
           </div>
-          <Button asChild variant="ghost" size="icon-sm" className="shrink-0">
-            <a href={repository.url} target="_blank" rel="noreferrer" aria-label={`Open ${repository.name} on GitHub`}>
-              <ArrowUpRight />
-            </a>
+          <Button
+            render={
+              <a
+                href={repository.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open ${repository.name} on GitHub`}
+              />
+            }
+            variant="ghost"
+            size="icon-sm"
+            className="shrink-0"
+          >
+            <ArrowUpRight />
           </Button>
         </div>
       </CardHeader>
@@ -123,12 +127,10 @@ function GithubActivityList({ activity }: { activity: GithubActivity[] }) {
 export default function GithubDashboard() {
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("overview");
+  const [isConnecting, setIsConnecting] = useState(false);
+  const { resolvedTheme } = useTheme();
 
-  const query = useQuery({
-    queryKey: ["github-dashboard"],
-    queryFn: githubService.getDashboard,
-    staleTime: 5 * 60 * 1000,
-  });
+  const query = useGithubDashboard();
 
   const repositories = useMemo(() => {
     const normalized = search.trim().toLowerCase();
@@ -142,10 +144,24 @@ export default function GithubDashboard() {
   }, [query.data?.repositories, search]);
 
   const connectGithub = async () => {
-    await authClient.linkSocial({
-      provider: "github",
-      callbackURL: "/dashboard/github",
-    });
+    if (isConnecting) return;
+    setIsConnecting(true);
+    try {
+      const { error } = await authClient.linkSocial({
+        provider: "github",
+        callbackURL: `${window.location.origin}/dashboard/github`,
+      });
+      if (error) throw new Error(error.message);
+    } catch (error) {
+      toast.add({
+        type: "error",
+        title:
+          error instanceof Error && error.message
+            ? error.message
+            : "Could not connect GitHub",
+      });
+      setIsConnecting(false);
+    }
   };
 
   if (query.isLoading) {
@@ -169,9 +185,14 @@ export default function GithubDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">{query.error instanceof Error ? query.error.message : "Something went wrong."}</p>
-            <Button onClick={() => query.refetch()}>
-              <RefreshCw /> Retry
-            </Button>
+            <div className="flex items-center justify-center gap-2">
+              <Button onClick={() => query.refetch()} disabled={query.isFetching}>
+                <RefreshCw className={query.isFetching ? "animate-spin" : ""} /> Retry
+              </Button>
+              <Button variant="outline" onClick={connectGithub} disabled={isConnecting}>
+                <FaGithub /> {isConnecting ? "Redirecting..." : "Reconnect GitHub"}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </main>
@@ -186,15 +207,15 @@ export default function GithubDashboard() {
         <Card className="w-full overflow-hidden border-border/70 shadow-sm">
           <CardContent className="p-8 text-center md:p-12">
             <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-foreground text-background">
-              <Github className="size-8" />
+              <FaGithub className="size-8" />
             </div>
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-primary">GitHub workspace</p>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">Bring your GitHub work into Stack Forge.</h1>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
               Connect your GitHub account to see repositories, activity, contribution history, and account metrics without leaving your developer workspace.
             </p>
-            <Button className="mt-7" onClick={connectGithub}>
-              <Github /> Connect GitHub
+            <Button className="mt-7" onClick={connectGithub} disabled={isConnecting}>
+              <FaGithub /> {isConnecting ? "Redirecting..." : "Connect GitHub"}
             </Button>
             <div className="mx-auto mt-8 flex max-w-lg items-center justify-center gap-5 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1.5"><ShieldCheck className="size-3.5" /> OAuth</span>
@@ -208,14 +229,16 @@ export default function GithubDashboard() {
   }
 
   const profile = data.profile;
-  const totalStars = data.repositories.reduce((sum, repo) => sum + repo.stars, 0);
-  const totalForks = data.repositories.reduce((sum, repo) => sum + repo.forks, 0);
+  // Count only repos the user owns, not repos they forked from others
+  const ownRepositories = data.repositories.filter((repo) => !repo.fork);
+  const totalStars = ownRepositories.reduce((sum, repo) => sum + repo.stars, 0);
+  const totalForks = ownRepositories.reduce((sum, repo) => sum + repo.forks, 0);
 
   return (
     <main className="space-y-6 pb-10">
       <header className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
         <div className="flex items-start gap-4">
-          <img src={profile.avatarUrl} alt={profile.name || profile.login} className="size-14 rounded-2xl border object-cover" />
+          <Image src={profile.avatarUrl} alt={profile.name || profile.login} width={56} height={56} className="size-14 rounded-2xl border object-cover" />
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-2xl font-semibold tracking-tight">GitHub</h1>
@@ -228,8 +251,11 @@ export default function GithubDashboard() {
           <Button variant="outline" size="sm" onClick={() => query.refetch()} disabled={query.isFetching}>
             <RefreshCw className={query.isFetching ? "animate-spin" : ""} /> Refresh
           </Button>
-          <Button asChild size="sm">
-            <a href={profile.profileUrl} target="_blank" rel="noreferrer">Open GitHub <ArrowUpRight /></a>
+          <Button
+            render={<a href={profile.profileUrl} target="_blank" rel="noreferrer" />}
+            size="sm"
+          >
+            Open GitHub <ArrowUpRight />
           </Button>
         </div>
       </header>
@@ -253,7 +279,7 @@ export default function GithubDashboard() {
             <Card className="shadow-none">
               <CardHeader><CardTitle className="text-base">Contribution history</CardTitle></CardHeader>
               <CardContent className="overflow-x-auto pb-6">
-                <GitHubCalendar username={profile.login} colorScheme="light" blockSize={12} blockMargin={4} fontSize={12} />
+                <GitHubCalendar username={profile.login} colorScheme={resolvedTheme === "dark" ? "dark" : "light"} blockSize={12} blockMargin={4} fontSize={12} />
               </CardContent>
             </Card>
 
@@ -296,16 +322,5 @@ export default function GithubDashboard() {
         </TabsContent>
       </Tabs>
     </main>
-  );
-}
-
-function MetricCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
-  return (
-    <Card className="shadow-none">
-      <CardContent className="flex items-center justify-between p-5">
-        <div><p className="text-xs text-muted-foreground">{label}</p><p className="mt-1 text-2xl font-semibold tracking-tight">{value.toLocaleString()}</p></div>
-        <div className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">{icon}</div>
-      </CardContent>
-    </Card>
   );
 }

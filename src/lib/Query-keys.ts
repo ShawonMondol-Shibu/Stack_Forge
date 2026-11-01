@@ -57,4 +57,7 @@ export const queryKeys = {
     update: (id: string) => ["update-note", id] as const,
     delete: (id: string) => ["delete-note", id] as const,
   },
+  github: {
+  dashboard: ["github-dashboard"] as const,
+},
 };
