@@ -20,7 +20,7 @@ export default function Messages() {
           <Button
             variant={"link"}
             size={"xs"}
-            render={<Link href={"/dashboard/projects"} />}
+            render={<Link href={"/dashboard/messages"} />}
           >
             View All
           </Button>

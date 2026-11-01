@@ -46,7 +46,7 @@ export default function Page() {
     await authClient.signIn.social(
       {
         provider: "google",
-        callbackURL: "/dashbord",
+        callbackURL: "/dashboard",
       },
       {
         onError: (err) => {
@@ -65,7 +65,7 @@ export default function Page() {
     await authClient.signIn.social(
       {
         provider: "github",
-        callbackURL: "/dashbord",
+        callbackURL: "/dashboard",
       },
       {
         onError: (err) => {
