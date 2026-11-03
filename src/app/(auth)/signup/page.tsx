@@ -38,13 +38,13 @@ export default function Page() {
   const googleLogin = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/dashbord",
+      callbackURL: "/api/auth/callback/google",
     });
   };
   const githubLogin = async () => {
     await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/dashbord",
+      provider: "github",
+      callbackURL: "/api/auth/callback/github",
     });
   };
 
@@ -109,7 +109,7 @@ export default function Page() {
               src={
                 "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg"
               }
-              alt="google_icon"
+              alt="github_icon"
               width={64}
               height={64}
               className="size-5"

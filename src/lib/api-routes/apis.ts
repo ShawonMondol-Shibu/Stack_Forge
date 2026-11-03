@@ -1,4 +1,4 @@
-export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const apiUrl = "/backend";
 
 if (!apiUrl) {
   throw new Error("NEXT_PUBLIC_BACKEND_URL is not defined");
