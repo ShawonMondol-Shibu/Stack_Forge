@@ -28,7 +28,7 @@ export default function Chatbot() {
 
   const { messages, sendMessage, status, stop, error } = useChat({
     transport: new DefaultChatTransport({
-      api: `${process.env.NEXT_PUBLIC_BACKEND_API_KEY}/ai`,
+      api: `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai`,
     }),
   });
 
