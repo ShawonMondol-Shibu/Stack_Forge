@@ -38,13 +38,13 @@ export default function Page() {
   const googleLogin = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/api/auth/callback/google",
+      callbackURL: "/dashboard",
     });
   };
   const githubLogin = async () => {
     await authClient.signIn.social({
       provider: "github",
-      callbackURL: "/api/auth/callback/github",
+      callbackURL: "/dashboard",
     });
   };
 

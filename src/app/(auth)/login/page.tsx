@@ -46,7 +46,7 @@ export default function Page() {
     await authClient.signIn.social(
       {
         provider: "google",
-        callbackURL: "/api/auth/callback/google",
+        callbackURL: "/dashboard",
       },
       {
         onError: (err) => {
